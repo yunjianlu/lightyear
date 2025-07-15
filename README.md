@@ -2,8 +2,8 @@
 
 Three Tiers Web App
 
-Hello :)
-
-hello
-
-Julius Duic
+Project Authors:
+- Yunjian L.
+- Zachary S.
+- Cheryl W.
+- Julius D.
