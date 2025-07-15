@@ -2,5 +2,6 @@
 
 Three Tiers Web App
 
-Project Authoer:
+Project Author:
 Yunjian
+Cheryl
