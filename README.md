@@ -2,6 +2,7 @@
 
 Three Tiers Web App
 
-Hello :)
-
-hello
+Project Authors:
+- Yunjian L.
+- Zachary S.
+- Cheryl W.
