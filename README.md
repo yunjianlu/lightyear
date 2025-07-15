@@ -2,5 +2,6 @@
 
 Three Tiers Web App
 
-Project Authoer:
-Yunjian
+Project Authors:
+Yunjian Lu
+Zachary Sterling
