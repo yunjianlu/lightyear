@@ -1,4 +1,5 @@
 // create and export navbar component
+import Link from "next/link";
 
 export default function Nav() {
   return (
@@ -7,19 +8,26 @@ export default function Nav() {
         <div className="text-white text-lg font-bold">Lightyear</div>
         <ul className="flex space-x-4">
           <li>
-            <a href="/" className="text-gray-300 hover:text-white">
+            <Link href="/" className="text-gray-300 hover:text-white">
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/about" className="text-gray-300 hover:text-white">
+            <Link href="/about" className="text-gray-300 hover:text-white">
               Account
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="/contact" className="text-gray-300 hover:text-white">
+            <Link href="/contact" className="text-gray-300 hover:text-white">
               Cart
-            </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/login">
+              <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer">
+                Login
+              </button>
+            </Link>
           </li>
         </ul>
       </div>
