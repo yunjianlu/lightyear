@@ -17,7 +17,17 @@ export default function Page() {
   );
 }
 
-//import Image from "next/image";
+//import Layout from "./components/Layout";
+// TODO discuss with team about using Layout component
+// I would like to use the Layout component here, it will have a nicer looking structure
+// and it will be easier to manage the layout of the page..
+// export default function Page() {
+//   return (
+//     <Layout>
+//       body
+//     </Layout>
+//   );
+// }mport Image from "next/image";
 
 // export default function Home() {
 //   return (
