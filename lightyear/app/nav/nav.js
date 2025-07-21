@@ -13,12 +13,12 @@ export default function Nav() {
             </Link>
           </li>
           <li>
-            <Link href="/about" className="text-gray-300 hover:text-white">
+            <Link href="/profile" className="text-gray-300 hover:text-white">
               Account
             </Link>
           </li>
           <li>
-            <Link href="/contact" className="text-gray-300 hover:text-white">
+            <Link href="/cart" className="text-gray-300 hover:text-white">
               Cart
             </Link>
           </li>
