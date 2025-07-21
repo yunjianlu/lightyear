@@ -1,6 +1,7 @@
+import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
 // import { products } from "./mockData";
-import { products } from "./mockdata";
+import { products } from "./mockData";
 import Image from "next/image";
 
 export default function ProductPage() {
@@ -13,7 +14,11 @@ export default function ProductPage() {
             className="bg-white rounded-lg shadow p-6 flex flex-col"
           >
             <Image
-              src={product.productImage}
+              src={
+                product.productImage
+                  ? product.productImage
+                  : "/images/products/lightsaber-blue.png"
+              }
               alt={product.productName}
               width={400}
               height={192}
@@ -29,9 +34,16 @@ export default function ProductPage() {
             </div>
             <div className="text-sm text-gray-500 mb-2">
               Stock:{" "}
-              {product.quantityInStock > 0
-                ? product.quantityInStock
-                : "Out of stock"}
+              {product.quantityInStock > 0 ? (
+                <>
+                  {product.quantityInStock}
+                  <div className="mt-2">
+                    <AddToCartButton product={product} />
+                  </div>
+                </>
+              ) : (
+                <span className="font-bold text-red-400">Out of stock</span>
+              )}
             </div>
             <div className="text-yellow-500 mb-2">
               Rating: {product.starRating} ⭐ ({product.numberOfReviews}{" "}
