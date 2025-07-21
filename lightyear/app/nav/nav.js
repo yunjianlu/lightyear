@@ -23,6 +23,13 @@ export default function Nav() {
             </Link>
           </li>
           <li>
+            <Link href="/product">
+              <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer">
+                Product Details
+              </button>
+            </Link>
+          </li>
+          <li>
             <Link href="/login">
               <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer">
                 Login
