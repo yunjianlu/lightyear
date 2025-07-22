@@ -1,5 +1,8 @@
 import Nav from "./components/nav";
+import LandingBody from "./components/landingBody";
+import Footer from "./components/footer";
 
+// Landing page
 export default function Page() {
   return (
     <div className="min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto]">
@@ -8,10 +11,10 @@ export default function Page() {
       </div>
 
       <div id="bodyDiv" className="bg-red-800">
-        body
+        <LandingBody />
       </div>
       <div id="footerDiv" className="p-4">
-        footer
+        <Footer />
       </div>
     </div>
   );
