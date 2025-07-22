@@ -1,23 +1,29 @@
 import Nav from "./components/nav";
-import LandingBody from "./components/landingBody";
+import LandingBody from "./components/mainBody";
 import Footer from "./components/footer";
-import SideFilterBar from "./components/SideFilterBar";
-// Landing page
+import SideFilterBar from "./components/sideFilterBar";
+
+// This is the main entry point for the Lightyear application
+// It sets up the main layout with a navigation bar, side filter bar, main content area
+// and footer, ensuring a responsive design that adapts to different screen sizes.
+
 // min-h-screen: ensures the page takes at least the full viewport height
 // flex flex-col: lays out children vertically (column direction)
 export default function Page() {
   return (
     <div className="min-h-screen flex flex-col pt-20">
-      {" "}
-      {/* pt-20 offsets for fixed navbar height */}{" "}
+      {/* pt-20 offsets for fixed navbar height */}
       {/* Main vertical layout container */}
       <div id="headerDiv">
         <Nav />
       </div>
+      {/* Main content area: flex row for sidebar and main content */}
       <div className="flex flex-1 w-full">
+        {/* Sidebar container: holds the filter bar, takes 1/4 or 1/5 width on md/lg */}
         <div className=" md:w-1/4 lg:w-1/5 bg-white">
           <SideFilterBar />
         </div>
+        {/* Main content container: holds the landing body, takes remaining width */}
         <div className="w-full md:w-3/4 lg:w-4/5 bg-red-800">
           <LandingBody />
         </div>
