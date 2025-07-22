@@ -7,8 +7,9 @@ import SideFilterBar from "./components/SideFilterBar";
 // flex flex-col: lays out children vertically (column direction)
 export default function Page() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pt-20">
       {" "}
+      {/* pt-20 offsets for fixed navbar height */}{" "}
       {/* Main vertical layout container */}
       <div id="headerDiv">
         <Nav />
