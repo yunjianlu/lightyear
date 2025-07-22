@@ -2,12 +2,22 @@
 
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Nav() {
   return (
     <nav className="bg-gray-800 p-4 fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto flex flex-wrap justify-between items-center">
-        <div className="text-white text-lg font-bold">Lightyear</div>
+        <div className="flex items-center space-x-2">
+          <Image
+            src="/images/light-year-logo.png"
+            alt="Lightyear Logo"
+            width={48}
+            height={48}
+            className="rounded"
+          />
+          <span className="text-white text-lg font-bold">Lightyear</span>
+        </div>
         <div className="flex flex-wrap items-center space-x-8 w-full md:w-auto mt-2 md:mt-0">
           <ul className="flex space-x-4">
             <li>
