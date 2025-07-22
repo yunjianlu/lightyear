@@ -1,4 +1,4 @@
-import Nav from "./nav/nav";
+import Nav from "./components/nav";
 
 export default function Page() {
   return (
