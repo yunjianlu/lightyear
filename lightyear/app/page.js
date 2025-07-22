@@ -1,7 +1,7 @@
 import Nav from "./components/nav";
 import LandingBody from "./components/mainBody";
 import Footer from "./components/footer";
-import SideFilterBar from "./components/SideFilterBar";
+import SideFilterBar from "./components/sideFilterBar";
 
 // This is the main entry point for the Lightyear application
 // It sets up the main layout with a navigation bar, side filter bar, main content area
