@@ -1,17 +1,29 @@
 import Nav from "./components/nav";
-
+import LandingBody from "./components/landingBody";
+import Footer from "./components/footer";
+import SideFilterBar from "./components/SideFilterBar";
+// Landing page
+// min-h-screen: ensures the page takes at least the full viewport height
+// flex flex-col: lays out children vertically (column direction)
 export default function Page() {
   return (
-    <div className="min-h-screen grid grid-cols-1 grid-rows-[auto_1fr_auto]">
+    <div className="min-h-screen flex flex-col pt-20">
+      {" "}
+      {/* pt-20 offsets for fixed navbar height */}{" "}
+      {/* Main vertical layout container */}
       <div id="headerDiv">
         <Nav />
       </div>
-
-      <div id="bodyDiv" className="bg-red-800">
-        body
+      <div className="flex flex-1 w-full">
+        <div className=" md:w-1/4 lg:w-1/5 bg-white">
+          <SideFilterBar />
+        </div>
+        <div className="w-full md:w-3/4 lg:w-4/5 bg-red-800">
+          <LandingBody />
+        </div>
       </div>
       <div id="footerDiv" className="p-4">
-        footer
+        <Footer />
       </div>
     </div>
   );
