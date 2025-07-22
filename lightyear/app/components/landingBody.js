@@ -46,15 +46,15 @@ export default function LandingBody() {
           <div className="text-yellow-500 mb-2">
             Rating: {product.starRating} ⭐ ({product.numberOfReviews} reviews)
           </div>
-          <div className="text-xs text-gray-400 mb-2">
+          {/* <div className="text-xs text-gray-400 mb-2">
             Tags: {product.tags.join(", ")}
-          </div>
-          <div className="text-xs text-gray-400 mb-2">
+          </div> */}
+          {/* <div className="text-xs text-gray-400 mb-2">
             Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
           </div>
           <div className="text-xs text-gray-400 mb-2">
             Top Review: &quot;{product.topReview}&quot;
-          </div>
+          </div> */}
         </div>
       ))}
     </div>
