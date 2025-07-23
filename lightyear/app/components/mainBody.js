@@ -1,6 +1,6 @@
 import AddToCartButton from "./addToCartButton";
 import { products } from "../product/mockData";
-
+import Link from "next/link";
 import Image from "next/image";
 
 export default function LandingBody() {
@@ -9,20 +9,27 @@ export default function LandingBody() {
       {products.map((product) => (
         <div
           key={product.productId}
-          className="bg-white rounded-lg shadow p-6 flex flex-col"
+          className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
         >
-          <Image
-            src={
-              product.productImage
-                ? product.productImage
-                : "/images/products/lightsaber-blue.png"
-            }
-            alt={product.productName}
-            width={400}
-            height={192}
-            className="w-full h-48 object-contain mb-4 rounded"
-          />
-          <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
+          <Link
+            href={`/product/${product.productId}`}
+            className="block hover:scale-105 transition-transform duration-200"
+          >
+            <Image
+              src={
+                product.productImage
+                  ? product.productImage
+                  : "/images/products/lightsaber-blue.png"
+              }
+              alt={product.productName}
+              width={400}
+              height={192}
+              className="w-full h-48 object-contain mb-4 rounded"
+            />
+            <h3 className="text-xl font-bold mb-2 hover:text-blue-600">
+              {product.productName}
+            </h3>
+          </Link>
           <p className="text-gray-600 mb-2">{product.productDescription}</p>
           <div className="text-sm text-gray-500 mb-2">
             Vendor: {product.vendor}

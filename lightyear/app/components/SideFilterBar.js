@@ -10,6 +10,8 @@ export default function SideFilterBar() {
   const filterContent = (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4">Filters</h2>
+
+      {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
         <label className="block font-medium mb-1">Category</label>
         <select className="w-full border rounded px-2 py-1">
@@ -19,10 +21,54 @@ export default function SideFilterBar() {
           <option>Plush</option>
         </select>
       </div>
+
+      {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
         <label className="block font-medium mb-1">Price Range</label>
         <input type="range" min="0" max="1500" className="w-full" />
       </div>
+
+      {/* Rating Filter - minimum star rating threshold */}
+      <div className="mb-2">
+        <label className="block font-medium mb-1">Minimum Rating</label>
+        <select className="w-full border rounded px-2 py-1">
+          <option value="0">All Ratings</option>
+          <option value="1">1+ Stars</option>
+          <option value="2">2+ Stars</option>
+          <option value="3">3+ Stars</option>
+          <option value="4">4+ Stars</option>
+          <option value="5">5 Stars</option>
+        </select>
+      </div>
+
+      {/* Stock Availability Filter - checkbox options for stock status */}
+      <div className="mb-4">
+        <label className="block font-medium mb-1">Availability</label>
+        <div className="space-y-2">
+          <label className="flex items-center">
+            <input type="checkbox" className="mr-2" />
+            <span>In Stock</span>
+          </label>
+          <label className="flex items-center">
+            <input type="checkbox" className="mr-2" />
+            <span>Out of Stock</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Apply Filters Button - triggers filter application */}
+      <div className="mt-6">
+        <button
+          className="w-full bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-colors"
+          onClick={() => {
+            // TODO: Implement filter application logic
+            console.log("Applying filters...");
+          }}
+        >
+          Apply Filters
+        </button>
+      </div>
+
       {/* Add more filters as needed */}
     </div>
   );
