@@ -92,7 +92,89 @@ export default function Page() {
         Close Profile
       </button>
 
-      
+      <aside className="md:hidden w-full bg-gray-800 text-white p-6 space-y-6">
+  
+  <div className="flex flex-col items-center space-y-3">
+    <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
+      <Image
+        src={pfp}
+        alt="profile picture"
+        width={120}
+        height={120}
+        className="object-cover w-full h-full"
+      />
+    </div>
+    <p className="text-2xl font-semibold text-center">{name}</p>
+  </div>
+
+  <hr className="border-gray-700" />
+
+  {!editing ? (
+    <>
+      <div className="space-y-2 text-sm">
+        <p><span className="font-semibold">Email:</span> {email}</p>
+        <p><span className="font-semibold">Address 1:</span> {address1}</p>
+        <p><span className="font-semibold">Address 2:</span> {address2}</p>
+        <p><span className="font-semibold">City:</span> {city}</p>
+        <p><span className="font-semibold">State:</span> {state}</p>
+      </div>
+
+      <button
+        onClick={() => setEditing(true)}
+        className="w-full bg-gray-100 hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded mt-4"
+      >
+        Edit Profile
+      </button>
+    </>
+  ) : (
+    <>
+      {/* Profile Picture Upload */}
+      <div>
+        <label htmlFor="file_input" className="block text-sm font-medium mb-1">
+          Change profile picture
+        </label>
+        <input
+          id="file_input"
+          type="file"
+          accept="image/*"
+          onChange={handlePfpChange}
+          className="w-full text-sm text-black bg-white border border-gray-300 rounded p-2"
+        />
+      </div>
+
+      <hr className="border-gray-700" />
+
+      <div className="space-y-4">
+        {[
+          { label: 'First Name', value: fName, setter: setFName },
+          { label: 'Last Name', value: lName, setter: setLName },
+          { label: 'Email', value: email, setter: setEmail },
+          { label: 'Address 1', value: address1, setter: setAddress1 },
+          { label: 'Address 2', value: address2, setter: setAddress2 },
+          { label: 'City', value: city, setter: setCity },
+          { label: 'State', value: state, setter: setState },
+        ].map(({ label, value, setter }) => (
+          <div key={label}>
+            <label className="block text-sm font-semibold mb-1">{label}</label>
+            <input
+              className="w-full p-2 rounded border border-gray-300 text-black"
+              value={value}
+              onChange={(e) => setter(e.target.value)}
+              placeholder={label}
+            />
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={handleSave}
+        className="w-full bg-white hover:bg-gray-800 text-black font-semibold py-2 px-4 rounded mt-4"
+      >
+        Save Changes
+      </button>
+    </>
+  )}
+</aside>
         </>
       )
       }
@@ -214,7 +296,10 @@ export default function Page() {
           <h1 className="text-xl font-semibold text-black">My Account</h1>
         </header>
         <section className="min-h-screen bg-white text-black p-6 rounded-md shadow">
-          <p>lorem ipsum more stuff here later</p>
+          <h1 className="text-xl font-bold text-black">Account History</h1>
+          <hr className="mb-4 border-gray-600" />
+          <div></div>
+
         </section>
         </main>
       </div>

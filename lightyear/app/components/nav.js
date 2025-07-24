@@ -28,7 +28,7 @@ export default function Nav() {
             </li>
             {/* Account/Profile link - user account management */}
             <li>
-              <Link href="/about" className="text-gray-300 hover:text-white">
+              <Link href="/profile" className="text-gray-300 hover:text-white">
                 Account
               </Link>
             </li>
