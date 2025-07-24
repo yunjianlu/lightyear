@@ -1,3 +1,21 @@
+/**
+ * Navigation Component (Nav)
+ *
+ * The main navigation bar component that provides site-wide navigation and functionality.
+ * Features:
+ * - Fixed positioning at top of page with shadow and z-index layering
+ * - Brand logo and company name with optimized Next.js Image component
+ * - Responsive navigation links (Home, Account, Cart, Products, Login)
+ * - Product search functionality with input field and submit button
+ * - Mobile-responsive design with flexible layout
+ * - Mobile filter toggle button for small screens
+ * - Hover effects and focus states for accessibility
+ * - Uses Next.js Link components for client-side navigation
+ *
+ * Layout: Fixed header that spans full width, pushes content down with padding
+ * Styling: Dark theme (gray-800) with red accent colors for interactive elements
+ * Used in: All pages through Layout component and directly in root page
+ */
 // create and export navbar component
 
 "use client";

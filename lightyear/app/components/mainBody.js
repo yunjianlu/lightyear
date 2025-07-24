@@ -1,3 +1,20 @@
+/**
+ * LandingBody Component (Main Body)
+ *
+ * The main content area component that displays a responsive grid of products on the home page.
+ * Features:
+ * - Responsive grid layout (1 column on mobile, 2 on tablet, 3 on desktop)
+ * - Product cards with hover effects and interactive elements
+ * - Clickable product images and titles that link to individual product pages
+ * - Product information display (name, description, vendor, price, stock, rating)
+ * - Integrated AddToCartButton for in-stock items
+ * - Out-of-stock handling with visual indicators
+ * - Optimized images using Next.js Image component
+ *
+ * Data Source: Imports product data from ../product/mockData
+ * Used in: Home page (/) as the main content area
+ * Layout: Works with SideFilterBar in a flex layout structure
+ */
 import AddToCartButton from "./addToCartButton";
 import { products } from "../product/mockData";
 import Link from "next/link";
