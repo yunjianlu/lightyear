@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 export default function Page() {
 
   const [editing, setEditing] = useState(false);
-  const [name, setName] = useState("Darth Vader");
-  const [fName, setFName] = useState("Darth");
-  const [lName, setLName] = useState("Vader");
+  const [name, setName] = useState("");
+  const [fName, setFName] = useState("");
+  const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [address1, setAddress1] = useState("");
   const [address2, setAddress2] = useState("");
@@ -33,6 +33,21 @@ export default function Page() {
   useEffect(() => {
     setName([fName, lName].filter(Boolean).join(" "))
   }, [fName, lName]);
+
+  useEffect(() => {
+    // Load session data on mount
+    fetch('./api/session')
+      .then(res => res.json())
+      .then(data => {
+        setName(data.name || name);
+        setEmail(data.email || email);
+        setAddress1(data.address1 || address1);
+        setAddress2(data.address2 || address2);
+        setCity(data.city || city);
+        setState(data.state || state);
+        setPfp(data.pfp || pfp);
+      });
+  }, []);
 
   const handleSave = async() => {
     await fetch('/api/session', {
@@ -77,113 +92,7 @@ export default function Page() {
         Close Profile
       </button>
 
-      <aside className="w-60 bg-gray-800 text-white p-6 flex flex-col">
-        <div className="w-[150px] h-[150px] rounded-full object-fit overflow-hidden flex justify-center mx-auto items-center mb-2">
-            <Image
-              src={pfp}
-              alt="profile picture"
-              height={150}
-              width={150}
-              className="object-contain"
-            />
-        </div>
       
-        <p className="text-xl text-center font-bold">{name}</p>
-
-        <hr className="my-4 border-gray-600" />
-
-        {!editing ? (
-        <>
-        <p className="text-sm mb-4 text-wrap"><span className="font-bold">Email: </span>{email}</p>
-        <hr className="mb-4 border-gray-600" />
-        <p className="text-sm mb-2 text-wrap"><span className="font-bold">Address 1: </span>{address1}</p>
-        <p className="text-sm mb-2 text-wrap"><span className="font-bold">Address 2: </span>{address2}</p>
-        <p className="text-sm mb-2 text-wrap"><span className="font-bold">City: </span>{city}</p>
-        <p className="text-sm mb-2 text-wrap"><span className="font-bold">State: </span>{state}</p>
-
-        <button onClick={() => setEditing(true)} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
-          Edit Profile
-        </button> 
-        </>
-      ) : (
-        <>
-        
-        <label className="block mb-2 text-sm text-white font-bold" htmlFor="file_input"> Change profile pic </label>
-        <input className="block w-full text-sm text-black hover:bg-gray-200 file:mr-4 border border-gray-300 cursor-pointer bg-gray-50" 
-        id="file_input"
-        type="file"
-        accept="image/*"
-        onChange={handlePfpChange}
-        />
-        
-        <hr className="my-4 border-gray-600" />
-
-        <div className="w-full mb-2">
-          <label className="w-28 text-sm font-bold mr-2" htmlFor="FName">First Name:</label>
-          <input className="w-full p-2 border"
-          value={fName}
-          onChange={(e) => setFName(e.target.value)}
-          placeholder="First Name" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="lName">Last Name:</label>
-          <input className="w-full p-2 border"
-          value={lName}
-          onChange={(e) => setLName(e.target.value)}
-          placeholder="Last Name" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="email">Email:</label>
-          <input className="w-full p-2 border"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="address1">Address 1:</label>
-          <input className="w-full p-2 border"
-          value={address1}
-          onChange={(e) => setAddress1(e.target.value)}
-          placeholder="Address 1" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="address2">Address 2:</label>
-          <input className="w-full p-2 border"
-          value={address2}
-          onChange={(e) => setAddress2(e.target.value)}
-          placeholder="Address 2" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="city">City:</label>
-          <input className="w-full p-2 border"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="City"
-        />
-        </div>
-        <div className="w-full mb-2">
-            <label className="w-28 text-sm font-bold mr-2" htmlFor="state">State:</label>
-          <input className="w-full p-2 border"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          placeholder="State"
-        />
-        </div>  
-        <button onClick={() => setEditing(false)} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
-          Save Changes
-        </button> 
-        
-        </>
-        
-        )
-        }
-        </aside>
-
         </>
       )
       }
@@ -290,10 +199,9 @@ export default function Page() {
           placeholder="State"
         />
         </div>  
-        <button onClick={() => setEditing(false)} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
+        <button onClick={handleSave} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
           Save Changes
         </button> 
-        
         </>
         
         )
