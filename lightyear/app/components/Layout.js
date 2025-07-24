@@ -2,7 +2,7 @@
 import Nav from "./nav";
 import Footer from "./footer";
 
-// Main Layout component that wraps all pages
+// Reusable layout component - only used when explicitly imported and wrapped around content
 // This provides consistent header, navigation, and footer across your site
 export default function Layout({ children }) {
   return (
@@ -10,9 +10,13 @@ export default function Layout({ children }) {
       {/* Reuse existing Nav component */}
       <Nav />
 
-      {/* Main Content Area - replace with your content body or children */}
+      {/*  Your content body area or children */}
       <main className="flex-1 pt-20">
         {children} {/* This is where each page's content will be displayed */}
+        {/* In your <LoginPage /> component , you should return:
+          <Layout> 
+            {login content div} 
+          </Layout> */}
       </main>
 
       {/* Reuse existing Footer component */}

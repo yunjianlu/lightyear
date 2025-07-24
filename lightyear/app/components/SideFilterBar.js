@@ -1,3 +1,28 @@
+/**
+ * SideFilterBar Component
+ *
+ * A responsive filter sidebar component for product filtering and search refinement.
+ * Features:
+ * - Dual display modes: mobile drawer overlay and desktop sticky sidebar
+ * - Multiple filter types: category, price range, rating, stock availability
+ * - Mobile-first responsive design with breakpoint-based layout switching
+ * - Interactive controls: dropdowns, range sliders, checkboxes
+ * - Modal/drawer functionality for mobile with backdrop click-to-close
+ * - Sticky positioning on desktop for persistent filtering while scrolling
+ * - Apply filters button with placeholder logic for future implementation
+ *
+ * Mobile Behavior:
+ * - Hidden by default, triggered by filter button in nav or floating button
+ * - Slides in as drawer from left side with backdrop overlay
+ * - Takes 3/4 screen width with close button in header
+ *
+ * Desktop Behavior:
+ * - Always visible as sticky sidebar taking 1/4 or 1/5 of layout width
+ * - Positioned below fixed navigation with calculated viewport height
+ *
+ * Used in: Home page layout alongside LandingBody component
+ * TODO: Connect filter controls to actual product filtering logic
+ */
 "use client";
 
 import { useState } from "react";
