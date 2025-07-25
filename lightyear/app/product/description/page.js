@@ -1,3 +1,6 @@
+// Need to change title text so it resizes based on text length. Most likely requires either changing the div size based on text length or changing the text size based on length. One requires CSS, the other JavaScript.
+// It'd be cool to add x number of stars to the rating based on the actual rating. Requires a JavaScript function.
+
 'use client'
 
 import Layout from "../../components/Layout";
@@ -11,6 +14,8 @@ export default function DetailedProductPage() {
     const productIdParam = useSearchParams().get('id');
     let productArrayPosition = undefined;
     let productPositionCounter = 0;
+    let starRatingCount = 1;
+    let starRatingString = '';
 
     while (productArrayPosition == undefined && productPositionCounter < products.length && productIdParam != undefined) {
         if (products[productPositionCounter].productId == productIdParam) {
@@ -21,21 +26,30 @@ export default function DetailedProductPage() {
         productPositionCounter++;
     };
 
+    starRatingCount = Math.floor(products[productArrayPosition].starRating)
+    for(let i = 0; i < starRatingCount; i++)
+    {
+        starRatingString += '⭐';
+    }
+    starRatingString += "\n"
+
+
+
     if (productArrayPosition != undefined) {
         return (
             <Layout>
                 <div className="p-8 grid grid-cols-1 md:grid-cols-3 md:gap-2 grid-flow-row md:grid-flow-col md:grid-rows-[min-content_min-content] h-min">
                     <div id="leftScrollStick" className="row-span-2">
-                        <div className="grid grid-cols-2 grid-rows-[8rem_minmax(15rem,32rem)_4rem] md:grid-rows-[8rem_minmax(15rem,26rem)_4rem] bg-white mb-2">
-                            <div className="col-span-2 flex justify-center items-center">
-                                <h1 className="text-6xl wrap-normal text-wrap">{
+                        <div className="grid grid-cols-3 grid-rows-[8rem_minmax(15rem,32rem)_4rem] md:grid-rows-[8rem_minmax(15rem,26rem)_4rem] bg-white mb-2">
+                            <div className="col-span-3 flex justify-center items-center">
+                                <h1 className={products[productArrayPosition].productName.length > 19 ? "wrap-normal text-wrap text-4xl md:text-5xl text-center" : "wrap-normal text-wrap text-5xl md:text-6xl text-center"}>{
                                     products[productArrayPosition].productName
                                     ? products[productArrayPosition].productName
                                     : "Unknown Name"
                                     }
                                 </h1>
                             </div>
-                            <div className="col-span-2 flex">
+                            <div className="col-span-3 flex">
                                 <Image
                                     src={
                                         products[productArrayPosition].productImage
@@ -48,14 +62,15 @@ export default function DetailedProductPage() {
                                     className="w-full object-contain rounded m-4 mx-auto p-2"
                                     />
                             </div>
-                            <div className="row-span-1 flex justify-center items-center">
-                                <p>Rating: {
+                            <div className="row-span-1 flex justify-center items-center whitespace-pre-wrap">
+                                <p>{
                                     products[productArrayPosition].starRating
-                                    ? products[productArrayPosition].starRating
+                                    ? products[productArrayPosition].starRating + " " + starRatingString + `(${products[productArrayPosition].numberOfReviews}) reviews`
                                     : "Unknown Rating"
                                     }
                                 </p>
                             </div>
+
                             <div className="row-span-1 flex justify-center items-center">
                                 <p>Price: ${
                                     products[productArrayPosition].price
@@ -63,6 +78,9 @@ export default function DetailedProductPage() {
                                     : "Unknown Rating"
                                     }
                                 </p>
+                            </div>
+                            <div className="row-span-1 flex justify-center items-center">
+                                <p>Buy</p>
                             </div>
                         </div>
 
