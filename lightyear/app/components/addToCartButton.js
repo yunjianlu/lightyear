@@ -1,3 +1,20 @@
+/**
+ * AddToCartButton Component
+ *
+ * A reusable component that provides "Add to Cart" functionality with quantity selection.
+ * Features:
+ * - Quantity counter with increment/decrement buttons
+ * - Respects product stock limits
+ * - Loading state during add to cart action
+ * - Disabled state for out-of-stock items
+ * - Callback support for parent components to handle cart updates
+ *
+ * Props:
+ * - product: Object containing product details (quantityInStock, etc.)
+ * - onAdd: Optional callback function called when item is added to cart
+ *
+ * Used in: Product listing pages, product detail views
+ */
 "use client";
 import { useState } from "react";
 

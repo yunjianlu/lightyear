@@ -17,7 +17,7 @@ export const products = [
     numberOfReviews: 87,
     topReview:
       "StarWars Nerd says light sabers in this generation are lower quality than last generation. Pass for now.",
-    tags: ["starwars", "lightsaber", "collectible", "toy"],
+    tags: ["starwars", "lightsaber", "collectible", "toy", "light side", "oba wan kenobi", "stylish", "jedi", "blue", "Galactic Emporium", "Plasteel", "light", "saber"],
     productImage: "/images/products/lightsaber-blue.png",
     frequentlyReturned: false,
     relatedProducts: ["LS-002", "LS-003", "LS-004", "LS-005", "LS-006"],

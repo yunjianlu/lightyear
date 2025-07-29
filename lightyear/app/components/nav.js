@@ -1,10 +1,38 @@
+/**
+ * Navigation Component (Nav)
+ *
+ * The main navigation bar component that provides site-wide navigation and functionality.
+ * Features:
+ * - Fixed positioning at top of page with shadow and z-index layering
+ * - Brand logo and company name with optimized Next.js Image component
+ * - Responsive navigation links (Home, Account, Cart, Products, Login)
+ * - Product search functionality with input field and submit button
+ * - Mobile-responsive design with flexible layout
+ * - Mobile filter toggle button for small screens
+ * - Hover effects and focus states for accessibility
+ * - Uses Next.js Link components for client-side navigation
+ *
+ * Layout: Fixed header that spans full width, pushes content down with padding
+ * Styling: Dark theme (gray-800) with red accent colors for interactive elements
+ * Used in: All pages through Layout component and directly in root page
+ */
 // create and export navbar component
 
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Nav() {
+  const router = useRouter();
+  const [search, setSearch] = useState("");
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (search.trim()) {
+      router.push(`/product?search=${encodeURIComponent(search.trim())}`);
+   } } 
   return (
     <nav className="bg-gray-800 p-4 fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto flex flex-wrap justify-between items-center">
@@ -72,6 +100,7 @@ export default function Nav() {
             <input
               type="text"
               placeholder="Search Products..."
+              onChange={e => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"
               style={{ minWidth: 100 }}
             />
@@ -79,9 +108,11 @@ export default function Nav() {
             <button
               type="submit"
               className="ml-2 px-3 py-1 bg-red-700 text-white rounded hover:bg-red-800"
+              onClick={handleSearch}
             >
               Search
             </button>
+            
           </form>
         </div>
       </div>

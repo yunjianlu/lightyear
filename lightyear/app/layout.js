@@ -1,6 +1,10 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-// import styles from "./styles.module.css";
+
+// Root layout.js: Next.js App Router root layout
+// - Applies to ALL pages automatically
+// - Defines HTML structure (<html>, <head>, <body>)
+// - Sets up metadata and fonts globally
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,16 +26,18 @@ export const metadata = {
   },
 };
 
+// When a user visits / (home page), Next.js renders internally:
+// <RootLayout>  {/* Your layout.js */}
+//     <Page />    {/* Your page.js */}
+// </RootLayout>
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/images/light-year-logo.png" type="image/png" />
-      </head>
+      <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        {children} {/* This is where root page.js content goes */}
       </body>
     </html>
   );

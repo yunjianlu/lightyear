@@ -1,30 +1,65 @@
+"use client";
+
+import Link from "next/link";
 import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
 // import { products } from "./mockData";
 import { products } from "./mockData";
 import Image from "next/image";
 
+import { useSearchParams } from "next/navigation";
+
 export default function ProductPage() {
+  const searchParams = useSearchParams();
+  
+  const searchTerm = searchParams.get('search')?.toLowerCase() || '';
+  const category = searchParams.get('category') || '';
+  const rating = searchParams.get('rating') || '0';
+  const inStock = searchParams.get('inStock') === 'true';
+  const outOfStock = searchParams.get('outOfStock') === 'true';
+  // ? is optional chaining to handle null/undefined
+
+const filteredProducts = products.filter(product => {
+
+  const matchesSearch = !searchTerm ||
+    product.productName.toLowerCase().includes(searchTerm) ||
+    product.productDescription.toLowerCase().includes(searchTerm) ||
+    product.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+
+  //const matchesCategory = !category || product.category === category;
+
+  const matchesRating = rating === '0' || product.starRating >= parseInt(rating);
+
+  const matchesStock = (inStock && product.quantityInStock > 0) ||
+    (outOfStock && product.quantityInStock === 0) ||
+    (!inStock && !outOfStock);
+  return matchesSearch && matchesRating && matchesStock;
+  }
+  );
+
   return (
     <Layout>
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map((product) => (
+      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
+        {filteredProducts.map((product) => (
           <div
             key={product.productId}
             className="bg-white rounded-lg shadow p-6 flex flex-col"
           >
-            <Image
-              src={
-                product.productImage
-                  ? product.productImage
-                  : "/images/products/lightsaber-blue.png"
-              }
-              alt={product.productName}
-              width={400}
-              height={192}
-              className="w-full h-48 object-contain mb-4 rounded"
-            />
-            <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
+            <Link href={`/product/description?id=${product.productId}`}>
+              <Image
+                src={
+                  product.productImage
+                    ? product.productImage
+                    : "/images/products/lightsaber-blue.png"
+                }
+                alt={product.productName}
+                width={400}
+                height={192}
+                className="w-full h-48 object-contain mb-4 rounded"
+              />
+            </Link>
+            <Link href={`/product/description?id=${product.productId}`}><h3 className="text-xl font-bold mb-2">{product.productName}</h3></Link>
+            
             <p className="text-gray-600 mb-2">{product.productDescription}</p>
             <div className="text-sm text-gray-500 mb-2">
               Vendor: {product.vendor}
@@ -60,6 +95,9 @@ export default function ProductPage() {
             </div>
           </div>
         ))}
+        {filteredProducts.length === 0 && (
+          <p>No products found.</p>
+        )}
       </div>
     </Layout>
   );

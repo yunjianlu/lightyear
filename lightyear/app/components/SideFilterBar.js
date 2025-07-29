@@ -1,10 +1,44 @@
+/**
+ * SideFilterBar Component
+ *
+ * A responsive filter sidebar component for product filtering and search refinement.
+ * Features:
+ * - Dual display modes: mobile drawer overlay and desktop sticky sidebar
+ * - Multiple filter types: category, price range, rating, stock availability
+ * - Mobile-first responsive design with breakpoint-based layout switching
+ * - Interactive controls: dropdowns, range sliders, checkboxes
+ * - Modal/drawer functionality for mobile with backdrop click-to-close
+ * - Sticky positioning on desktop for persistent filtering while scrolling
+ * - Apply filters button with placeholder logic for future implementation
+ *
+ * Mobile Behavior:
+ * - Hidden by default, triggered by filter button in nav or floating button
+ * - Slides in as drawer from left side with backdrop overlay
+ * - Takes 3/4 screen width with close button in header
+ *
+ * Desktop Behavior:
+ * - Always visible as sticky sidebar taking 1/4 or 1/5 of layout width
+ * - Positioned below fixed navigation with calculated viewport height
+ *
+ * Used in: Home page layout alongside LandingBody component
+ * TODO: Connect filter controls to actual product filtering logic
+ */
 "use client";
 
 import { useState } from "react";
+import {useRouter} from "next/navigation";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar() {
   const [open, setOpen] = useState(false);
+
+  const router = useRouter();
+
+  const [category, setCategory] = useState("All");
+  //const [price, setPrice] = useState(0);
+  const [rating, setRating] = useState("0");
+  const [inStock, setInStock] = useState(false);
+  const [outOfStock, setOutOfStock] = useState(false);
 
   // Filter content
   const filterContent = (
@@ -13,7 +47,10 @@ export default function SideFilterBar() {
 
       {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Category</label>
+        <label className="block font-medium mb-1"
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        >Category</label>
         <select className="w-full border rounded px-2 py-1">
           <option>All</option>
           <option>Lightsabers</option>
@@ -30,7 +67,10 @@ export default function SideFilterBar() {
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Minimum Rating</label>
+        <label className="block font-medium mb-1"
+        value={rating}
+        onChange={(e) => setRating(e.target.value)}
+        >Minimum Rating</label>
         <select className="w-full border rounded px-2 py-1">
           <option value="0">All Ratings</option>
           <option value="1">1+ Stars</option>
@@ -46,11 +86,14 @@ export default function SideFilterBar() {
         <label className="block font-medium mb-1">Availability</label>
         <div className="space-y-2">
           <label className="flex items-center">
-            <input type="checkbox" className="mr-2" />
+            <input type="checkbox" className="mr-2" 
+            checked={inStock} onChange={e=> setInStock(e.target.checked)}/>
             <span>In Stock</span>
           </label>
           <label className="flex items-center">
-            <input type="checkbox" className="mr-2" />
+            <input type="checkbox" className="mr-2"
+            checked={outOfStock} 
+            onChange={e=> setOutOfStock(e.target.checked)}/>
             <span>Out of Stock</span>
           </label>
         </div>
@@ -63,6 +106,14 @@ export default function SideFilterBar() {
           onClick={() => {
             // TODO: Implement filter application logic
             console.log("Applying filters...");
+            const params = new URLSearchParams();
+            if (category !== "All") params.append("category", category);
+            if (rating !== "0") params.append("rating", rating);  
+            if (inStock) params.append("inStock", "true");
+            if (outOfStock) params.append("outOfStock", "true");
+
+            router.push(`/product?${params.toString()}`);
+            setOpen(false); // Close the drawer after applying filters
           }}
         >
           Apply Filters
