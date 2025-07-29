@@ -17,15 +17,21 @@
  */
 "use client";
 import { useState } from "react";
+import { useCart } from "../contexts/CartContext";
 
 export default function AddToCartButton({ product, onAdd }) {
   const [adding, setAdding] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCart();
 
   const handleAddToCart = async () => {
     setAdding(true);
-    // Simulate add to cart logic (replace with your own logic or API call)
+    // Simulate add to cart logic
     await new Promise((resolve) => setTimeout(resolve, 500));
+
+    // Add to cart using context
+    addToCart(product, quantity);
+
     setAdding(false);
     if (onAdd) onAdd({ ...product, selectedQuantity: quantity });
     // Optionally show a toast or feedback here

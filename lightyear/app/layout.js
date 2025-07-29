@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "./contexts/CartContext";
 
 // Root layout.js: Next.js App Router root layout
 // - Applies to ALL pages automatically
@@ -37,7 +38,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children} {/* This is where root page.js content goes */}
+        <CartProvider>
+          {children} {/* This is where root page.js content goes */}
+        </CartProvider>
       </body>
     </html>
   );
