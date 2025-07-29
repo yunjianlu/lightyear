@@ -23,16 +23,19 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useCart } from "../contexts/CartContext";
 
 export default function Nav() {
   const router = useRouter();
   const [search, setSearch] = useState("");
+  const { getCartItemCount } = useCart();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (search.trim()) {
       router.push(`/product?search=${encodeURIComponent(search.trim())}`);
-   } } 
+    }
+  };
   return (
     <nav className="bg-gray-800 p-4 fixed top-0 left-0 w-full z-50 shadow">
       <div className="container mx-auto flex flex-wrap justify-between items-center">
@@ -62,8 +65,16 @@ export default function Nav() {
             </li>
             {/* Shopping cart link - view cart items and checkout */}
             <li>
-              <Link href="/contact" className="text-gray-300 hover:text-white">
+              <Link
+                href="/cart"
+                className="text-gray-300 hover:text-white relative"
+              >
                 Cart
+                {getCartItemCount() > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {getCartItemCount()}
+                  </span>
+                )}
               </Link>
             </li>
             {/* Product catalog link - browse all products */}
@@ -100,7 +111,7 @@ export default function Nav() {
             <input
               type="text"
               placeholder="Search Products..."
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"
               style={{ minWidth: 100 }}
             />
@@ -112,7 +123,6 @@ export default function Nav() {
             >
               Search
             </button>
-            
           </form>
         </div>
       </div>

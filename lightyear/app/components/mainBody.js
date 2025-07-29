@@ -29,7 +29,7 @@ export default function LandingBody() {
           className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
         >
           <Link
-            href={`/product/${product.productId}`}
+            href={`/product/description?id=${product.productId}`}
             className="block hover:scale-105 transition-transform duration-200"
           >
             <Image
