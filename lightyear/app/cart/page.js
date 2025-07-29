@@ -26,11 +26,6 @@ export default function CartPage() {
     }
   };
 
-  const subtotal = getCartTotal();
-  const tax = subtotal * 0.08; // 8% tax
-  const shipping = subtotal > 100 ? 0 : 15; // Free shipping over $100
-  const total = subtotal + tax + shipping;
-
   if (cartItems.length === 0) {
     return (
       <Layout>
@@ -210,37 +205,26 @@ export default function CartPage() {
             {/* Order Summary */}
             <section className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5">
               <h2 className="text-lg font-medium text-gray-900">
-                Order Summary
+                Cart Summary
               </h2>
 
               <div className="mt-6 space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">Subtotal</p>
+                  <p className="text-sm text-gray-600">Items in cart</p>
                   <p className="text-sm font-medium text-gray-900">
-                    ${subtotal.toFixed(2)}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">Shipping</p>
-                  <p className="text-sm font-medium text-gray-900">
-                    {shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}
-                  </p>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-600">Tax</p>
-                  <p className="text-sm font-medium text-gray-900">
-                    ${tax.toFixed(2)}
+                    {cartItems.reduce(
+                      (total, item) => total + item.selectedQuantity,
+                      0
+                    )}
                   </p>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
                   <p className="text-base font-medium text-gray-900">
-                    Order total
+                    Subtotal
                   </p>
                   <p className="text-base font-medium text-gray-900">
-                    ${total.toFixed(2)}
+                    ${getCartTotal().toFixed(2)}
                   </p>
                 </div>
               </div>
@@ -254,7 +238,7 @@ export default function CartPage() {
               </div>
 
               <div className="mt-6 text-sm text-gray-500 text-center">
-                <p>Free shipping on orders over $100</p>
+                <p>Tax and shipping calculated at checkout</p>
               </div>
             </section>
           </div>
