@@ -35,7 +35,7 @@ export default function SideFilterBar() {
   const router = useRouter();
 
   const [category, setCategory] = useState("All");
-  //const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(0);
   const [rating, setRating] = useState("0");
   const [inStock, setInStock] = useState(false);
   const [outOfStock, setOutOfStock] = useState(false);
@@ -47,37 +47,40 @@ export default function SideFilterBar() {
 
       {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
-        <label
-          className="block font-medium mb-1"
+        <label className="block font-medium mb-1">Category</label>
+        <select
+          className="w-full border rounded px-2 py-1"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
-          Category
-        </label>
-        <select className="w-full border rounded px-2 py-1">
-          <option>All</option>
-          <option>Lightsabers</option>
-          <option>Helmets</option>
-          <option>Plush</option>
+          <option value="All">All</option>
+          <option value="weapons">Weapons</option>
+          <option value="armor">Armor</option>
+          <option value="other">Other</option>
         </select>
       </div>
 
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Price Range</label>
-        <input type="range" min="0" max="1500" className="w-full" />
+        <label className="block font-medium mb-1">Price Range: ${price}</label>
+        <input
+          type="range"
+          min="0"
+          max="1500"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+          className="w-full"
+        />
       </div>
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label
-          className="block font-medium mb-1"
+        <label className="block font-medium mb-1">Minimum Rating</label>
+        <select
+          className="w-full border rounded px-2 py-1"
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         >
-          Minimum Rating
-        </label>
-        <select className="w-full border rounded px-2 py-1">
           <option value="0">All Ratings</option>
           <option value="1">1+ Stars</option>
           <option value="2">2+ Stars</option>
@@ -121,6 +124,7 @@ export default function SideFilterBar() {
             console.log("Applying filters...");
             const params = new URLSearchParams();
             if (category !== "All") params.append("category", category);
+            if (price > 0) params.append("price", price);
             if (rating !== "0") params.append("rating", rating);
             if (inStock) params.append("inStock", "true");
             if (outOfStock) params.append("outOfStock", "true");
