@@ -26,7 +26,7 @@
 "use client";
 
 import { useState } from "react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar() {
@@ -47,10 +47,13 @@ export default function SideFilterBar() {
 
       {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
-        <label className="block font-medium mb-1"
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        >Category</label>
+        <label
+          className="block font-medium mb-1"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          Category
+        </label>
         <select className="w-full border rounded px-2 py-1">
           <option>All</option>
           <option>Lightsabers</option>
@@ -67,10 +70,13 @@ export default function SideFilterBar() {
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label className="block font-medium mb-1"
-        value={rating}
-        onChange={(e) => setRating(e.target.value)}
-        >Minimum Rating</label>
+        <label
+          className="block font-medium mb-1"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+        >
+          Minimum Rating
+        </label>
         <select className="w-full border rounded px-2 py-1">
           <option value="0">All Ratings</option>
           <option value="1">1+ Stars</option>
@@ -86,14 +92,21 @@ export default function SideFilterBar() {
         <label className="block font-medium mb-1">Availability</label>
         <div className="space-y-2">
           <label className="flex items-center">
-            <input type="checkbox" className="mr-2" 
-            checked={inStock} onChange={e=> setInStock(e.target.checked)}/>
+            <input
+              type="checkbox"
+              className="mr-2"
+              checked={inStock}
+              onChange={(e) => setInStock(e.target.checked)}
+            />
             <span>In Stock</span>
           </label>
           <label className="flex items-center">
-            <input type="checkbox" className="mr-2"
-            checked={outOfStock} 
-            onChange={e=> setOutOfStock(e.target.checked)}/>
+            <input
+              type="checkbox"
+              className="mr-2"
+              checked={outOfStock}
+              onChange={(e) => setOutOfStock(e.target.checked)}
+            />
             <span>Out of Stock</span>
           </label>
         </div>
@@ -108,7 +121,7 @@ export default function SideFilterBar() {
             console.log("Applying filters...");
             const params = new URLSearchParams();
             if (category !== "All") params.append("category", category);
-            if (rating !== "0") params.append("rating", rating);  
+            if (rating !== "0") params.append("rating", rating);
             if (inStock) params.append("inStock", "true");
             if (outOfStock) params.append("outOfStock", "true");
 
@@ -128,10 +141,10 @@ export default function SideFilterBar() {
     <>
       {/* Mobile: Show button */}
       <button
-        className="block md:hidden fixed top-20 left-2 z-50 bg-red-700 text-white px-4 py-2 rounded shadow"
+        className="block md:hidden fixed top-20 left-2 z-50 bg-red-700 text-white px-3 py-2 rounded shadow text-sm"
         onClick={() => setOpen(true)}
       >
-        Filters
+        Filter
       </button>
 
       {/* Mobile: Drawer/modal */}

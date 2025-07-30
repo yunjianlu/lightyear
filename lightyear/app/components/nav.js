@@ -37,9 +37,9 @@ export default function Nav() {
     }
   };
   return (
-    <nav className="bg-gray-800 p-4 fixed top-0 left-0 w-full z-50 shadow">
-      <div className="container mx-auto flex flex-wrap justify-between items-center">
-        <div className="flex items-center space-x-2">
+    <nav className="bg-gray-800 fixed top-0 left-0 w-full z-50 shadow">
+      <div className="flex flex-wrap justify-between items-center px-4 py-4 gap-y-2">
+        <div className="flex items-center space-x-2 flex-shrink-0">
           <Image
             src="/images/light-year-logo.png"
             alt="Lightyear Logo"
@@ -47,19 +47,27 @@ export default function Nav() {
             height={48}
             className="rounded"
           />
-          <span className="text-white text-lg font-bold">Lightyear</span>
+          <span className="text-white text-lg font-bold whitespace-nowrap">
+            Lightyear
+          </span>
         </div>
-        <div className="flex flex-wrap items-center space-x-8 w-full md:w-auto mt-2 md:mt-0">
-          <ul className="flex space-x-4">
+        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 ml-4 mr-4">
+          <ul className="flex flex-wrap gap-x-4 gap-y-2 justify-end">
             {/* Home navigation link - returns to main landing page */}
             <li>
-              <Link href="/" className="text-gray-300 hover:text-white">
+              <Link
+                href="/"
+                className="text-gray-300 hover:text-white whitespace-nowrap"
+              >
                 Home
               </Link>
             </li>
             {/* Account/Profile link - user account management */}
             <li>
-              <Link href="/profile" className="text-gray-300 hover:text-white">
+              <Link
+                href="/profile"
+                className="text-gray-300 hover:text-white whitespace-nowrap"
+              >
                 Account
               </Link>
             </li>
@@ -67,7 +75,7 @@ export default function Nav() {
             <li>
               <Link
                 href="/cart"
-                className="text-gray-300 hover:text-white relative"
+                className="text-gray-300 hover:text-white relative whitespace-nowrap"
               >
                 Cart
                 {getCartItemCount() > 0 && (
@@ -80,7 +88,7 @@ export default function Nav() {
             {/* Product catalog link - browse all products */}
             <li>
               <Link href="/product">
-                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer">
+                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap">
                   Product Details
                 </button>
               </Link>
@@ -88,40 +96,31 @@ export default function Nav() {
             {/* User authentication link - login/logout functionality */}
             <li>
               <Link href="/login">
-                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer">
+                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap">
                   Login
                 </button>
               </Link>
             </li>
           </ul>
           <form
-            className="flex items-center w-full md:w-auto mt-2 md:mt-0"
+            className="flex items-center gap-x-2 ml-16 md:ml-4"
             onSubmit={(e) => e.preventDefault()}
           >
-            {/* Mobile filter toggle button - shows/hides filter sidebar on small screens */}
-            <button
-              type="button"
-              className="block md:hidden mr-2 px-3 py-1 bg-gray-600 text-white rounded hover:bg-gray-700"
-              aria-label="Show Filters"
-              // onClick={handleShowFilters} // Uncomment and implement if you have a handler
-            >
-              Filters
-            </button>
             {/* Product search input - allows users to search for specific products */}
             <input
               type="text"
-              placeholder="Search Products..."
+              placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"
-              style={{ minWidth: 100 }}
+              style={{ minWidth: 60 }}
             />
             {/* Search submit button - executes product search */}
             <button
               type="submit"
-              className="ml-2 px-3 py-1 bg-red-700 text-white rounded hover:bg-red-800"
+              className="px-2 py-1 bg-red-700 text-white rounded hover:bg-red-800 text-sm whitespace-nowrap"
               onClick={handleSearch}
             >
-              Search
+              Go
             </button>
           </form>
         </div>
