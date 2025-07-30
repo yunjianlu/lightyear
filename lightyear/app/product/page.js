@@ -11,31 +11,43 @@ import { useSearchParams } from "next/navigation";
 
 export default function ProductPage() {
   const searchParams = useSearchParams();
-  
-  const searchTerm = searchParams.get('search')?.toLowerCase() || '';
-  const category = searchParams.get('category') || '';
-  const rating = searchParams.get('rating') || '0';
-  const inStock = searchParams.get('inStock') === 'true';
-  const outOfStock = searchParams.get('outOfStock') === 'true';
+
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  const category = searchParams.get("category") || "";
+  const price = searchParams.get("price") || "0";
+  const rating = searchParams.get("rating") || "0";
+  const inStock = searchParams.get("inStock") === "true";
+  const outOfStock = searchParams.get("outOfStock") === "true";
   // ? is optional chaining to handle null/undefined
 
-const filteredProducts = products.filter(product => {
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      !searchTerm ||
+      product.productName.toLowerCase().includes(searchTerm) ||
+      product.productDescription.toLowerCase().includes(searchTerm) ||
+      product.tags.some((tag) => tag.toLowerCase().includes(searchTerm));
 
-  const matchesSearch = !searchTerm ||
-    product.productName.toLowerCase().includes(searchTerm) ||
-    product.productDescription.toLowerCase().includes(searchTerm) ||
-    product.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+    const matchesCategory =
+      !category || category === "All" || product.category === category;
 
-  //const matchesCategory = !category || product.category === category;
+    const matchesPrice = price === "0" || product.price <= parseInt(price);
 
-  const matchesRating = rating === '0' || product.starRating >= parseInt(rating);
+    const matchesRating =
+      rating === "0" || product.starRating >= parseInt(rating);
 
-  const matchesStock = (inStock && product.quantityInStock > 0) ||
-    (outOfStock && product.quantityInStock === 0) ||
-    (!inStock && !outOfStock);
-  return matchesSearch && matchesRating && matchesStock;
-  }
-  );
+    const matchesStock =
+      (inStock && product.quantityInStock > 0) ||
+      (outOfStock && product.quantityInStock === 0) ||
+      (!inStock && !outOfStock);
+
+    return (
+      matchesSearch &&
+      matchesCategory &&
+      matchesPrice &&
+      matchesRating &&
+      matchesStock
+    );
+  });
 
   return (
     <Layout>
@@ -58,8 +70,10 @@ const filteredProducts = products.filter(product => {
                 className="w-full h-48 object-contain mb-4 rounded"
               />
             </Link>
-            <Link href={`/product/description?id=${product.productId}`}><h3 className="text-xl font-bold mb-2">{product.productName}</h3></Link>
-            
+            <Link href={`/product/description?id=${product.productId}`}>
+              <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
+            </Link>
+
             <p className="text-gray-600 mb-2">{product.productDescription}</p>
             <div className="text-sm text-gray-500 mb-2">
               Vendor: {product.vendor}
@@ -95,9 +109,7 @@ const filteredProducts = products.filter(product => {
             </div>
           </div>
         ))}
-        {filteredProducts.length === 0 && (
-          <p>No products found.</p>
-        )}
+        {filteredProducts.length === 0 && <p>No products found.</p>}
       </div>
     </Layout>
   );
