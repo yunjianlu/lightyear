@@ -33,7 +33,7 @@ export default function AuthPage() {
     const {email, password, confirmPassword, firstName, lastName, phoneNumber} = formData;
 
     // Checks if email is of the format anything@anything.anything
-    const emailRegEx = /^[^\s@] + @[^\s@] + \.[^\s@] + $/;
+    const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(!emailRegEx.test(email)){
       setError("Please enter a valid email address");
       return false;
@@ -174,6 +174,7 @@ export default function AuthPage() {
             )}
             <input
               type="email"
+              name="email"
               placeholder="Email"
               value={formData.email}
               onChange={handleInputChange}
@@ -182,6 +183,7 @@ export default function AuthPage() {
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
               value={formData.password}
               onChange={handleInputChange}

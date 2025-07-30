@@ -34,12 +34,12 @@ export default function SideFilterBar() {
   // Filter content
   const filterContent = (
     <div className="p-4">
-      <h2 className="text-lg font-bold mb-4">Filters</h2>
+      <h2 className="text-lg font-bold mb-4" style={{ color: "#0a0a0a" }}>Filters</h2>
 
       {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Category</label>
-        <select className="w-full border rounded px-2 py-1">
+        <label className="block font-medium mb-1" style={{color: "#0a0a0a"}}>Category</label>
+        <select className="w-full border rounded px-2 py-1" style={{color: "#0a0a0a"}}>
           <option>All</option>
           <option>Lightsabers</option>
           <option>Helmets</option>
@@ -49,14 +49,14 @@ export default function SideFilterBar() {
 
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Price Range</label>
+        <label className="block font-medium mb-1" style={{color: "#0a0a0a"}}>Price Range</label>
         <input type="range" min="0" max="1500" className="w-full" />
       </div>
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Minimum Rating</label>
-        <select className="w-full border rounded px-2 py-1">
+        <label className="block font-medium mb-1" style={{color: "#0a0a0a"}}>Minimum Rating</label>
+        <select className="w-full border rounded px-2 py-1" style={{color: "#0a0a0a"}}>
           <option value="0">All Ratings</option>
           <option value="1">1+ Stars</option>
           <option value="2">2+ Stars</option>
@@ -68,13 +68,13 @@ export default function SideFilterBar() {
 
       {/* Stock Availability Filter - checkbox options for stock status */}
       <div className="mb-4">
-        <label className="block font-medium mb-1">Availability</label>
+        <label className="block font-medium mb-1" style={{color: "#0a0a0a"}}>Availability</label>
         <div className="space-y-2">
-          <label className="flex items-center">
+          <label className="flex items-center" style={{color: "#0a0a0a"}}>
             <input type="checkbox" className="mr-2" />
             <span>In Stock</span>
           </label>
-          <label className="flex items-center">
+          <label className="flex items-center" style={{color: "#0a0a0a"}}>
             <input type="checkbox" className="mr-2" />
             <span>Out of Stock</span>
           </label>
