@@ -3,6 +3,7 @@ export const products = [
     productName: "Lightsaber",
     productId: "LS-001",
     vendor: "Galactic Emporium",
+    category: "weapons",
     productDescription:
       "A legendary weapon of the Jedi, this blue lightsaber features a plasma blade powered by a kyber crystal. Perfect for collectors and aspiring Force users.",
     productDetails: {
@@ -17,7 +18,21 @@ export const products = [
     numberOfReviews: 87,
     topReview:
       "StarWars Nerd says light sabers in this generation are lower quality than last generation. Pass for now.",
-    tags: ["starwars", "lightsaber", "collectible", "toy"],
+    tags: [
+      "starwars",
+      "lightsaber",
+      "collectible",
+      "toy",
+      "light side",
+      "oba wan kenobi",
+      "stylish",
+      "jedi",
+      "blue",
+      "Galactic Emporium",
+      "Plasteel",
+      "light",
+      "saber",
+    ],
     productImage: "/images/products/lightsaber-blue.png",
     frequentlyReturned: false,
     relatedProducts: ["LS-002", "LS-003", "LS-004", "LS-005", "LS-006"],
@@ -26,6 +41,7 @@ export const products = [
     productName: "Sith Lightsaber",
     productId: "LS-002",
     vendor: "Dark Side Supplies",
+    category: "weapons",
     productDescription:
       "Embrace the power of the dark side with this red Sith lightsaber. Features a durable hilt and a menacing crimson blade for ultimate intimidation.",
     productDetails: {
@@ -34,9 +50,9 @@ export const products = [
       material: "Durasteel",
       weight: "1.3kg",
     },
-    price: 1100,
+    price: 250,
     quantityInStock: 5,
-    starRating: 4.7,
+    starRating: 5.0,
     numberOfReviews: 102,
     topReview: "Darth Reviewer: The red glow is menacing. Perfect for cosplay.",
     tags: ["starwars", "lightsaber", "sith", "collectible"],
@@ -48,6 +64,7 @@ export const products = [
     productName: "Jedi Training Remote",
     productId: "JT-001",
     vendor: "Jedi Temple Shop",
+    category: "other",
     productDescription:
       "Sharpen your Jedi reflexes with this authentic training remote. Floats and fires harmless practice bolts for safe and fun lightsaber training.",
     productDetails: {
@@ -56,7 +73,7 @@ export const products = [
       material: "Alloy",
       weight: "0.5kg",
     },
-    price: 350,
+    price: 150.0,
     quantityInStock: 20,
     starRating: 4.0,
     numberOfReviews: 45,
@@ -71,6 +88,7 @@ export const products = [
     productName: "Mandalorian Helmet",
     productId: "MH-001",
     vendor: "Mando Merch",
+    category: "armor",
     productDescription:
       "Step into the shoes of a Mandalorian with this screen-accurate helmet. Crafted from high-quality materials for cosplay or display.",
     productDetails: {
@@ -79,9 +97,9 @@ export const products = [
       material: "Beskar",
       weight: "2.5kg",
     },
-    price: 800,
+    price: 49.99,
     quantityInStock: 3,
-    starRating: 4.9,
+    starRating: 5.0,
     numberOfReviews: 210,
     topReview: "HelmetHead: This is the way. Superb craftsmanship.",
     tags: ["starwars", "mandalorian", "helmet", "cosplay"],
@@ -93,6 +111,7 @@ export const products = [
     productName: "Grogu Plush",
     productId: "GP-001",
     vendor: "Toy Galaxy",
+    category: "other",
     productDescription:
       "Bring home the adorable Grogu (Baby Yoda) with this soft and cuddly plush. Perfect for fans of all ages and a must-have for any Star Wars collection.",
     productDetails: {
@@ -101,7 +120,7 @@ export const products = [
       material: "Plush",
       weight: "0.3kg",
     },
-    price: 40,
+    price: 25.99,
     quantityInStock: 50,
     starRating: 4.8,
     numberOfReviews: 320,
@@ -115,6 +134,7 @@ export const products = [
     productName: "Stormtrooper Blaster",
     productId: "SB-001",
     vendor: "Imperial Surplus",
+    category: "weapons",
     productDescription:
       "Replica of the iconic Stormtrooper blaster. Lightweight and safe for cosplay, conventions, or display in your Star Wars collection.",
     productDetails: {
@@ -137,6 +157,7 @@ export const products = [
     productName: "Millennium Falcon Model",
     productId: "MF-001",
     vendor: "Corellian Collectibles",
+    category: "other",
     productDescription:
       "Detailed model of the Millennium Falcon, the fastest ship in the galaxy. Perfect for display or as a centerpiece in your Star Wars collection.",
     productDetails: {
@@ -145,7 +166,7 @@ export const products = [
       material: "Plastic",
       weight: "3.0kg",
     },
-    price: 500,
+    price: 148,
     quantityInStock: 7,
     starRating: 4.6,
     numberOfReviews: 150,
@@ -159,6 +180,7 @@ export const products = [
     productName: "Darth Vader Mask",
     productId: "DV-001",
     vendor: "Sith Relics",
+    category: "armor",
     productDescription:
       "Channel the dark side with this Darth Vader mask. Features authentic detailing and voice modulation for the ultimate cosplay experience.",
     productDetails: {
@@ -167,7 +189,7 @@ export const products = [
       material: "Plastic",
       weight: "1.8kg",
     },
-    price: 300,
+    price: 98.0,
     quantityInStock: 10,
     starRating: 4.5,
     numberOfReviews: 98,
@@ -181,6 +203,7 @@ export const products = [
     productName: "Rey’s Staff",
     productId: "RS-001",
     vendor: "Scavenger Supplies",
+    category: "weapons",
     productDescription:
       "A faithful replica of Rey’s staff from Jakku. Lightweight and durable, ideal for cosplay or as a unique display piece.",
     productDetails: {
@@ -203,6 +226,7 @@ export const products = [
     productName: "Kylo Ren Crossguard Lightsaber",
     productId: "LS-003",
     vendor: "First Order Forge",
+    category: "weapons",
     productDescription:
       "Wield the power of Kylo Ren with this crossguard lightsaber replica. Features a unique hilt design and glowing red blades.",
     productDetails: {
@@ -211,7 +235,7 @@ export const products = [
       material: "Durasteel",
       weight: "1.5kg",
     },
-    price: 1300,
+    price: 299.99,
     quantityInStock: 2,
     starRating: 4.3,
     numberOfReviews: 77,
