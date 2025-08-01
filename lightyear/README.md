@@ -30,10 +30,17 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 After creating a user account, a database should appear in the lightyear folder called lightyear.db
 
+You can look at the DB schema:
+``` bash
+.schema users
+```
+
 You can test that users are being properly stored by running the following: 
 
+```bash
 sqlite3 lightyear.db
 SELECT * FROM users;
+```
 
 This will show the user that was created with salted and hashed passwords, created_at times, and session information.
 
