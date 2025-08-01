@@ -15,7 +15,9 @@ export default function Page() {
   const [address2, setAddress2] = useState("");
   const [city, setCity] = useState(""); 
   const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [pfp, setPfp] = useState("/image.jpg");
+  const [purchasedProducts, setPurchasedProducts] = useState([]);
 
   const [sidebar, setSidebar] = useState(false);
 
@@ -46,6 +48,8 @@ export default function Page() {
         setCity(data.city || city);
         setState(data.state || state);
         setPfp(data.pfp || pfp);
+        setZipCode(data.zipCode || zipCode);
+        setPurchasedProducts(data.purchasedProducts || []);
       });
   }, []);
 
@@ -53,11 +57,12 @@ export default function Page() {
     await fetch('/api/session', {
       method: "Post",
       headers: {'Content-Type': 'application/json',},
-      body: JSON.stringify({name, email, address1, address2, city, state}),
+      body: JSON.stringify({name, email, address1, address2, city, state, zipCode}),
     });
     setEditing(false);
   }
 
+  console.log('purchasedProducts:', purchasedProducts, typeof purchasedProducts);
   const handlePfpChange = (e) => {
     const file = e.target.files[0]; 
     if (file) {
@@ -117,6 +122,7 @@ export default function Page() {
         <p><span className="font-semibold">Address 2:</span> {address2}</p>
         <p><span className="font-semibold">City:</span> {city}</p>
         <p><span className="font-semibold">State:</span> {state}</p>
+        <p><span className="font-semibold">Zip Code:</span> {zipCode}</p>
       </div>
 
       <button
@@ -153,11 +159,12 @@ export default function Page() {
           { label: 'Address 2', value: address2, setter: setAddress2 },
           { label: 'City', value: city, setter: setCity },
           { label: 'State', value: state, setter: setState },
+          { label: 'Zip Code', value: zipCode, setter: setZipCode },
         ].map(({ label, value, setter }) => (
           <div key={label}>
             <label className="block text-sm font-semibold mb-1">{label}</label>
             <input
-              className="w-full p-2 rounded border border-gray-300 text-black"
+              className="w-full p-2 rounded border border-gray-300 text-white"
               value={value}
               onChange={(e) => setter(e.target.value)}
               placeholder={label}
@@ -168,7 +175,7 @@ export default function Page() {
 
       <button
         onClick={handleSave}
-        className="w-full bg-white hover:bg-gray-800 text-black font-semibold py-2 px-4 rounded mt-4"
+        className="w-full bg-white hover:bg-gray-200 text-black font-semibold py-2 px-4 rounded mt-4"
       >
         Save Changes
       </button>
@@ -207,6 +214,7 @@ export default function Page() {
         <p className="text-sm mb-2 text-wrap"><span className="font-bold">Address 2: </span>{address2}</p>
         <p className="text-sm mb-2 text-wrap"><span className="font-bold">City: </span>{city}</p>
         <p className="text-sm mb-2 text-wrap"><span className="font-bold">State: </span>{state}</p>
+        <p className="text-sm mb-2 text-wrap"><span className="font-bold">Zip Code: </span>{zipCode}</p>
 
         <button onClick={() => setEditing(true)} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
           Edit Profile
@@ -223,9 +231,32 @@ export default function Page() {
         onChange={handlePfpChange}
         />
         
-        <hr className="my-4 border-gray-600" />
+        <hr className="my-3 border-gray-600" />
 
         <div className="w-full mb-2">
+        {[
+          { label: 'First Name', value: fName, setter: setFName },
+          { label: 'Last Name', value: lName, setter: setLName },
+          { label: 'Email', value: email, setter: setEmail },
+          { label: 'Address 1', value: address1, setter: setAddress1 },
+          { label: 'Address 2', value: address2, setter: setAddress2 },
+          { label: 'City', value: city, setter: setCity },
+          { label: 'State', value: state, setter: setState },
+          { label: 'Zip Code', value: zipCode, setter: setZipCode },
+        ].map(({ label, value, setter }) => (
+          <div key={label}>
+            <label className="w-28 text-sm font-bold mr-2">{label}</label>
+            <input
+              className="w-full p-2 border"
+              value={value}
+              onChange={(e) => setter(e.target.value)}
+              placeholder={label}
+            />
+          </div>
+        ))}
+      </div>
+        
+        {/* <div className="w-full mb-2">
           <label className="w-28 text-sm font-bold mr-2" htmlFor="FName">First Name:</label>
           <input className="w-full p-2 border"
           value={fName}
@@ -280,7 +311,7 @@ export default function Page() {
           onChange={(e) => setState(e.target.value)}
           placeholder="State"
         />
-        </div>  
+        </div>   */}
         <button onClick={handleSave} className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded">
           Save Changes
         </button> 
@@ -298,7 +329,21 @@ export default function Page() {
         <section className="min-h-screen bg-white text-black p-6 rounded-md shadow">
           <h1 className="text-xl font-bold text-black">Account History</h1>
           <hr className="mb-4 border-gray-600" />
-          <div></div>
+          <div>
+
+            <ul>
+      {purchasedProducts.length === 0 ? (
+        <li>No purchases yet.</li>
+        
+      ) : (
+        purchasedProducts.map(product => (
+          <li key={product.productId} className="mb-2">
+            <span className="font-semibold">{product.productName}</span> - Qty: {product.selectedQuantity}
+          </li>
+        ))
+      )}
+    </ul>
+          </div>
 
         </section>
         </main>
