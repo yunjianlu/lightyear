@@ -2,7 +2,13 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies:
+
+```bash
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
@@ -19,6 +25,17 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Test database
+
+After creating a user account, a database should appear in the lightyear folder called lightyear.db
+
+You can test that users are being properly stored by running the following: 
+
+sqlite3 lightyear.db
+SELECT * FROM users;
+
+This will show the user that was created with salted and hashed passwords, created_at times, and session information.
 
 ## Learn More
 
