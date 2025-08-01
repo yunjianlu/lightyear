@@ -10,8 +10,18 @@ export async function GET() {
   const address2 = cookieStore.get('address2')?.value || '';
   const city = cookieStore.get('city')?.value || '';
   const state = cookieStore.get('state')?.value || '';
-
-  return Response.json({ name, email, address1, address2, city, state });
+  const zipCode = cookieStore.get('zipCode')?.value || '';
+  const purchasedProductsRaw = cookieStore.get('purchasedProducts')?.value || '[]';
+  let purchasedProducts;
+try {
+  purchasedProducts = JSON.parse(decodeURIComponent(purchasedProductsRaw));
+  if (!Array.isArray(purchasedProducts)) purchasedProducts = [];
+  console.log('purchasedProducts:', purchasedProducts, typeof purchasedProducts);
+} catch {
+  purchasedProducts = [];
+}
+  //const purchasedProducts = JSON.parse(decodeURIComponent(purchasedProductsRaw));
+  return Response.json({ name, email, address1, address2, city, state, zipCode, purchasedProducts });
 }
 
 export async function POST(req) {
@@ -43,6 +53,15 @@ export async function POST(req) {
     'Set-Cookie',
     `state=${data.state}; Path=/; HttpOnly`
   );
+  response.headers.append(
+    'Set-Cookie',
+    `zipCode=${data.zipCode}; Path=/; HttpOnly`
+  );
+  response.headers.append(
+    'Set-Cookie',
+    `purchasedProducts=${encodeURIComponent(JSON.stringify(data.purchasedProducts))}; Path=/; HttpOnly`
+  );
+  console.log('API POST purchasedProducts:', data.purchasedProducts);
   response.headers.append(
     'Set-Cookie',
     `pfp=${data.pfp}; Path=/; HttpOnly`
