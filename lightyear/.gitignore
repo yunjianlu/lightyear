@@ -36,6 +36,8 @@ yarn-error.log*
 # database
 *.sqlite
 *.db
+*.db-wal
+*.db-shm
 
 # vercel
 .vercel
