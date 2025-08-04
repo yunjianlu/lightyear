@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "../../contexts/CartContext";
+import { useEffect } from "react";
 import Layout from "../../components/Layout";
 import Image from "next/image";
 
@@ -9,12 +10,15 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, getCartTotal, clearCart } = useCart();
 
+  console.log('cartItems:', cartItems);
+
   // Form state
   const [formData, setFormData] = useState({
     email: "",
     firstName: "",
     lastName: "",
-    address: "",
+    address1: "",
+    address2: "",
     city: "",
     state: "",
     zipCode: "",
@@ -26,11 +30,75 @@ export default function CheckoutPage() {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch("/api/session");
+        if (!response.ok) {
+          throw new Error("Failed to fetch session");
+        }
+
+      const data = await response.json();
+
+      let firstName = "";
+      let lastName = "";
+
+      if (data.name) {
+        const [first = "", ...rest] = data.name.split(" ");
+        firstName = first;
+        lastName = rest.join(" ");  
+      }
+      
+    setFormData((prev) => ({
+
+        ...prev,
+        ...data,
+        firstName,
+        lastName,
+        email: data.email || "",
+        address1: data.address1 || "",
+        address2: data.address2 || "",
+        city: data.city || "",
+        state: data.state || "",
+        zipCode: data.zipCode || "",
+    }));
+  } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    };
+
+    fetchSession();
+  }, []);
+
   // Calculate totals
   const subtotal = getCartTotal();
   const tax = subtotal * 0.08; // 8% tax
   const shipping = subtotal > 100 ? 0 : 15; // Free shipping over $100
   const total = subtotal + tax + shipping;
+
+  const validateForm = () => {
+    const errors = [];
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      errors.push("Invalid email address"); 
+    }
+
+    if (formData.cardNumber.length !== 16 || isNaN(formData.cardNumber)) {
+      errors.push("Card number must be 16 digits");
+    }
+
+    if (formData.cvv.length !== 3 || isNaN(formData.cvv)) {
+      errors.push("CVV must be 3 digits");
+    }
+
+    if (!formData.expiryDate.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
+      errors.push("Expiry date must be in MM/YY format");
+    
+  }
+
+    return errors;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +110,27 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const errors = validateForm();
+
+     if (errors.length > 0) {
+      alert(errors.join("\n"));
+      return;
+    }
+
     setIsProcessing(true);
+
+    await fetch("/api/session", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        purchasedProducts: cartItems,
+        ...formData
+      })
+    });
+
 
     // Simulate payment processing
     setTimeout(() => {
@@ -50,7 +138,7 @@ export default function CheckoutPage() {
       clearCart();
       router.push("/");
       setIsProcessing(false);
-    }, 2000);
+    }, 4000);
   };
 
   // Redirect if cart is empty
@@ -178,16 +266,33 @@ export default function CheckoutPage() {
                     </div>
                     <div className="sm:col-span-2">
                       <label
-                        htmlFor="address"
+                        htmlFor="address1"
                         className="block text-sm font-medium text-gray-700"
                       >
-                        Address
+                        Address 1
                       </label>
                       <input
                         type="text"
-                        id="address"
-                        name="address"
-                        value={formData.address}
+                        id="address1"
+                        name="address1"
+                        value={formData.address1}
+                        onChange={handleInputChange}
+                        required
+                        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 p-3"
+                      />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label
+                        htmlFor="address2"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Address 2
+                      </label>
+                      <input
+                        type="text"
+                        id="address2"
+                        name="address2"
+                        value={formData.address2}
                         onChange={handleInputChange}
                         required
                         className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 p-3"

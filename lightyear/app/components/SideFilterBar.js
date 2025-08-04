@@ -43,13 +43,13 @@ export default function SideFilterBar() {
   // Filter content
   const filterContent = (
     <div className="p-4">
-      <h2 className="text-lg font-bold mb-4" style={{ color: "#0a0a0a" }}>Filters</h2>
+      <h2 className="text-lg font-bold text-black mb-4">Filters</h2>
 
       {/* Category Filter - allows filtering by product type */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Category</label>
+        <label className="block text-black font-medium mb-1">Category</label>
         <select
-          className="w-full border rounded px-2 py-1"
+          className="w-full border rounded px-2 py-1 text-black"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
         >
@@ -62,7 +62,7 @@ export default function SideFilterBar() {
 
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Price Range: ${price}</label>
+        <label className="block text-black font-medium mb-1">Price Range: ${price}</label>
         <input
           type="range"
           min="0"
@@ -75,9 +75,9 @@ export default function SideFilterBar() {
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label className="block font-medium mb-1">Minimum Rating</label>
+        <label className="block font-medium mb-1 text-black">Minimum Rating</label>
         <select
-          className="w-full border rounded px-2 py-1"
+          className="w-full text-black border rounded px-2 py-1"
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         >
@@ -92,8 +92,8 @@ export default function SideFilterBar() {
 
       {/* Stock Availability Filter - checkbox options for stock status */}
       <div className="mb-4">
-        <label className="block font-medium mb-1" style={{color: "#0a0a0a"}}>Availability</label>
-        <div className="space-y-2">
+        <label className="block text-black font-medium mb-1">Availability</label>
+        <div className="space-y-2 text-black">
           <label className="flex items-center">
             <input
               type="checkbox"
