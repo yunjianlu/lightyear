@@ -62,7 +62,7 @@ export default function ProductPage() {
                 src={
                   product.productImage
                     ? product.productImage
-                    : "/images/products/lightsaber-blue.png"
+                    : "/lightyear/images/products/lightsaber-blue.png"
                 }
                 alt={product.productName}
                 width={400}

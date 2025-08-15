@@ -501,13 +501,75 @@ function ProductDetails() {
               <Image
                 src={
                   products[productArrayPosition].productImage ||
-                  "/images/products/lightsaber-blue.png"
+                  "/lightyear/images/products/lightsaber-blue.png"
                 }
                 alt={products[productArrayPosition].productName}
                 width={400}
                 height={192}
                 className="w-full object-contain rounded m-4 mx-auto p-2"
               />
+<<<<<<< HEAD
+=======
+            </svg>
+            Go Back
+          </button>
+        </div>
+
+        <div className="p-8 grid grid-cols-1 md:grid-cols-3 md:gap-2 grid-flow-row md:grid-flow-col md:grid-rows-[min-content_min-content] h-min">
+          <div id="leftScrollStick" className="row-span-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 grid-rows-[8rem_minmax(15rem,32rem)_auto_auto_auto] sm:grid-rows-[8rem_minmax(15rem,32rem)_auto_auto] md:grid-rows-[8rem_minmax(15rem,26rem)_auto_auto] bg-white mb-2">
+              <div className="col-span-1 sm:col-span-3 flex justify-center items-center">
+                <h1
+                  className={
+                    products[productArrayPosition].productName.length > 19
+                      ? "wrap-normal text-wrap text-4xl md:text-5xl text-center"
+                      : "wrap-normal text-wrap text-5xl md:text-6xl text-center"
+                  }
+                >
+                  {products[productArrayPosition].productName
+                    ? products[productArrayPosition].productName
+                    : "Unknown Name"}
+                </h1>
+              </div>
+              <div className="col-span-1 sm:col-span-3 flex">
+                <Image
+                  src={
+                    products[productArrayPosition].productImage
+                      ? products[productArrayPosition].productImage
+                      : "/lightyear/images/products/lightsaber-blue.png"
+                  }
+                  alt={products[productArrayPosition].productName}
+                  width={400}
+                  height={192}
+                  className="w-full object-contain rounded m-4 mx-auto p-2"
+                />
+              </div>
+              <div className="col-span-1 sm:row-span-1 flex justify-center items-center whitespace-pre-wrap">
+                <p>
+                  {products[productArrayPosition].starRating
+                    ? products[productArrayPosition].starRating +
+                      " " +
+                      starRatingString +
+                      `(${products[productArrayPosition].numberOfReviews}) reviews`
+                    : "Unknown Rating"}
+                </p>
+              </div>
+
+              <div className="col-span-1 sm:row-span-1 flex justify-center items-center">
+                <p>
+                  Price: $
+                  {products[productArrayPosition].price
+                    ? products[productArrayPosition].price
+                    : "Unknown Rating"}
+                </p>
+              </div>
+              <div className="col-span-1 sm:row-span-1 flex justify-center items-center">
+                <p>Buy</p>
+              </div>
+              <div className="col-span-1 sm:col-span-3 flex justify-center items-center p-4">
+                <AddToCartButton product={products[productArrayPosition]} />
+              </div>
+>>>>>>> b18ae76bd2dedebe17f1f81c430281c9c3cc23c3
             </div>
             <div className="col-span-1 sm:row-span-1 flex justify-center items-center whitespace-pre-wrap">
               <p>
