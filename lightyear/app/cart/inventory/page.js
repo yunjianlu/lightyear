@@ -155,7 +155,7 @@ export default function CartInventoryPage() {
                     <Image
                       src={
                         product.productImage ||
-                        "/images/products/lightsaber-blue.png"
+                        "/lightyear/images/products/lightsaber-blue.png"
                       }
                       alt={product.productName}
                       width={300}

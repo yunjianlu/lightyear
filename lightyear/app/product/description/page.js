@@ -84,7 +84,7 @@ export default function DetailedProductPage() {
                   src={
                     products[productArrayPosition].productImage
                       ? products[productArrayPosition].productImage
-                      : "/images/products/lightsaber-blue.png"
+                      : "/lightyear/images/products/lightsaber-blue.png"
                   }
                   alt={products[productArrayPosition].productName}
                   width={400}

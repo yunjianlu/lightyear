@@ -21,9 +21,9 @@ export const metadata = {
   title: "Lightyear",
   description: "Lightyear - Your Star Wars merchandise store",
   icons: {
-    icon: "/images/light-year-logo.png",
-    shortcut: "/images/light-year-logo.png",
-    apple: "/images/light-year-logo.png",
+    icon: "/lightyear/images/light-year-logo.png",
+    shortcut: "/lightyear/images/light-year-logo.png",
+    apple: "/lightyear/images/light-year-logo.png",
   },
 };
 
