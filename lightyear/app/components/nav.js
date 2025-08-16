@@ -38,7 +38,7 @@ export default function Nav() {
   };
   return (
     <nav className="bg-gray-800 fixed top-0 left-0 w-full z-50 shadow">
-      <div className="flex flex-wrap justify-between items-center px-4 py-4 gap-y-2">
+      <div className="flex flex-wrap justify-stretch md:items-center px-4 py-4 gap-y-2">
         <div className="flex items-center space-x-2 flex-shrink-0">
           <Image
             src="/lightyear/images/light-year-logo.png"
@@ -47,11 +47,11 @@ export default function Nav() {
             height={48}
             className="rounded"
           />
-          <span className="text-white text-lg font-bold whitespace-nowrap">
+          <span className="text-white text-lg font-bold whitespace-nowrap hidden md:inline">
             Lightyear
           </span>
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 ml-4 mr-4">
+        <div className="flex flex-wrap items-center items-end gap-x-4 gap-y-2 ml-auto">
           <ul className="flex flex-wrap gap-x-4 gap-y-2 justify-end">
             {/* Home navigation link - returns to main landing page */}
             <li>
@@ -89,7 +89,7 @@ export default function Nav() {
             <li>
               <Link href="/product">
                 <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap">
-                  Product Details
+                  Details
                 </button>
               </Link>
             </li>
@@ -107,6 +107,8 @@ export default function Nav() {
               </Link>
             </li>
           </ul>
+        </div>
+        <div className="flex justify-center w-full md:w-fit">
           <form
             className="flex items-center gap-x-2 ml-16 md:ml-4"
             onSubmit={(e) => e.preventDefault()}
