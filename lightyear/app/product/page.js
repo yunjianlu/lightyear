@@ -6,6 +6,7 @@ import Layout from "../components/Layout";
 // import { products } from "./mockData";
 import { products } from "./mockData";
 import Image from "next/image";
+import SideFilterBar from "../components/SideFilterBar";
 
 import { useSearchParams } from "next/navigation";
 
@@ -51,6 +52,10 @@ export default function ProductPage() {
 
   return (
     <Layout>
+      {/* Sidebar container: holds the filter bar, takes 1/4 or 1/5 width on md/lg */}
+      {/* <div className=" md:w-1/4 lg:w-1/5 bg-white">
+        <SideFilterBar />
+      </div> */}
       <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
         {filteredProducts.map((product) => (
           <div

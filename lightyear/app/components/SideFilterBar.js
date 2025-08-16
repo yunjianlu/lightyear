@@ -145,10 +145,10 @@ export default function SideFilterBar() {
     <>
       {/* Mobile: Show button */}
       <button
-        className="block md:hidden fixed top-20 left-2 z-50 bg-red-700 text-white px-3 py-2 rounded shadow text-sm"
+        className="block md:hidden fixed mt-10 left-2 z-50 bg-red-700 text-white px-3 py-2 rounded shadow text-sm"
         onClick={() => setOpen(true)}
       >
-        Filter
+        Filters
       </button>
 
       {/* Mobile: Drawer/modal */}
@@ -175,7 +175,7 @@ export default function SideFilterBar() {
 
       {/* Desktop: Sticky sidebar */}
       <aside
-        className="hidden md:block md:sticky md:top-20 md:h-[calc(100vh-5rem)] bg-white shadow-md md:p-4 md:w-1/4 lg:w-1/5 z-40"
+        className="hidden md:block md:sticky md:top-20 md:h-[calc(100vh-5rem)] bg-white shadow-md md:p-4"
         style={{ minWidth: 200 }}
       >
         {filterContent}
