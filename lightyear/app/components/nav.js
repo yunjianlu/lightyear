@@ -93,6 +93,11 @@ export default function Nav() {
                 </button>
               </Link>
             </li>
+            <li>
+              <Link href="/about" className="text-gray-300 hover:text-white">
+                About
+              </Link>
+            </li>
           </ul>
           <form
             className="flex items-center w-full md:w-auto mt-2 md:mt-0"
