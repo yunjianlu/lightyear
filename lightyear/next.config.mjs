@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
 
-const nextConfig = {
-  basePath: "/lightyear",
-};
+const nextConfig = {};
 export default nextConfig;
