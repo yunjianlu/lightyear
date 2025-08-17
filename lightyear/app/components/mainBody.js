@@ -37,7 +37,7 @@ export default function LandingBody() {
               src={
                 product.productImage
                   ? product.productImage
-                  : "/lightyear/images/products/lightsaber-blue.png"
+                  : "/images/products/lightsaber-blue.png"
               }
               alt={product.productName}
               width={400}
