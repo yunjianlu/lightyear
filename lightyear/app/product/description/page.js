@@ -1,6 +1,3 @@
-// Need to change title text so it resizes based on text length. Most likely requires either changing the div size based on text length or changing the text size based on length. One requires CSS, the other JavaScript.
-// It'd be cool to add x number of stars to the rating based on the actual rating. Requires a JavaScript function.
-
 "use client";
 
 import Layout from "../../components/Layout";
