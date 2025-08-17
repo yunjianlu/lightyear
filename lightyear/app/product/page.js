@@ -71,18 +71,19 @@ function ProductList() {
             />
           </Link>
           <Link href={`/product/description?id=${product.productId}`}>
-            <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
+            <h3 className="text-xl font-bold mb-2 text-gray-900">
+              {product.productName}
+            </h3>
           </Link>
 
-
-          <p className="text-gray-600 mb-2">{product.productDescription}</p>
-          <div className="text-sm text-gray-500 mb-2">
+          <p className="text-gray-800 mb-2">{product.productDescription}</p>
+          <div className="text-sm text-gray-800 mb-2">
             Vendor: {product.vendor}
           </div>
-          <div className="text-sm text-gray-500 mb-2">
+          <div className="text-sm text-gray-800 mb-2">
             Price: ${product.price}
           </div>
-          <div className="text-sm text-gray-500 mb-2">
+          <div className="text-sm text-gray-800 mb-2">
             Stock:{" "}
             {product.quantityInStock > 0 ? (
               <>
