@@ -37,7 +37,7 @@ export default function Nav() {
     }
   };
   return (
-    <nav className="bg-gray-800 fixed top-0 left-0 w-full z-50 shadow">
+    <nav className="bg-gray-800 fixed left-0 w-full z-50 shadow block">
       <div className="flex flex-wrap justify-stretch md:items-center px-4 py-4 gap-y-2">
         <div className="flex items-center space-x-2 flex-shrink-0">
           <Image
