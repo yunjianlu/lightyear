@@ -41,7 +41,7 @@ export default function Nav() {
       <div className="flex flex-wrap justify-stretch md:items-center px-4 py-4 gap-y-2">
         <div className="flex items-center space-x-2 flex-shrink-0">
           <Image
-            src="/lightyear/images/light-year-logo.png"
+            src="/images/light-year-logo.png"
             alt="Lightyear Logo"
             width={48}
             height={48}

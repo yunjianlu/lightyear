@@ -1,6 +1,3 @@
-// Need to change title text so it resizes based on text length. Most likely requires either changing the div size based on text length or changing the text size based on length. One requires CSS, the other JavaScript.
-// It'd be cool to add x number of stars to the rating based on the actual rating. Requires a JavaScript function.
-
 "use client";
 
 import Layout from "../../components/Layout";
@@ -9,7 +6,9 @@ import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function DetailedProductPage() {
+import { Suspense } from "react";
+
+function DescriptionContent() {
   const router = useRouter();
   const productIdParam = useSearchParams().get("id");
   let productArrayPosition = undefined;
@@ -26,20 +25,22 @@ export default function DetailedProductPage() {
       productArrayPosition = productPositionCounter;
       break;
     }
-
     productPositionCounter++;
   }
 
-  starRatingCount = Math.floor(products[productArrayPosition].starRating);
+  starRatingCount =
+    productArrayPosition !== undefined
+      ? Math.floor(products[productArrayPosition].starRating)
+      : 0;
   for (let i = 0; i < starRatingCount; i++) {
     starRatingString += "⭐";
   }
   starRatingString += "\n";
 
   if (productArrayPosition != undefined) {
+    const product = products[productArrayPosition];
     return (
       <Layout>
-        {/* Go Back Button */}
         <div className="p-4 pt-20 sm:pt-4">
           <button
             onClick={() => router.back()}
@@ -69,85 +70,72 @@ export default function DetailedProductPage() {
               <div className="col-span-1 sm:col-span-3 flex justify-center items-center">
                 <h1
                   className={
-                    products[productArrayPosition].productName.length > 19
+                    (product.productName.length > 19
                       ? "wrap-normal text-wrap text-4xl md:text-5xl text-center"
-                      : "wrap-normal text-wrap text-5xl md:text-6xl text-center"
+                      : "wrap-normal text-wrap text-5xl md:text-6xl text-center") +
+                    " text-gray-900"
                   }
                 >
-                  {products[productArrayPosition].productName
-                    ? products[productArrayPosition].productName
-                    : "Unknown Name"}
+                  {product.productName || "Unknown Name"}
                 </h1>
               </div>
               <div className="col-span-1 sm:col-span-3 flex">
                 <Image
                   src={
-                    products[productArrayPosition].productImage
-                      ? products[productArrayPosition].productImage
-                      : "/lightyear/images/products/lightsaber-blue.png"
+                    product.productImage ||
+                    "/images/products/lightsaber-blue.png"
                   }
-                  alt={products[productArrayPosition].productName}
+                  alt={product.productName}
                   width={400}
                   height={192}
                   className="w-full object-contain rounded m-4 mx-auto p-2"
                 />
               </div>
               <div className="col-span-1 sm:row-span-1 flex justify-center items-center whitespace-pre-wrap">
-                <p>
-                  {products[productArrayPosition].starRating
-                    ? products[productArrayPosition].starRating +
+                <p className="text-gray-800">
+                  {product.starRating
+                    ? product.starRating +
                       " " +
                       starRatingString +
-                      `(${products[productArrayPosition].numberOfReviews}) reviews`
-                    : "Unknown Rating"}
-                </p>
-              </div>
-
-              <div className="col-span-1 sm:row-span-1 flex justify-center items-center">
-                <p>
-                  Price: $
-                  {products[productArrayPosition].price
-                    ? products[productArrayPosition].price
+                      `(${product.numberOfReviews}) reviews`
                     : "Unknown Rating"}
                 </p>
               </div>
               <div className="col-span-1 sm:row-span-1 flex justify-center items-center">
-                <p>Buy</p>
+                <p className="text-gray-800">
+                  Price: ${product.price || "Unknown Rating"}
+                </p>
+              </div>
+              <div className="col-span-1 sm:row-span-1 flex justify-center items-center">
+                <p className="text-gray-800">Buy</p>
               </div>
               <div className="col-span-1 sm:col-span-3 flex justify-center items-center p-4">
-                <AddToCartButton product={products[productArrayPosition]} />
+                <AddToCartButton product={product} />
               </div>
             </div>
 
             <div className="grid grid-cols-2 grid-flow-row bg-black gap-y-0.25 auto-rows-min h-min mb-2 md:mb-0">
               <div className="col-span-2 bg-white flex items-center justify-center">
-                <h1 className="text-2xl m-2">Statistics</h1>
+                <h1 className="text-2xl m-2 text-gray-900">Statistics</h1>
               </div>
-
-              <h2 className="bg-white pl-2">Quantity In Stock</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Quantity In Stock</h2>
+              <div className="flex justify-center bg-white">
+                <p className="m-auto">{product.quantityInStock || 0}</p>
+              </div>
+              <h2 className="bg-white pl-2 text-gray-800">
+                Frequently Returned
+              </h2>
               <div className="flex justify-center bg-white">
                 <p className="m-auto">
-                  {products[productArrayPosition].quantityInStock
-                    ? products[productArrayPosition].quantityInStock
-                    : 0}
+                  {product.frequentlyReturned ? "Yes" : "No"}
                 </p>
               </div>
-
-              <h2 className="bg-white pl-2">Frequently Returned</h2>
+              <h2 className="bg-white pl-2 text-gray-800">
+                Times Ordered in Past Month
+              </h2>
               <div className="flex justify-center bg-white">
                 <p className="m-auto">
-                  {products[productArrayPosition].frequentlyReturned
-                    ? "Yes"
-                    : "No"}
-                </p>
-              </div>
-
-              <h2 className="bg-white pl-2">Times Ordered in Past Month</h2>
-              <div className="flex justify-center bg-white">
-                <p className="m-auto">
-                  {products[productArrayPosition].orderedQuantityPastMonth
-                    ? products[productArrayPosition].orderedQuantityPastMonth
-                    : 0}
+                  {product.orderedQuantityPastMonth || 0}
                 </p>
               </div>
             </div>
@@ -158,115 +146,66 @@ export default function DetailedProductPage() {
             className="row-span-2 md:grid-cols-2 md:col-span-2 grid md:gap-2"
           >
             <div className="flex bg-white min-h-40 flex-col md:col-span-2 mb-2 md:mb-0 items-center">
-              <h1 className="text-2xl col-span-2 bg-white">Description</h1>
-              <p className="mx-2 self-start">
-                {products[productArrayPosition].productDescription
-                  ? products[productArrayPosition].productDescription
-                  : "No description available"}
+              <h1 className="text-2xl col-span-2 bg-white text-gray-900">
+                Description
+              </h1>
+              <p className="mx-2 self-start text-gray-800">
+                {product.productDescription || "No description available"}
               </p>
             </div>
-
             <div className="grid grid-flow-row bg-black grid-cols-2 gap-y-0.25 auto-rows-min h-min mb-2 md:mb-0 md:col-span-1">
               <div className="col-span-2 bg-white flex items-center justify-center">
-                <h1 className="text-2xl m-2">Specifications</h1>
+                <h1 className="text-2xl m-2 text-gray-900">Specifications</h1>
               </div>
-
-              <h2 className="bg-white pl-2">Product ID</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Product ID</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productId
-                    ? products[productArrayPosition].productId
-                    : "No product ID available"}
-                </p>
+                <p>{product.productId || "No product ID available"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Vendor</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Vendor</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].vendor
-                    ? products[productArrayPosition].vendor
-                    : "Unknown"}
-                </p>
+                <p>{product.vendor || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Dimensions</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Dimensions</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.dimensions
-                    ? products[productArrayPosition].productDetails.dimensions
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.dimensions || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Color</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Color</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.color
-                    ? products[productArrayPosition].productDetails.color
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.color || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Material</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Material</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.material
-                    ? products[productArrayPosition].productDetails.material
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.material || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Weight</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Weight</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.weight
-                    ? products[productArrayPosition].productDetails.weight
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.weight || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Place of Origin</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Place of Origin</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.originLocation
-                    ? products[productArrayPosition].productDetails
-                        .originLocation
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.originLocation || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Batteries Included</h2>
+              <h2 className="bg-white pl-2 text-gray-800">
+                Batteries Included
+              </h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails
-                    .batteriesIncluded
-                    ? products[productArrayPosition].productDetails
-                        .batteriesIncluded
-                    : "Unknown"}
-                </p>
+                <p>{product.productDetails?.batteriesIncluded || "Unknown"}</p>
               </div>
-
-              <h2 className="bg-white pl-2">Grogu Approved?</h2>
+              <h2 className="bg-white pl-2 text-gray-800">Grogu Approved?</h2>
               <div className="flex justify-center bg-white">
-                <p>
-                  {products[productArrayPosition].productDetails.groguApproved
-                    ? products[productArrayPosition].productDetails
-                        .groguApproved
-                    : "No"}
-                </p>
+                <p>{product.productDetails?.groguApproved ? "Yes" : "No"}</p>
               </div>
             </div>
-
             <div className="flex bg-white min-h-18 flex-col h-min md:col-span-1 flex-wrap">
-              <h1 className="text-2xl bg-white mx-auto mt-2">Tags</h1>
+              <h1 className="text-2xl bg-white mx-auto mt-2 text-gray-900">
+                Tags
+              </h1>
               <div className="flex flex-row flex-wrap px-1 py-1">
-                {products[productArrayPosition].tags.map((tag) => {
-                  return (
-                    <div className="m-1 p-1 bg-blue-400" key={tag}>
-                      <p>{tag}</p>
-                    </div>
-                  );
-                })}
+                {product.tags.map((tag) => (
+                  <div className="m-1 p-1 bg-blue-400" key={tag}>
+                    <p>{tag}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -274,6 +213,21 @@ export default function DetailedProductPage() {
       </Layout>
     );
   } else {
-    return <p>hi</p>;
+    return (
+      <Layout>
+        <div className="p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Product not found</h2>
+          <p>The product you are looking for does not exist.</p>
+        </div>
+      </Layout>
+    );
   }
+}
+
+export default function DetailedProductPage() {
+  return (
+    <Suspense>
+      <DescriptionContent />
+    </Suspense>
+  );
 }
