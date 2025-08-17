@@ -11,7 +11,7 @@ export default function Layout({ children }) {
       <Nav />
 
       {/*  Your content body area or children */}
-      <main className="flex-1 pt-20">
+      <main className="flex-1 pt-20 md:pt-15">
         {children} {/* This is where each page's content will be displayed */}
         {/* In your <LoginPage /> component , you should return:
           <Layout> 

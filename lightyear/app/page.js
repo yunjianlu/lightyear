@@ -11,24 +11,22 @@ import SideFilterBar from "./components/SideFilterBar";
 // flex flex-col: lays out children vertically (column direction)
 export default function Page() {
   return (
-    <div className="min-h-screen flex flex-col pt-20">
+    <div className="min-h-screen flex flex-col bg-[url(/images/about/largerNightSky_pic.png)]">
       {/* pt-20 offsets for fixed navbar height */}
       {/* Main vertical layout container */}
-      <div id="headerDiv">
         <Nav />
-      </div>
       {/* Main content area: flex row for sidebar and main content */}
-      <div className="flex flex-1 w-full">
+      <div className="flex w-full mt-20 md:mt-12">
         {/* Sidebar container: holds the filter bar, takes 1/4 or 1/5 width on md/lg */}
         <div className=" md:w-1/4 lg:w-1/5 bg-white">
           <SideFilterBar />
         </div>
         {/* Main content container: holds the landing body, takes remaining width */}
-        <div className="w-full md:w-3/4 lg:w-4/5 bg-red-800">
+        <div className="w-full md:w-3/4 lg:w-4/5 bg-[url(/images/about/largerNightSky_pic.png)]">
           <LandingBody />
         </div>
       </div>
-      <div id="footerDiv" className="p-4">
+      <div id="footerDiv">
         <Footer />
       </div>
     </div>
