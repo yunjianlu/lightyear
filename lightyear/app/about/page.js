@@ -5,11 +5,11 @@ import Layout from "../components/Layout";
 export default function LightyearBackground() {
   return (
     <Layout>
-    <main className="mx-auto bg-[url(/lightyear/images/about/largerNightSky_pic.png)]">
+    <main className="mx-auto bg-[url(/images/about/largerNightSky_pic.png)]">
         <div className="flex flex-col md:grid md:grid-cols-1 md:grid-rows-[h-min_h-min]">
             <div className="flex h-screen justify-center text-center items-center md:col-span-full">
                 <video autoPlay preload="metadata" muted loop disablePictureInPicture disableRemotePlayback playsInline className="object-cover absolute min-h-full min-w-full w-auto h-auto">
-                    <source src="/lightyear/images/about/astronautInSpaceWaterLoopSmaller.mp4" type="video/mp4" />
+                    <source src="/images/about/astronautInSpaceWaterLoopSmaller.mp4" type="video/mp4" />
                     
                 </video>
                 <h1 className="text-4xl md:text-9xl font-bold mb-6 absolute text-white">About Lightyear</h1>
@@ -20,7 +20,7 @@ export default function LightyearBackground() {
                     <div className="md:col-span-2 flex md:items-center 3xl:pl-10">
                         <Image
                             src={
-                                "/lightyear/images/about/sci-fi_warehouse_pic.png"
+                                "/images/about/sci-fi_warehouse_pic.png"
                             }
                             alt={"lightyear warehouse example"}
                             width={400}
@@ -45,7 +45,7 @@ export default function LightyearBackground() {
                     <div className="md:col-span-2 flex md:items-center md:order-last 3xl:pr-10">
                         <Image
                             src={
-                                "/lightyear/images/about/sci-fi_cargoShipTravelingThroughNebula_pic.png"
+                                "/images/about/sci-fi_cargoShipTravelingThroughNebula_pic.png"
                             }
                             alt={"lightyear cargo ship example"}
                             width={400}
@@ -73,7 +73,7 @@ export default function LightyearBackground() {
                     <div className="md:col-span-2 flex md:items-center 3xl:pl-10">
                         <Image
                             src={
-                                "/lightyear/images/about/sci-fi_cargoShipUnloadingLoad_pic.png"
+                                "/images/about/sci-fi_cargoShipUnloadingLoad_pic.png"
                             }
                             alt={"lightyear cargo ship example"}
                             width={400}
@@ -99,7 +99,7 @@ export default function LightyearBackground() {
                     <div className="md:col-span-2 flex md:items-center md:order-last 3xl:pr-10">
                         <Image
                             src={
-                                "/lightyear/images/about/sci-fi_items5_pic.png"
+                                "/images/about/sci-fi_items5_pic.png"
                             }
                             alt={"lightyear item selection example"}
                             width={400}
@@ -128,7 +128,7 @@ export default function LightyearBackground() {
                     <div className="md:col-span-2 flex md:items-center 3xl:pl-10">
                         <Image
                             src={
-                                "/lightyear/images/about/sci-fi_team_pic.png"
+                                "/images/about/sci-fi_team_pic.png"
                             }
                             alt={"lightyear team pic"}
                             width={400}

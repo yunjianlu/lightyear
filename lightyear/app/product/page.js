@@ -56,7 +56,7 @@ export default function ProductPage() {
       {/* <div className=" md:w-1/4 lg:w-1/5 bg-white">
         <SideFilterBar />
       </div> */}
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row bg-[url(/lightyear/images/about/largerNightSky_pic.png)]">
+      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row bg-[url(/images/about/largerNightSky_pic.png)]">
         {filteredProducts.map((product) => (
           <div
             key={product.productId}
