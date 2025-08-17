@@ -74,6 +74,7 @@ function ProductList() {
             <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
           </Link>
 
+
           <p className="text-gray-600 mb-2">{product.productDescription}</p>
           <div className="text-sm text-gray-500 mb-2">
             Vendor: {product.vendor}
