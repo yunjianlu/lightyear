@@ -37,6 +37,7 @@ export default function RootLayout({ children }) {
       <head></head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
         <CartProvider>
           {children} {/* This is where root page.js content goes */}
