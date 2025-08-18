@@ -42,7 +42,8 @@ export default function LandingBody() {
               alt={product.productName}
               width={400}
               height={192}
-              className="w-full h-48 object-contain mb-4 rounded"
+              className="w-full object-contain mb-4 rounded"
+              style={{ height: "auto" }}
             />
             <h3 className="text-xl font-bold mb-2 hover:text-blue-600">
               {product.productName}
