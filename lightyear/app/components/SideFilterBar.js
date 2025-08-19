@@ -97,7 +97,7 @@ export default function SideFilterBar({
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
         <label className="block text-black font-medium mb-1">
-          Price Range: ${price}
+          Max Price: ${price}
         </label>
         <input
           type="range"
