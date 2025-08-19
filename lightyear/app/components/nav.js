@@ -46,6 +46,7 @@ export default function Nav() {
             width={48}
             height={48}
             className="rounded"
+            unoptimized
           />
           <span className="text-white text-lg font-bold whitespace-nowrap hidden md:inline">
             Lightyear
@@ -108,9 +109,21 @@ export default function Nav() {
             </li>
           </ul>
         </div>
-        <div className="flex justify-center w-full md:w-fit">
+        {/* Second row for mobile with filter button on left and search on right */}
+        <div className="flex items-center justify-between w-full md:w-fit">
+          {/* Filter button for mobile - positioned under logo */}
+          <button
+            type="button"
+            className="block md:hidden px-3 py-1 bg-red-700 text-white rounded hover:bg-red-800 text-sm whitespace-nowrap"
+            onClick={() => {
+              // Dispatch custom event to trigger filter
+              window.dispatchEvent(new CustomEvent("toggleFilters"));
+            }}
+          >
+            Filters
+          </button>
           <form
-            className="flex items-center gap-x-2 ml-16 md:ml-4"
+            className="flex items-center gap-x-2 ml-auto md:ml-4"
             onSubmit={(e) => e.preventDefault()}
           >
             {/* Product search input - allows users to search for specific products */}

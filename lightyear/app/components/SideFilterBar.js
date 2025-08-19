@@ -37,8 +37,9 @@ export default function SideFilterBar({
   initialInStock = false,
   initialOutOfStock = false,
 
+  showMobileButton = true,
+  onFilterToggle,
 }) {
-
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -57,6 +58,21 @@ export default function SideFilterBar({
     setInStock(initialInStock);
     setOutOfStock(initialOutOfStock);
   }, [initialCategory, initialPrice, initialRating, initialInStock, initialOutOfStock]);
+
+  // Effect to handle external toggle from nav
+  useEffect(() => {
+    if (onFilterToggle) {
+      onFilterToggle(() => setOpen(true));
+    }
+
+    // Listen for toggle event from nav
+    const handleToggle = () => setOpen(true);
+    window.addEventListener("toggleFilters", handleToggle);
+
+    return () => {
+      window.removeEventListener("toggleFilters", handleToggle);
+    };
+  }, [onFilterToggle]);
 
   // Filter content
   const filterContent = (
@@ -80,7 +96,9 @@ export default function SideFilterBar({
 
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
-        <label className="block text-black font-medium mb-1">Price Range: ${price}</label>
+        <label className="block text-black font-medium mb-1">
+          Price Range: ${price}
+        </label>
         <input
           type="range"
           min="0"
@@ -93,7 +111,9 @@ export default function SideFilterBar({
 
       {/* Rating Filter - minimum star rating threshold */}
       <div className="mb-2">
-        <label className="block font-medium mb-1 text-black">Minimum Rating</label>
+        <label className="block font-medium mb-1 text-black">
+          Minimum Rating
+        </label>
         <select
           className="w-full text-black border rounded px-2 py-1"
           value={rating}
@@ -110,7 +130,9 @@ export default function SideFilterBar({
 
       {/* Stock Availability Filter - checkbox options for stock status */}
       <div className="mb-4">
-        <label className="block text-black font-medium mb-1">Availability</label>
+        <label className="block text-black font-medium mb-1">
+          Availability
+        </label>
         <div className="space-y-2 text-black">
           <label className="flex items-center">
             <input
@@ -161,13 +183,15 @@ export default function SideFilterBar({
 
   return (
     <>
-      {/* Mobile: Show button */}
-      <button
-        className="block md:hidden fixed mt-10 left-2 z-50 bg-red-700 text-white px-3 py-2 rounded shadow text-sm"
-        onClick={() => setOpen(true)}
-      >
-        Filters
-      </button>
+      {/* Mobile: Show button - hidden since it's now in nav */}
+      {false && showMobileButton && (
+        <button
+          className="block md:hidden fixed top-20 left-2 z-40 bg-red-700 text-white px-3 py-2 rounded shadow text-sm"
+          onClick={() => setOpen(true)}
+        >
+          Filters
+        </button>
+      )}
 
       {/* Mobile: Drawer/modal */}
       {open && (
