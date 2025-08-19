@@ -25,20 +25,38 @@
  */
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 // SideFilterBar component for filtering products
-export default function SideFilterBar() {
+export default function SideFilterBar({
+
+  initialCategory = "All",
+  initialPrice = 0,
+  initialRating = "0",
+  initialInStock = false,
+  initialOutOfStock = false,
+
+}) {
+
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
 
-  const [category, setCategory] = useState("All");
-  const [price, setPrice] = useState(0);
-  const [rating, setRating] = useState("0");
-  const [inStock, setInStock] = useState(false);
-  const [outOfStock, setOutOfStock] = useState(false);
+  const [category, setCategory] = useState(initialCategory);
+  const [price, setPrice] = useState(initialPrice);
+  const [rating, setRating] = useState(initialRating);
+  const [inStock, setInStock] = useState(initialInStock);
+  const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
+
+  // Apply syncs with refreshes/back button
+  useEffect(() => {
+    setCategory(initialCategory);
+    setPrice(initialPrice);
+    setRating(initialRating);
+    setInStock(initialInStock);
+    setOutOfStock(initialOutOfStock);
+  }, [initialCategory, initialPrice, initialRating, initialInStock, initialOutOfStock]);
 
   // Filter content
   const filterContent = (
