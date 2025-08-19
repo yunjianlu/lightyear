@@ -1,6 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./contexts/CartContext";
+import ChatWidget from "./components/ChatWidget";
 
 // Root layout.js: Next.js App Router root layout
 // - Applies to ALL pages automatically
@@ -41,6 +42,7 @@ export default function RootLayout({ children }) {
       >
         <CartProvider>
           {children} {/* This is where root page.js content goes */}
+          <ChatWidget />
         </CartProvider>
       </body>
     </html>
