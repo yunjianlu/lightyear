@@ -30,6 +30,13 @@ import { useRouter } from "next/navigation";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar({
+
+  initialCategory = "All",
+  initialPrice = 0,
+  initialRating = "0",
+  initialInStock = false,
+  initialOutOfStock = false,
+
   showMobileButton = true,
   onFilterToggle,
 }) {
@@ -37,11 +44,20 @@ export default function SideFilterBar({
 
   const router = useRouter();
 
-  const [category, setCategory] = useState("All");
-  const [price, setPrice] = useState(0);
-  const [rating, setRating] = useState("0");
-  const [inStock, setInStock] = useState(false);
-  const [outOfStock, setOutOfStock] = useState(false);
+  const [category, setCategory] = useState(initialCategory);
+  const [price, setPrice] = useState(initialPrice);
+  const [rating, setRating] = useState(initialRating);
+  const [inStock, setInStock] = useState(initialInStock);
+  const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
+
+  // Apply syncs with refreshes/back button
+  useEffect(() => {
+    setCategory(initialCategory);
+    setPrice(initialPrice);
+    setRating(initialRating);
+    setInStock(initialInStock);
+    setOutOfStock(initialOutOfStock);
+  }, [initialCategory, initialPrice, initialRating, initialInStock, initialOutOfStock]);
 
   // Effect to handle external toggle from nav
   useEffect(() => {
@@ -81,7 +97,7 @@ export default function SideFilterBar({
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
         <label className="block text-black font-medium mb-1">
-          Price Range: ${price}
+          Max Price: ${price}
         </label>
         <input
           type="range"

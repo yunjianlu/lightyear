@@ -51,7 +51,18 @@ function ProductList() {
   });
 
   return (
+
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
+      
+          <div className="md:w-1/4 lg:w-1/5 bg-white">
+      <SideFilterBar 
+        initialCategory={category}
+        initialPrice={price}
+        initialRating={rating}
+        initialInStock={inStock}
+        initialOutOfStock={outOfStock}
+        />
+      </div>
       {filteredProducts.map((product) => (
         <div
           key={product.productId}
