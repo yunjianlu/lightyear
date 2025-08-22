@@ -169,8 +169,8 @@ export default function ChatWidget() {
             width: chatWindowState.width,
             height: chatWindowState.height,
           }}
-          minWidth={280}
-          minHeight={300}
+          minWidth={180}
+          minHeight={160}
           bounds="window"
           enableResizing={{
             bottom: true,
