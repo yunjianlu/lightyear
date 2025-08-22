@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { products } from "../product/mockData";
+import { Rnd } from "react-rnd";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,6 +13,12 @@ export default function ChatWidget() {
   ]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [chatWindowState, setChatWindowState] = useState({
+    x: 20,
+    y: 100,
+    width: 320,
+    height: 384,
+  });
 
   const handleSendMessage = async (messageText = null) => {
     const textToSend = messageText || inputValue;
@@ -156,111 +163,145 @@ export default function ChatWidget() {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="fixed bottom-20 left-4 z-50 w-80 h-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-t-lg">
-            <h3 className="font-semibold flex items-center gap-2">
-              🤖 C-3PO Assistant
-            </h3>
-            <p className="text-xs opacity-90">Star Wars Merchandise Expert</p>
-          </div>
-
-          {/* Quick Suggestions */}
-          <div className="p-2 bg-gray-50 border-b border-gray-200">
-            <p className="text-xs text-gray-600 mb-1">Quick suggestions:</p>
-            <div className="flex flex-wrap gap-1">
-              {[
-                "Lightsabers",
-                "Grogu plush",
-                "Under $100",
-                "Weapons",
-                "In stock",
-              ].map((suggestion) => (
-                <button
-                  key={suggestion}
-                  onClick={() =>
-                    !isLoading &&
-                    handleSendMessage(`Show me ${suggestion.toLowerCase()}`)
-                  }
-                  disabled={isLoading}
-                  className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-                >
-                  {suggestion}
-                </button>
-              ))}
+        <Rnd
+          position={{ x: chatWindowState.x, y: chatWindowState.y }}
+          size={{
+            width: chatWindowState.width,
+            height: chatWindowState.height,
+          }}
+          minWidth={280}
+          minHeight={300}
+          bounds="window"
+          enableResizing={{
+            bottom: true,
+            right: true,
+            bottomRight: true,
+            top: true,
+            left: true,
+            topLeft: true,
+            topRight: true,
+            bottomLeft: true,
+          }}
+          className="z-50"
+          dragHandleClassName="chat-header"
+          onDragStop={(e, d) =>
+            setChatWindowState((prev) => ({ ...prev, x: d.x, y: d.y }))
+          }
+          onResizeStop={(e, direction, ref, delta, position) => {
+            setChatWindowState({
+              x: position.x,
+              y: position.y,
+              width: ref.offsetWidth,
+              height: ref.offsetHeight,
+            });
+          }}
+        >
+          <div className="w-full h-full bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col">
+            {/* Header */}
+            <div className="chat-header bg-gradient-to-r from-blue-600 to-purple-600 text-white p-3 rounded-t-lg cursor-move">
+              <h3 className="font-semibold flex items-center gap-2">
+                🤖 C-3PO Assistant
+              </h3>
+              <p className="text-xs opacity-90">Star Wars Merchandise Expert</p>
             </div>
-          </div>
 
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {messages.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.type === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
+            {/* Quick Suggestions */}
+            <div className="p-2 bg-gray-50 border-b border-gray-200">
+              <p className="text-xs text-gray-600 mb-1">Quick suggestions:</p>
+              <div className="flex flex-wrap gap-1">
+                {[
+                  "Lightsabers",
+                  "Grogu plush",
+                  "Under $100",
+                  "Weapons",
+                  "In stock",
+                ].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    onClick={() =>
+                      !isLoading &&
+                      handleSendMessage(`Show me ${suggestion.toLowerCase()}`)
+                    }
+                    disabled={isLoading}
+                    className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-xs hover:bg-blue-200 transition-colors disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-2">
+              {messages.map((message, index) => (
                 <div
-                  className={`max-w-xs p-2 rounded-lg text-sm whitespace-pre-line ${
-                    message.type === "user"
-                      ? "bg-blue-600 text-white rounded-br-none"
-                      : "bg-gray-100 text-gray-800 rounded-bl-none"
+                  key={index}
+                  className={`flex ${
+                    message.type === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
-                  {message.text}
-                </div>
-              </div>
-            ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 text-gray-800 rounded-lg rounded-bl-none p-2 text-sm">
-                  <div className="flex items-center space-x-1">
-                    <div className="flex space-x-1">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div
-                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                        style={{ animationDelay: "0.1s" }}
-                      ></div>
-                      <div
-                        className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-                        style={{ animationDelay: "0.2s" }}
-                      ></div>
-                    </div>
-                    <span className="text-xs text-gray-500 ml-2">
-                      C-3PO is thinking...
-                    </span>
+                  <div
+                    className={`max-w-xs p-2 rounded-lg text-sm whitespace-pre-line ${
+                      message.type === "user"
+                        ? "bg-blue-600 text-white rounded-br-none"
+                        : "bg-gray-100 text-gray-800 rounded-bl-none"
+                    }`}
+                  >
+                    {message.text}
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-gray-100 text-gray-800 rounded-lg rounded-bl-none p-2 text-sm">
+                    <div className="flex items-center space-x-1">
+                      <div className="flex space-x-1">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                          style={{ animationDelay: "0.1s" }}
+                        ></div>
+                        <div
+                          className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                          style={{ animationDelay: "0.2s" }}
+                        ></div>
+                      </div>
+                      <span className="text-xs text-gray-500 ml-2">
+                        C-3PO is thinking...
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
-          {/* Input */}
-          <div className="p-3 border-t border-gray-200">
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={(e) =>
-                  e.key === "Enter" && !isLoading && handleSendMessage()
-                }
-                placeholder={
-                  isLoading ? "C-3PO is thinking..." : "Ask about products..."
-                }
-                disabled={isLoading}
-                className="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
-              />
-              <button
-                onClick={() => handleSendMessage()}
-                disabled={isLoading}
-                className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                {isLoading ? "..." : "Send"}
-              </button>
+            {/* Input */}
+            <div className="p-3 border-t border-gray-200">
+              <div className="flex space-x-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && !isLoading && handleSendMessage()
+                  }
+                  placeholder={
+                    isLoading ? "C-3PO is thinking..." : "Ask about products..."
+                  }
+                  disabled={isLoading}
+                  className="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                />
+                <button
+                  onClick={() => handleSendMessage()}
+                  disabled={isLoading}
+                  className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                  {isLoading ? "..." : "Send"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </Rnd>
       )}
     </>
   );
