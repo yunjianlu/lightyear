@@ -16,56 +16,65 @@
  * Layout: Works with SideFilterBar in a flex layout structure
  */
 import AddToCartButton from "./addToCartButton";
-import { products } from "../product/mockData";
+//import { products } from "../product/mockData";
 import Link from "next/link";
 import Image from "next/image";
+import { queryMongoDatabase } from "../queryMongoDB";
+import { parseJsonFile } from "next/dist/build/load-jsconfig";
 
-export default function LandingBody() {
+export default async function LandingBody() {
+  let products = await queryMongoDatabase({}); 
   return (
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {products.map((product) => (
+      {products.map((product) => 
+      {
+        product._id = product._id.toString();
+        return (
         <div
-          key={product.productId}
+          key={product.productMainInfo.productID.$numberInt}
           className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
         >
           {/* Clickable product image and title that navigate to product details */}
           <Link
-            href={`/product/description?id=${product.productId}`}
+            href={`/product/description?id=${product.productMainInfo.productID.$numberInt}`}
             className="block hover:scale-105 transition-transform duration-200"
           >
             <Image
               src={
-                product.productImage
-                  ? product.productImage
+                product.productMainInfo.productImage
+                  ? `/${product.productMainInfo.productImage}`
                   : "/images/products/lightsaber-blue.png"
               }
-              alt={product.productName}
+              alt={product.productMainInfo.productName}
               width={400}
               height={192}
               className="w-full object-contain mb-4 rounded"
               style={{ height: "auto" }}
             />
             <h3 className="text-xl font-bold mb-2 hover:text-blue-600">
-              {product.productName}
+              {product.productMainInfo.productName}
             </h3>
           </Link>
           {/* Product description text */}
-          <p className="text-gray-600 mb-2">{product.productDescription}</p>
+          <p className="text-gray-600 mb-2">{product.productMainInfo.productDescription}</p>
           {/* Vendor information display */}
           <div className="text-sm text-gray-500 mb-2">
-            Vendor: {product.vendor}
+            Vendor: {product.productMainInfo.vendorName}
           </div>
           {/* Product price display */}
           <div className="text-sm text-gray-500 mb-2">
-            Price: ${product.price}
+            Price: ${product.productMainInfo.price.$numberDouble}
           </div>
           {/* Stock quantity with Add to Cart button or out-of-stock message */}
           <div className="text-sm text-gray-500 mb-2">
             Stock:{" "}
-            {product.quantityInStock > 0 ? (
+            {product.productStats.ordersPastMonth.$numberInt > 0 ? (
               <>
-                {product.quantityInStock}
+                {product.productStats.ordersPastMonth.$numberInt}
                 <div className="mt-2">
+                  {console.log("printing stupid product")}
+                  {console.log(product)}
+                  {console.log((product))}
                   <AddToCartButton product={product} />
                 </div>
               </>
@@ -78,7 +87,7 @@ export default function LandingBody() {
             <span className="text-sm text-gray-600 mr-2">Rating:</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => {
-                const rating = parseFloat(product.starRating);
+                const rating = "3.3" //parseFloat(product.productMainInfo.starRaing.$numberInt);
                 const difference = rating - star;
 
                 if (difference >= 0) {
@@ -126,7 +135,7 @@ export default function LandingBody() {
                 }
               })}
               <span className="text-sm text-gray-600 ml-2">
-                {product.starRating} ({product.numberOfReviews} reviews)
+                {product.productMainInfo.starRating.$numberInt} ({product.productStats.ordersPastMonth.$numberInt} reviews)
               </span>
             </div>
           </div>
@@ -140,7 +149,7 @@ export default function LandingBody() {
             Top Review: &quot;{product.topReview}&quot;
           </div> */}
         </div>
-      ))}
+      )})}
     </div>
   );
 }
