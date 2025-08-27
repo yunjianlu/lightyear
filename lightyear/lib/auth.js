@@ -5,6 +5,11 @@ import { getDatabase } from './database';
 
 // Environment-based JWT secret configuration
 const getJwtSecret = () => {
+  // During build time, return a temporary secret to avoid build failures
+  if (process.env.NODE_ENV === undefined || process.env.NEXT_PHASE === 'phase-production-build') {
+    return 'build-time-temporary-secret-' + crypto.randomBytes(16).toString('hex');
+  }
+  
   if (process.env.NODE_ENV === 'production') {
     // Production: strict requirement for JWT secret
     if (!process.env.JWT_SECRET) {
@@ -14,7 +19,7 @@ const getJwtSecret = () => {
       throw new Error('JWT_SECRET must be at least 32 characters long in production');
     }
     return process.env.JWT_SECRET;
-    } else {
+  } else {
     // Development: helpful defaults with warnings
     if(!process.env.JWT_SECRET) {
       console.warn('DEVELOPMENT MODE: Using auto-generated JWT secret');
@@ -26,11 +31,18 @@ const getJwtSecret = () => {
   }
 };
 
-const JWT_SECRET = getJwtSecret();
+// Lazy initialization of JWT_SECRET to avoid build-time issues
+let JWT_SECRET = null;
+const getSecret = () => {
+  if (JWT_SECRET === null) {
+    JWT_SECRET = getJwtSecret();
+  }
+  return JWT_SECRET;
+};
 
 export function verifyToken(token) {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, getSecret());
   } catch (error) {
     console.error('Token verification failed:', error);
     return null;
@@ -38,7 +50,7 @@ export function verifyToken(token) {
 }
 
 export function generateToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: '24h' });
+  return jwt.sign(payload, getSecret(), { expiresIn: '24h' });
 }
 
 // Middleware function to protect routes
@@ -141,5 +153,6 @@ export function validateEmail(email) {
     const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegEx.test(email) ? true : "Please enter a valid email address";
 }
+
 
 

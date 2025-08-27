@@ -8,6 +8,13 @@ First, install dependencies:
 npm install
 ```
 
+Then, run the setup script to create your environment file:
+```bash
+npm run setup
+```
+
+This will create a .env.local file with a secure JWT secret for authentication.
+
 Then, run the development server:
 
 ```bash
@@ -26,9 +33,29 @@ You can start editing the page by modifying `app/page.js`. The page auto-updates
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Environment Variables
+
+The setup script automatically creates a .env.local file with:
+
+JWT_SECRET: Used for authentication token signing
+NODE_ENV: Set to development
+
+Note: .env.local is ignored by git for security. Each team member gets their own unique secrets.
+
+## Authentication System
+
+This project includes a custom authentication system with:
+
+* User registration and login
+* Password hashing with bcrypt
+* JWT token-based authentication
+* SQLite database for user storage
+* HTTP-only cookies for security
+
+
 ## Test database
 
-After creating a user account, a database should appear in the lightyear folder called lightyear.db
+After creating a user account, a database will appear in the project root called lightyear.db
 
 You can look at the DB schema:
 ``` bash
