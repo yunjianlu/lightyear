@@ -38,8 +38,8 @@ export default function Nav() {
   };
   return (
     <nav className="bg-gray-800 fixed left-0 w-full z-50 shadow block">
-      <div className="flex flex-wrap justify-center md:justify-stretch md:items-center px-4 py-4 gap-y-2">
-        <div className="flex justify-center items-center space-x-2 flex-shrink-0 mx-2">
+      <div className="flex flex-wrap justify-stretch md:items-center px-4 py-4 gap-y-2">
+        <div className="flex items-center space-x-2 flex-shrink-0">
           <Image
             src="/images/light-year-logo.png"
             alt="Lightyear Logo"
@@ -48,11 +48,11 @@ export default function Nav() {
             className="rounded"
             unoptimized
           />
-          <span className="text-white text-lg font-bold whitespace-nowrap md:inline">
+          <span className="text-white text-lg font-bold whitespace-nowrap hidden md:inline">
             Lightyear
           </span>
         </div>
-        <div className="flex flex-wrap items-center md:items-end gap-x-4 gap-y-2 md:ml-auto md:mr-2">
+        <div className="flex flex-wrap items-center items-end gap-x-4 gap-y-2 ml-auto">
           <ul className="flex flex-wrap gap-x-4 gap-y-2 justify-end">
             {/* Home navigation link - returns to main landing page */}
             <li>
@@ -110,7 +110,7 @@ export default function Nav() {
           </ul>
         </div>
         {/* Second row for mobile with filter button on left and search on right */}
-        <div className="flex items-center justify-left w-full md:w-fit md:ml-2">
+        <div className="flex items-center justify-between w-full md:w-fit">
           {/* Filter button for mobile - positioned under logo */}
           <button
             type="button"
@@ -123,7 +123,7 @@ export default function Nav() {
             Filters
           </button>
           <form
-            className="flex items-center gap-x-2 md:ml-auto w-full ml-2"
+            className="flex items-center gap-x-2 ml-auto md:ml-4"
             onSubmit={(e) => e.preventDefault()}
           >
             {/* Product search input - allows users to search for specific products */}
@@ -132,7 +132,7 @@ export default function Nav() {
               placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"
-              style={{ minWidth: 20 }}
+              style={{ minWidth: 60 }}
             />
             {/* Search submit button - executes product search */}
             <button

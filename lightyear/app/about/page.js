@@ -1,8 +1,6 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import Layout from "../components/Layout";
-
 
 export default function LightyearBackground() {
   return (

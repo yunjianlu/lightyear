@@ -2,9 +2,6 @@ import Nav from "./components/nav";
 import LandingBody from "./components/mainBody";
 import Footer from "./components/footer";
 import SideFilterBar from "./components/SideFilterBar";
-import { MongoClient } from "mongodb";
-import Layout from "./components/Layout";
-const assert = require('assert');
 
 // This is the main entry point for the Lightyear application
 // It sets up the main layout with a navigation bar, side filter bar, main content area
@@ -13,41 +10,25 @@ const assert = require('assert');
 // min-h-screen: ensures the page takes at least the full viewport height
 // flex flex-col: lays out children vertically (column direction)
 export default function Page() {
-  // const pubDBURL = '';
-  
-
-  // const client = new MongoClient(pubDBURL);
-
-  // client.connect(function(err) {
-  //   assert.equal(null, err);
-  //   console.log("Connected to db");
-
-  //   const productDB = client.db('dbNameHere');
-
-  //   client.close();
-  // });
-
-  // Store DB Connection to the website's state
-
-  // https://mongodb.github.io/node-mongodb-native/3.6/quick-start/quick-start/
-  // https://www.mongodb.com/docs/manual/tutorial/query-array-of-documents/
-
   return (
     <div className="min-h-screen flex flex-col bg-[url(/images/about/largerNightSky_pic.png)]">
       {/* pt-20 offsets for fixed navbar height */}
-      <Layout>
+      {/* Main vertical layout container */}
+        <Nav />
       {/* Main content area: flex row for sidebar and main content */}
-      <div className="flex w-full mt-12 md:mt-0">
+      <div className="flex w-full mt-20 md:mt-12">
         {/* Sidebar container: holds the filter bar, takes 1/4 or 1/5 width on md/lg */}
         <div className=" md:w-1/4 lg:w-1/5 bg-white">
-          <SideFilterBar productFilteringValues />
+          <SideFilterBar />
         </div>
         {/* Main content container: holds the landing body, takes remaining width */}
         <div className="w-full md:w-3/4 lg:w-4/5 bg-[url(/images/about/largerNightSky_pic.png)]">
           <LandingBody />
         </div>
       </div>
-      </Layout>
+      <div id="footerDiv">
+        <Footer />
+      </div>
     </div>
   );
 }
