@@ -2,7 +2,9 @@
 
 A modern, responsive e-commerce web application built with Next.js through collaborative team development, featuring Star Wars merchandise.
 
+
 **🚀 Live Demo:** [https://lightyear-web-app.vercel.app](https://lightyear-web-app.vercel.app)
+
 
 ## 👥 Our Collaborative Team
 
@@ -16,6 +18,7 @@ A modern, responsive e-commerce web application built with Next.js through colla
 **Team Philosophy:** 🤝 Collaborative Development • 🔄 Agile Methodology • 📝 Code Reviews
 
 ## 🎯 Project Overview
+
 
 **Key Features:**
 
