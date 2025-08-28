@@ -10,7 +10,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cartItems, getCartTotal, clearCart } = useCart();
 
-  console.log('cartItems:', cartItems);
+  console.log("cartItems:", cartItems);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -38,31 +38,30 @@ export default function CheckoutPage() {
           throw new Error("Failed to fetch session");
         }
 
-      const data = await response.json();
+        const data = await response.json();
 
-      let firstName = "";
-      let lastName = "";
+        let firstName = "";
+        let lastName = "";
 
-      if (data.name) {
-        const [first = "", ...rest] = data.name.split(" ");
-        firstName = first;
-        lastName = rest.join(" ");  
-      }
-      
-    setFormData((prev) => ({
+        if (data.name) {
+          const [first = "", ...rest] = data.name.split(" ");
+          firstName = first;
+          lastName = rest.join(" ");
+        }
 
-        ...prev,
-        ...data,
-        firstName,
-        lastName,
-        email: data.email || "",
-        address1: data.address1 || "",
-        address2: data.address2 || "",
-        city: data.city || "",
-        state: data.state || "",
-        zipCode: data.zipCode || "",
-    }));
-  } catch (error) {
+        setFormData((prev) => ({
+          ...prev,
+          ...data,
+          firstName,
+          lastName,
+          email: data.email || "",
+          address1: data.address1 || "",
+          address2: data.address2 || "",
+          city: data.city || "",
+          state: data.state || "",
+          zipCode: data.zipCode || "",
+        }));
+      } catch (error) {
         console.error("Error fetching session:", error);
       }
     };
@@ -81,7 +80,7 @@ export default function CheckoutPage() {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      errors.push("Invalid email address"); 
+      errors.push("Invalid email address");
     }
 
     if (formData.cardNumber.length !== 16 || isNaN(formData.cardNumber)) {
@@ -94,8 +93,7 @@ export default function CheckoutPage() {
 
     if (!formData.expiryDate.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
       errors.push("Expiry date must be in MM/YY format");
-    
-  }
+    }
 
     return errors;
   };
@@ -113,7 +111,7 @@ export default function CheckoutPage() {
 
     const errors = validateForm();
 
-     if (errors.length > 0) {
+    if (errors.length > 0) {
       alert(errors.join("\n"));
       return;
     }
@@ -127,10 +125,9 @@ export default function CheckoutPage() {
       },
       body: JSON.stringify({
         purchasedProducts: cartItems,
-        ...formData
-      })
+        ...formData,
+      }),
     });
-
 
     // Simulate payment processing
     setTimeout(() => {
@@ -449,7 +446,7 @@ export default function CheckoutPage() {
                         <Image
                           src={
                             item.productImage ||
-                            "/images/products/lightsaber-blue.png"
+                            "/lightyear/images/products/lightsaber-blue.png"
                           }
                           alt={item.productName}
                           width={64}

@@ -135,7 +135,7 @@ export default function AuthPage() {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center min-h-full">
+      <div className="flex items-center justify-center min-h-screen bg-[url(/images/about/largerNightSky_pic.png)]">
         <div className="login-container">
           <h2 className="login-title">
             {isLogin ? "Login" : "Create Account"}

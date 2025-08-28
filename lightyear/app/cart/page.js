@@ -100,7 +100,7 @@ export default function CartPage() {
                             <Image
                               src={
                                 item.productImage ||
-                                "/images/products/lightsaber-blue.png"
+                                "/lightyear/images/products/lightsaber-blue.png"
                               }
                               alt={item.productName}
                               width={96}

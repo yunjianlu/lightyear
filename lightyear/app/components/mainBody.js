@@ -7,20 +7,25 @@
  * - Product cards with hover effects and interactive elements
  * - Clickable product images and titles that link to individual product pages
  * - Product information display (name, description, vendor, price, stock, rating)
- * - Integrated AddToCartButton for in-stock items
- * - Out-of-stock handling with visual indicators
- * - Optimized images using Next.js Image component
- *
- * Data Source: Imports product data from ../product/mockData
- * Used in: Home page (/) as the main content area
- * Layout: Works with SideFilterBar in a flex layout structure
+ * Data Source: Fetched from /api/products using SWR
  */
+"use client";
 import AddToCartButton from "./addToCartButton";
-import { products } from "../product/mockData";
+import useSWR from "swr/immutable";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function LandingBody() {
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR("/api/products", fetcher);
+
+  if (isLoading) return <div>Loading products...</div>;
+  if (error) return <div>Error loading products.</div>;
+
   return (
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {products.map((product) => (
@@ -42,23 +47,20 @@ export default function LandingBody() {
               alt={product.productName}
               width={400}
               height={192}
-              className="w-full h-48 object-contain mb-4 rounded"
+              className="w-full object-contain mb-4 rounded"
+              style={{ height: "auto" }}
             />
             <h3 className="text-xl font-bold mb-2 hover:text-blue-600">
               {product.productName}
             </h3>
           </Link>
-          {/* Product description text */}
           <p className="text-gray-600 mb-2">{product.productDescription}</p>
-          {/* Vendor information display */}
           <div className="text-sm text-gray-500 mb-2">
             Vendor: {product.vendor}
           </div>
-          {/* Product price display */}
           <div className="text-sm text-gray-500 mb-2">
             Price: ${product.price}
           </div>
-          {/* Stock quantity with Add to Cart button or out-of-stock message */}
           <div className="text-sm text-gray-500 mb-2">
             Stock:{" "}
             {product.quantityInStock > 0 ? (
@@ -72,16 +74,13 @@ export default function LandingBody() {
               <span className="font-bold text-red-400">Out of stock</span>
             )}
           </div>
-          {/* Dynamic star rating display with full, half, and empty stars */}
           <div className="flex items-center mb-2">
             <span className="text-sm text-gray-600 mr-2">Rating:</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => {
                 const rating = parseFloat(product.starRating);
                 const difference = rating - star;
-
                 if (difference >= 0) {
-                  // Full star
                   return (
                     <svg
                       key={star}
@@ -92,7 +91,6 @@ export default function LandingBody() {
                     </svg>
                   );
                 } else if (difference > -1) {
-                  // Half star
                   return (
                     <div key={star} className="relative w-4 h-4">
                       <svg
@@ -112,7 +110,6 @@ export default function LandingBody() {
                     </div>
                   );
                 } else {
-                  // Empty star
                   return (
                     <svg
                       key={star}
@@ -124,22 +121,23 @@ export default function LandingBody() {
                   );
                 }
               })}
-              <span className="text-sm text-gray-600 ml-2">
-                {product.starRating} ({product.numberOfReviews} reviews)
-              </span>
             </div>
+            <span className="ml-2 text-xs text-gray-500">
+              ({product.numberOfReviews} reviews)
+            </span>
           </div>
-          {/* <div className="text-xs text-gray-400 mb-2">
+          <div className="text-xs text-gray-400 mb-2">
             Tags: {product.tags.join(", ")}
-          </div> */}
-          {/* <div className="text-xs text-gray-400 mb-2">
+          </div>
+          <div className="text-xs text-gray-400 mb-2">
             Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
           </div>
           <div className="text-xs text-gray-400 mb-2">
             Top Review: &quot;{product.topReview}&quot;
-          </div> */}
+          </div>
         </div>
       ))}
+      {products.length === 0 && <p>No products found.</p>}
     </div>
   );
 }

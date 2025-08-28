@@ -4,12 +4,14 @@ import Link from "next/link";
 import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
 // import { products } from "./mockData";
-import { products } from "./mockData";
 import Image from "next/image";
+import SideFilterBar from "../components/SideFilterBar";
+import useSWR from "swr/immutable";
 
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-export default function ProductPage() {
+function ProductList() {
   const searchParams = useSearchParams();
 
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
@@ -18,14 +20,25 @@ export default function ProductPage() {
   const rating = searchParams.get("rating") || "0";
   const inStock = searchParams.get("inStock") === "true";
   const outOfStock = searchParams.get("outOfStock") === "true";
-  // ? is optional chaining to handle null/undefined
+
+  // SWR setup
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR("/api/products", fetcher);
+
+  if (isLoading) return <div>Loading products...</div>;
+  if (error) return <div>Error loading products.</div>;
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       !searchTerm ||
-      product.productName.toLowerCase().includes(searchTerm) ||
-      product.productDescription.toLowerCase().includes(searchTerm) ||
-      product.tags.some((tag) => tag.toLowerCase().includes(searchTerm));
+      product.productName?.toLowerCase().includes(searchTerm) ||
+      product.productDescription?.toLowerCase().includes(searchTerm) ||
+      (product.tags &&
+        product.tags.some((tag) => tag.toLowerCase().includes(searchTerm)));
 
     const matchesCategory =
       !category || category === "All" || product.category === category;
@@ -50,67 +63,85 @@ export default function ProductPage() {
   });
 
   return (
-    <Layout>
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
-        {filteredProducts.map((product) => (
-          <div
-            key={product.productId}
-            className="bg-white rounded-lg shadow p-6 flex flex-col"
-          >
-            <Link href={`/product/description?id=${product.productId}`}>
-              <Image
-                src={
-                  product.productImage
-                    ? product.productImage
-                    : "/images/products/lightsaber-blue.png"
-                }
-                alt={product.productName}
-                width={400}
-                height={192}
-                className="w-full h-48 object-contain mb-4 rounded"
-              />
-            </Link>
-            <Link href={`/product/description?id=${product.productId}`}>
-              <h3 className="text-xl font-bold mb-2">{product.productName}</h3>
-            </Link>
-
-            <p className="text-gray-600 mb-2">{product.productDescription}</p>
-            <div className="text-sm text-gray-500 mb-2">
-              Vendor: {product.vendor}
-            </div>
-            <div className="text-sm text-gray-500 mb-2">
-              Price: ${product.price}
-            </div>
-            <div className="text-sm text-gray-500 mb-2">
-              Stock:{" "}
-              {product.quantityInStock > 0 ? (
-                <>
-                  {product.quantityInStock}
-                  <div className="mt-2">
-                    <AddToCartButton product={product} />
-                  </div>
-                </>
-              ) : (
-                <span className="font-bold text-red-400">Out of stock</span>
-              )}
-            </div>
-            <div className="text-yellow-500 mb-2">
-              Rating: {product.starRating} ⭐ ({product.numberOfReviews}{" "}
-              reviews)
-            </div>
-            <div className="text-xs text-gray-400 mb-2">
-              Tags: {product.tags.join(", ")}
-            </div>
-            <div className="text-xs text-gray-400 mb-2">
-              Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
-            </div>
-            <div className="text-xs text-gray-400 mb-2">
-              Top Review: &quot;{product.topReview}&quot;
-            </div>
-          </div>
-        ))}
-        {filteredProducts.length === 0 && <p>No products found.</p>}
+    <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
+      <div className="md:w-1/4 lg:w-1/5 bg-white">
+        <SideFilterBar
+          initialCategory={category}
+          initialPrice={price}
+          initialRating={rating}
+          initialInStock={inStock}
+          initialOutOfStock={outOfStock}
+        />
       </div>
+      {filteredProducts.map((product) => (
+        <div
+          key={product.productId}
+          className="bg-white rounded-lg shadow p-6 flex flex-col"
+        >
+          <Link href={`/product/description?id=${product.productId}`}>
+            <Image
+              src={
+                product.productImage
+                  ? product.productImage
+                  : "/lightyear/images/products/lightsaber-blue.png"
+              }
+              alt={product.productName}
+              width={400}
+              height={192}
+              className="w-full h-48 object-contain mb-4 rounded"
+            />
+          </Link>
+          <Link href={`/product/description?id=${product.productId}`}>
+            <h3 className="text-xl font-bold mb-2 text-gray-900">
+              {product.productName}
+            </h3>
+          </Link>
+
+          <p className="text-gray-800 mb-2">{product.productDescription}</p>
+          <div className="text-sm text-gray-800 mb-2">
+            Vendor: {product.vendor}
+          </div>
+          <div className="text-sm text-gray-800 mb-2">
+            Price: ${product.price}
+          </div>
+          <div className="text-sm text-gray-800 mb-2">
+            Stock:{" "}
+            {product.quantityInStock > 0 ? (
+              <>
+                {product.quantityInStock}
+                <div className="mt-2">
+                  <AddToCartButton product={product} />
+                </div>
+              </>
+            ) : (
+              <span className="font-bold text-red-400">Out of stock</span>
+            )}
+          </div>
+          <div className="text-yellow-500 mb-2">
+            Rating: {product.starRating} ⭐ ({product.numberOfReviews} reviews)
+          </div>
+          <div className="text-xs text-gray-400 mb-2">
+            Tags: {product.tags.join(", ")}
+          </div>
+          <div className="text-xs text-gray-400 mb-2">
+            Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
+          </div>
+          <div className="text-xs text-gray-400 mb-2">
+            Top Review: &quot;{product.topReview}&quot;
+          </div>
+        </div>
+      ))}
+      {filteredProducts.length === 0 && <p>No products found.</p>}
+    </div>
+  );
+}
+
+export default function ProductPage() {
+  return (
+    <Layout>
+      <Suspense>
+        <ProductList />
+      </Suspense>
     </Layout>
   );
 }

@@ -10,18 +10,21 @@
     "setup": "node scripts/setup-dev.js"
   },
   "dependencies": {
+    "mongodb": "^6.19.0",
+    "next": "15.4.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "next": "15.4.1",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "better-sqlite3": "^11.5.0"
+    "swr": "^2.3.6"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.4.1",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4"
   }
 }
