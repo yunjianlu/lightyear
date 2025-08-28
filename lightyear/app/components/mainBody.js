@@ -16,14 +16,18 @@
  * Layout: Works with SideFilterBar in a flex layout structure
  */
 import AddToCartButton from "./addToCartButton";
-import { products } from "../product/mockData";
+//import { products } from "../product/mockData";
 import Link from "next/link";
 import Image from "next/image";
+import { queryMongoDatabase } from "../queryMongoDB";
 
-export default function LandingBody() {
+export default async function LandingBody() {
+  let products = await queryMongoDatabase({}); 
   return (
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {products.map((product) => (
+      {products.map((product) => {
+        product._id = product._id.toString();
+        return (
         <div
           key={product.productId}
           className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
@@ -140,7 +144,7 @@ export default function LandingBody() {
             Top Review: &quot;{product.topReview}&quot;
           </div> */}
         </div>
-      ))}
+      )})}
     </div>
   );
 }
