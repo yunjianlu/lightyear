@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateEmail,
 } from "../../../lib/auth";
+export const runtime = "nodejs";
 
 // Initialize database on first run
 
