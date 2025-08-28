@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
 import Layout from "../../components/Layout";
-import { products } from "../../product/mockData";
+// import { products } from "../../product/mockData";
 import Image from "next/image";
 
 export default function CartInventoryPage() {

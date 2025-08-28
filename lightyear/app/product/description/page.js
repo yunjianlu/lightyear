@@ -1,16 +1,27 @@
 "use client";
 
 import Layout from "../../components/Layout";
-import { products } from "../mockData";
+// import { products } from "../mockData";
 import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
 import { useSearchParams, useRouter } from "next/navigation";
+import useSWR from "swr/immutable";
 
 import { Suspense } from "react";
 
 function DescriptionContent() {
   const router = useRouter();
   const productIdParam = useSearchParams().get("id");
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR("/api/products", fetcher);
+
+  if (isLoading) return <div>Loading product...</div>;
+  if (error) return <div>Error loading product.</div>;
+
   let productArrayPosition = undefined;
   let productPositionCounter = 0;
   let starRatingCount = 1;
