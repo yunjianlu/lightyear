@@ -22,13 +22,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart } from "../contexts/CartContext";
 
 export default function Nav() {
   const router = useRouter();
   const [search, setSearch] = useState("");
   const { getCartItemCount } = useCart();
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    fetch("/api/session")
+      .then((res) => res.json())
+      .then((data) => {
+        setUserName(data.name || data.firstName || "");
+      });
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -88,19 +97,34 @@ export default function Nav() {
             </li>
             {/* Product catalog link - browse all products */}
             <li>
-              <Link href="/product">
-                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap">
-                  Details
-                </button>
+              <Link
+                href="/product"
+                className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap"
+              >
+                Details
               </Link>
             </li>
             {/* User authentication link - login/logout functionality */}
             <li>
-              <Link href="/login">
-                <button className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap">
-                  Login
+              {userName ? (
+                <button
+                  className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap"
+                  onClick={async () => {
+                    await fetch("/api/auth", { method: "DELETE" });
+                    setUserName("");
+                    window.location.href = "/";
+                  }}
+                >
+                  Logout
                 </button>
-              </Link>
+              ) : (
+                <Link
+                  href="/login"
+                  className="text-gray-300 hover:text-white bg-transparent border-none cursor-pointer whitespace-nowrap"
+                >
+                  Login
+                </Link>
+              )}
             </li>
             <li>
               <Link href="/about" className="text-gray-300 hover:text-white">
@@ -145,6 +169,11 @@ export default function Nav() {
           </form>
         </div>
       </div>
+      {/* {userName && (
+        <div className="absolute right-4 top-2 text-white font-semibold">
+          Welcome, {userName}!
+        </div>
+      )} */}
     </nav>
   );
 }
