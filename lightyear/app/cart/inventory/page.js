@@ -4,11 +4,23 @@ import { useCart } from "../../contexts/CartContext";
 import Layout from "../../components/Layout";
 // import { products } from "../../product/mockData";
 import Image from "next/image";
+import useSWR from "swr/immutable";
 
 export default function CartInventoryPage() {
   const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all"); // all, inCart, notInCart
+
+  // Fetch products from API
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR("/api/products", fetcher);
+
+  if (isLoading) return <div>Loading products...</div>;
+  if (error) return <div>Error loading products.</div>;
 
   // Filter products based on search and filter type
   const filteredProducts = products.filter((product) => {
