@@ -4,9 +4,9 @@ import Link from "next/link";
 import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
 // import { products } from "./mockData";
-import { products } from "./mockData";
 import Image from "next/image";
 import SideFilterBar from "../components/SideFilterBar";
+import useSWR from "swr/immutable";
 
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -21,12 +21,24 @@ function ProductList() {
   const inStock = searchParams.get("inStock") === "true";
   const outOfStock = searchParams.get("outOfStock") === "true";
 
+  // SWR setup
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR("/api/products", fetcher);
+
+  if (isLoading) return <div>Loading products...</div>;
+  if (error) return <div>Error loading products.</div>;
+
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       !searchTerm ||
-      product.productName.toLowerCase().includes(searchTerm) ||
-      product.productDescription.toLowerCase().includes(searchTerm) ||
-      product.tags.some((tag) => tag.toLowerCase().includes(searchTerm));
+      product.productName?.toLowerCase().includes(searchTerm) ||
+      product.productDescription?.toLowerCase().includes(searchTerm) ||
+      (product.tags &&
+        product.tags.some((tag) => tag.toLowerCase().includes(searchTerm)));
 
     const matchesCategory =
       !category || category === "All" || product.category === category;
@@ -51,16 +63,14 @@ function ProductList() {
   });
 
   return (
-
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
-      
-          <div className="md:w-1/4 lg:w-1/5 bg-white">
-      <SideFilterBar 
-        initialCategory={category}
-        initialPrice={price}
-        initialRating={rating}
-        initialInStock={inStock}
-        initialOutOfStock={outOfStock}
+      <div className="md:w-1/4 lg:w-1/5 bg-white">
+        <SideFilterBar
+          initialCategory={category}
+          initialPrice={price}
+          initialRating={rating}
+          initialInStock={inStock}
+          initialOutOfStock={outOfStock}
         />
       </div>
       {filteredProducts.map((product) => (
@@ -135,4 +145,3 @@ export default function ProductPage() {
     </Layout>
   );
 }
-// ...existing code...
