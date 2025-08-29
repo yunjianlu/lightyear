@@ -17,7 +17,6 @@ export default function Page() {
       {/* pt-20 offsets for fixed navbar height */}
       {/* Main vertical layout container */}
       <Layout>
-        <Nav />
       {/* Main content area: flex row for sidebar and main content */}
         <div className="flex w-full mt-12 md:mt-0">
           {/* Sidebar container: holds the filter bar, takes 1/4 or 1/5 width on md/lg */}
