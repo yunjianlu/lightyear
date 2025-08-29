@@ -1,4 +1,5 @@
 // app/api/session/route.js
+export const runtime = "nodejs";
 
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { MongoClient } from "mongodb";
+export const runtime = "nodejs";
 
 const uri = process.env.MONGODB_URI;
 const dbName = "productsDB";
