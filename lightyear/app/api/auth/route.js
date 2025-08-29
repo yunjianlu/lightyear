@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { getDatabase, initializeDatabase } from "../../../lib/database";
+import { MongoClient } from "mongodb";
 import {
   generateToken,
   validatePassword,
@@ -11,7 +11,10 @@ export const runtime = "nodejs";
 // Initialize database on first run
 
 export async function POST(request) {
-  initializeDatabase();
+  // MongoDB connection
+  const uri = process.env.MONGODB_URI;
+  const dbName = "productsDB";
+  const collectionName = "users";
   try {
     const body = await request.json();
     const {
@@ -46,19 +49,19 @@ export async function POST(request) {
       );
     }
 
-    const db = getDatabase();
+    // Connect to MongoDB Atlas
+    const client = await MongoClient.connect(uri);
+    const db = client.db(dbName);
+    const users = db.collection(collectionName);
 
     if (action === "register") {
       // Registration logic
-      // Check if passwords match
       if (password !== confirmPassword) {
         return NextResponse.json(
           { success: false, message: "Passwords do not match" },
           { status: 400 }
         );
       }
-
-      // Validate password strength
       const passwordValid = validatePassword(password);
       if (!passwordValid.isValid) {
         return NextResponse.json(
@@ -66,51 +69,37 @@ export async function POST(request) {
           { status: 400 }
         );
       }
-
-      // Check if user already exists
-      const existingUser = db
-        .prepare("SELECT id FROM users WHERE email = ?")
-        .get(email.toLowerCase());
+      const existingUser = await users.findOne({ email: email.toLowerCase() });
       if (existingUser) {
         return NextResponse.json(
           { success: false, message: "User already exists" },
           { status: 400 }
         );
       }
-
-      // Hash password with salt
       const saltRounds = 12;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-      // Insert new user into database
-      const insertUser = db.prepare(`
-                INSERT INTO users (email, password_hash, first_name, last_name, phone_number, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-            `);
-
       try {
-        const result = insertUser.run(
-          email.toLowerCase(),
-          hashedPassword,
-          firstName.trim(),
-          lastName.trim(),
-          phoneNumber ? phoneNumber.trim() : null
-        );
-
-        // Generate JWT token
+        const result = await users.insertOne({
+          email: email.toLowerCase(),
+          password_hash: hashedPassword,
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          phone_number: phoneNumber ? phoneNumber.trim() : null,
+          created_at: new Date(),
+          updated_at: new Date(),
+          is_active: true,
+        });
         const token = generateToken({
-          userId: result.lastInsertRowid,
+          userId: result.insertedId,
           email: email.toLowerCase(),
           firstName: firstName.trim(),
           lastName: lastName.trim(),
         });
-
-        // Set HTTP-only cookie with token
         const response = NextResponse.json({
           success: true,
           message: "Account created successfully",
           user: {
-            id: result.lastInsertRowid,
+            id: result.insertedId,
             email: email.toLowerCase(),
             firstName: firstName.trim(),
             lastName: lastName.trim(),
@@ -125,7 +114,7 @@ export async function POST(request) {
         });
         return response;
       } catch (error) {
-        console.error("Database insert error:", error);
+        console.error("MongoDB insert error:", error);
         return NextResponse.json(
           { success: false, message: "Failed to create account" },
           { status: 500 }
@@ -133,27 +122,19 @@ export async function POST(request) {
       }
     } else if (action === "login") {
       // Login logic
-
-      // Find user by email
-      const user = db
-        .prepare("SELECT * FROM users WHERE email = ?")
-        .get(email.toLowerCase());
+      const user = await users.findOne({ email: email.toLowerCase() });
       if (!user) {
         return NextResponse.json(
           { success: false, message: "User not found" },
           { status: 404 }
         );
       }
-
-      // Check if account is active
       if (!user.is_active) {
         return NextResponse.json(
           { success: false, message: "Account is inactive" },
           { status: 403 }
         );
       }
-
-      // Verify password
       const isPasswordValid = await bcrypt.compare(
         password,
         user.password_hash
@@ -164,27 +145,21 @@ export async function POST(request) {
           { status: 401 }
         );
       }
-
-      // Update last login time
-      const updateLastLogin = db.prepare(
-        "UPDATE users SET last_login = datetime('now') WHERE id = ?"
+      await users.updateOne(
+        { _id: user._id },
+        { $set: { last_login: new Date() } }
       );
-      updateLastLogin.run(user.id);
-
-      // Generate JWT token
       const token = generateToken({
-        userId: user.id,
+        userId: user._id,
         email: user.email,
         firstName: user.first_name,
         lastName: user.last_name,
       });
-
-      // Set HTTP-only cookie with token
       const response = NextResponse.json({
         success: true,
         message: "Login successful",
         user: {
-          id: user.id,
+          id: user._id,
           email: user.email,
           firstName: user.first_name,
           lastName: user.last_name,
