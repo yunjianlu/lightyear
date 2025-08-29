@@ -27,7 +27,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useProductFilteringContext } from "../contexts/filteringContext";
+//import { useProductFilteringContext } from "../contexts/filteringContext";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar({
@@ -45,28 +45,28 @@ export default function SideFilterBar({
 
   const router = useRouter();
 
-  // const [category, setCategory] = useState(initialCategory);
-  // const [price, setPrice] = useState(initialPrice);
-  // const [rating, setRating] = useState(initialRating);
-  // const [inStock, setInStock] = useState(initialInStock);
-  // const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
+  const [category, setCategory] = useState(initialCategory);
+  const [price, setPrice] = useState(initialPrice);
+  const [rating, setRating] = useState(initialRating);
+  const [inStock, setInStock] = useState(initialInStock);
+  const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
 
-  const updateCategory = useProductFilteringContext().updateCategory();
-  const category = useProductFilteringContext().getCategory();
+  // const updateCategory = useProductFilteringContext().updateCategory();
+  // const category = useProductFilteringContext().getCategory();
 
-  const updatePrice = useProductFilteringContext().updatePrice();
-  const price = useProductFilteringContext().getPrice();
+  // const updatePrice = useProductFilteringContext().updatePrice();
+  // const price = useProductFilteringContext().getPrice();
 
-  const updateRating = useProductFilteringContext().updateRating();
-  const rating = useProductFilteringContext().getRating();
+  // const updateRating = useProductFilteringContext().updateRating();
+  // const rating = useProductFilteringContext().getRating();
 
-  const updateInStock = useProductFilteringContext().updateInStock();
-  const inStock = useProductFilteringContext().getInStock();
+  // const updateInStock = useProductFilteringContext().updateInStock();
+  // const inStock = useProductFilteringContext().getInStock();
 
-  const updateOutOfStock = useProductFilteringContext().updateOutOfStock();
-  const outOfStock = useProductFilteringContext().getOutOfStock();
+  // const updateOutOfStock = useProductFilteringContext().updateOutOfStock();
+  // const outOfStock = useProductFilteringContext().getOutOfStock();
 
-  // Apply syncs with refreshes/back button
+  //Apply syncs with refreshes/back button
   useEffect(() => {
     setCategory(initialCategory);
     setPrice(initialPrice);
@@ -100,11 +100,11 @@ export default function SideFilterBar({
         <label className="block text-black font-medium mb-1">Category</label>
         <select
           className="w-full border rounded px-2 py-1 text-black"
-          value={useProductFilteringContext().getCategory()}
-          onChange={(e) => updateCategory(e.target.value)}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
         >
           <option value="All">All</option>
-          <option value="weapons">Weapons</option>
+          <option value="weapon">Weapons</option>
           <option value="armor">Armor</option>
           <option value="other">Other</option>
         </select>
@@ -113,14 +113,14 @@ export default function SideFilterBar({
       {/* Price Range Filter - slider to set maximum price */}
       <div className="mb-2">
         <label className="block text-black font-medium mb-1">
-          Max Price: ${useProductFilteringContext().getPrice()}
+          Max Price: ${price}
         </label>
         <input
           type="range"
           min="0"
           max="1500"
-          value={useProductFilteringContext().getPrice()}
-          onChange={(e) => updatePrice(e.target.value)}
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
           className="w-full"
         />
       </div>
@@ -132,8 +132,8 @@ export default function SideFilterBar({
         </label>
         <select
           className="w-full text-black border rounded px-2 py-1"
-          value={useProductFilteringContext().getRating()}
-          onChange={(e) => updateRating(e.target.value)}
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
         >
           <option value="0">All Ratings</option>
           <option value="1">1+ Stars</option>
@@ -154,8 +154,8 @@ export default function SideFilterBar({
             <input
               type="checkbox"
               className="mr-2"
-              checked={useProductFilteringContext().getInStock()}
-              onChange={(e) => updateInStock(e.target.checked)}
+              checked={inStock}
+              onChange={(e) => setInStock(e.target.checked)}
             />
             <span>In Stock</span>
           </label>
@@ -163,8 +163,8 @@ export default function SideFilterBar({
             <input
               type="checkbox"
               className="mr-2"
-              checked={useProductFilteringContext().getOutOfStock()}
-              onChange={(e) => updateOutOfStock(e.target.checked)}
+              checked={outOfStock}
+              onChange={(e) => setOutOfStock(e.target.checked)}
             />
             <span>Out of Stock</span>
           </label>

@@ -1,28 +1,63 @@
-"use client";
-
 import Link from "next/link";
 import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
 // import { products } from "./mockData";
 import Image from "next/image";
 import SideFilterBar from "../components/SideFilterBar";
+import { queryMongoDatabase } from "../mongoDBConnection/queryMongoDB";
 import useSWR from "swr/immutable";
 
-import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-// ProductList component: Handles product fetching, filtering, and rendering
-function ProductList() {
-  // Get search/filter params from URL
-  const searchParams = useSearchParams();
+export async function ProductList({productSearchParams}) {
+  //const searchParams = useSearchParams();
+  console.log("product search params: ")
+  console.log(productSearchParams);
+  let productSearchQuery = {};
 
-  // Extract filter values from search params
-  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
-  const category = searchParams.get("category") || "";
-  const price = searchParams.get("price") || "0";
-  const rating = searchParams.get("rating") || "0";
-  const inStock = searchParams.get("inStock") === "true";
-  const outOfStock = searchParams.get("outOfStock") === "true";
+  if (productSearchParams.category != undefined) {
+    productSearchQuery.category = productSearchParams.category
+  }
+
+  if (productSearchParams.price != undefined) {
+    productSearchQuery.price = {$lte: parseInt(productSearchParams.price)}
+  }
+
+  if (productSearchParams.rating != undefined) {
+    productSearchQuery.starRating = {$gte: parseFloat(productSearchParams.rating)}
+  }
+
+  if (productSearchParams.inStock != undefined && productSearchParams.outOfStock == undefined) {
+    productSearchQuery.quantityInStock = {$gt: 0}
+  }
+  if (productSearchParams.outOfStock != undefined && productSearchParams.inStock == undefined) {
+    productSearchQuery.quantityInStock = 0
+  }
+  
+  if (productSearchParams.search != undefined) {
+    productSearchQuery = {};
+    productSearchQuery.$or = [
+      {productName: {$regex: productSearchParams.search}},
+      {vendor: {$regex: productSearchParams.search}},
+      {productDescription: {$regex: productSearchParams.search}},
+      {category: {$regex: productSearchParams.search}},
+      {topReview: {$regex: productSearchParams.search}},
+      {tags: {$regex: productSearchParams.search}}
+    ]
+  }
+
+  console.log("current query")
+  console.log(productSearchQuery);
+  let products = await queryMongoDatabase(productSearchQuery);
+  console.log(products);
+
+
+  // const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  // const category = searchParams.get("category") || "";
+  // const price = searchParams.get("price") || "0";
+  // const rating = searchParams.get("rating") || "0";
+  // const inStock = searchParams.get("inStock") === "true";
+  // const outOfStock = searchParams.get("outOfStock") === "true";
 
   // SWR data fetching for products
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -76,98 +111,89 @@ function ProductList() {
   // Render product grid and filter sidebar
   return (
     <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-row">
-      {/* Sidebar for product filters */}
-      <div className="md:w-1/4 lg:w-1/5 bg-white">
-        <SideFilterBar
-          initialCategory={category}
-          initialPrice={price}
-          initialRating={rating}
-          initialInStock={inStock}
-          initialOutOfStock={outOfStock}
+      
+          <div className="md:w-1/4 lg:w-1/5 bg-white">
+      <SideFilterBar 
+        initialCategory={productSearchParams.category}
+        initialPrice={productSearchParams.price}
+        initialRating={productSearchParams.rating}
+        initialInStock={productSearchParams.inStock}
+        initialOutOfStock={productSearchParams.outOfStock}
         />
       </div>
-      {/* Render filtered product cards */}
-      {filteredProducts.map((product) => (
-        <div
-          key={product.productId}
-          className="bg-white rounded-lg shadow p-6 flex flex-col"
-        >
-          {/* Product image and link to details */}
-          <Link href={`/product/description?id=${product.productId}`}>
-            <Image
-              src={
-                product.productImage
-                  ? product.productImage
-                  : "/lightyear/images/products/lightsaber-blue.png"
-              }
-              alt={product.productName}
-              width={400}
-              height={192}
-              className="w-full h-48 object-contain mb-4 rounded"
-              style={{ width: "auto", height: "auto" }}
-            />
-          </Link>
-          {/* Product name as link */}
-          <Link href={`/product/description?id=${product.productId}`}>
-            <h3 className="text-xl font-bold mb-2 text-gray-900">
-              {product.productName}
-            </h3>
-          </Link>
+      {products.map((product) => {
+        product._id = product._id.toString();
+        return (
+          <div
+            key={product.productId}
+            className="bg-white rounded-lg shadow p-6 flex flex-col"
+          >
+            <Link href={`/product/description?id=${product.productId}`}>
+              <Image
+                src={
+                  product.productImage
+                    ? product.productImage
+                    : "/lightyear/images/products/lightsaber-blue.png"
+                }
+                alt={product.productName}
+                width={400}
+                height={192}
+                className="w-full h-48 object-contain mb-4 rounded"
+              />
+            </Link>
+            <Link href={`/product/description?id=${product.productId}`}>
+              <h3 className="text-xl font-bold mb-2 text-gray-900">
+                {product.productName}
+              </h3>
+            </Link>
 
-          {/* Product description */}
-          <p className="text-gray-800 mb-2">{product.productDescription}</p>
-          {/* Vendor info */}
-          <div className="text-sm text-gray-800 mb-2">
-            Vendor: {product.vendor}
+            <p className="text-gray-800 mb-2">{product.productDescription}</p>
+            <div className="text-sm text-gray-800 mb-2">
+              Vendor: {product.vendor}
+            </div>
+            <div className="text-sm text-gray-800 mb-2">
+              Price: ${product.price}
+            </div>
+            <div className="text-sm text-gray-800 mb-2">
+              Stock:{" "}
+              {product.quantityInStock > 0 ? (
+                <>
+                  {product.quantityInStock}
+                  <div className="mt-2">
+                    <AddToCartButton product={product} />
+                  </div>
+                </>
+              ) : (
+                <span className="font-bold text-red-400">Out of stock</span>
+              )}
+            </div>
+            <div className="text-yellow-500 mb-2">
+              Rating: {product.starRating} ⭐ ({product.numberOfReviews} reviews)
+            </div>
+            <div className="text-xs text-gray-400 mb-2">
+              Tags: {product.tags.join(", ")}
+            </div>
+            <div className="text-xs text-gray-400 mb-2">
+              Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
+            </div>
+            <div className="text-xs text-gray-400 mb-2">
+              Top Review: &quot;{product.topReview}&quot;
+            </div>
           </div>
-          {/* Price info */}
-          <div className="text-sm text-gray-800 mb-2">
-            Price: ${product.price}
-          </div>
-          {/* Stock info and Add to Cart button */}
-          <div className="text-sm text-gray-800 mb-2">
-            Stock:{" "}
-            {product.quantityInStock > 0 ? (
-              <>
-                {product.quantityInStock}
-                <div className="mt-2">
-                  <AddToCartButton product={product} />
-                </div>
-              </>
-            ) : (
-              <span className="font-bold text-red-400">Out of stock</span>
-            )}
-          </div>
-          {/* Product rating and reviews */}
-          <div className="text-yellow-500 mb-2">
-            Rating: {product.starRating} ⭐ ({product.numberOfReviews} reviews)
-          </div>
-          {/* Product tags */}
-          <div className="text-xs text-gray-400 mb-2">
-            Tags: {product.tags.join(", ")}
-          </div>
-          {/* Frequently returned info */}
-          <div className="text-xs text-gray-400 mb-2">
-            Frequently Returned: {product.frequentlyReturned ? "Yes" : "No"}
-          </div>
-          {/* Top review */}
-          <div className="text-xs text-gray-400 mb-2">
-            Top Review: &quot;{product.topReview}&quot;
-          </div>
-        </div>
-      ))}
-      {/* Show message if no products found */}
-      {filteredProducts.length === 0 && <p>No products found.</p>}
+        )})}
+      {products.length === 0 && <p>No products found.</p>}
     </div>
   );
 }
 
-// ProductPage component: Wraps ProductList with layout and suspense
-export default function ProductPage() {
+export default async function ProductPage({ searchParams }) {
+  let fetchedSearchParams = await searchParams;
   return (
     <Layout>
       <Suspense>
-        <ProductList />
+        <ProductList 
+        productSearchParams={fetchedSearchParams}
+        />
       </Suspense>
     </Layout>
   );
