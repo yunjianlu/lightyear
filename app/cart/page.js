@@ -6,18 +6,21 @@ import Layout from "../components/Layout";
 import Image from "next/image";
 import Link from "next/link";
 
+// CartPage component: Displays the user's shopping cart and handles cart actions
 export default function CartPage() {
   const router = useRouter();
+  // Get cart state and actions from context
   const { cartItems, removeFromCart, updateQuantity, clearCart, getCartTotal } =
     useCart();
 
-  // Mock user for demonstration - in real app this would come from auth context
+  // Mock user for demonstration - replace with real auth context in production
   const mockUser = {
     name: "John Doe",
     role: "vendor", // Change this to "customer", "admin", or "vendor" to test
     email: "john@example.com",
   };
 
+  // Handle quantity change for a cart item
   const handleQuantityChange = (productId, newQuantity) => {
     if (newQuantity <= 0) {
       removeFromCart(productId);
@@ -26,6 +29,7 @@ export default function CartPage() {
     }
   };
 
+  // If cart is empty, show empty cart message and continue shopping button
   if (cartItems.length === 0) {
     return (
       <Layout>
@@ -50,6 +54,7 @@ export default function CartPage() {
     );
   }
 
+  // Render cart items, summary, and actions
   return (
     <Layout>
       {/* Go Back Button */}
@@ -58,6 +63,7 @@ export default function CartPage() {
           onClick={() => router.back()}
           className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors"
         >
+          {/* Back arrow icon */}
           <svg
             className="w-4 h-4 mr-2"
             fill="none"
@@ -76,8 +82,10 @@ export default function CartPage() {
         </button>
       </div>
 
+      {/* Main cart content */}
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Cart title */}
           <h1 className="text-3xl font-bold text-gray-900 mb-8">
             Shopping Cart
           </h1>
@@ -88,7 +96,7 @@ export default function CartPage() {
           </div>
 
           <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start xl:gap-x-16">
-            {/* Cart Items */}
+            {/* Cart Items Section */}
             <section className="lg:col-span-7">
               <div className="bg-white rounded-lg shadow">
                 <div className="px-4 py-6 sm:px-6">
@@ -96,6 +104,7 @@ export default function CartPage() {
                     <ul className="-my-6 divide-y divide-gray-200">
                       {cartItems.map((item) => (
                         <li key={item.productId} className="py-6 flex">
+                          {/* Product image */}
                           <div className="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
                             <Image
                               src={
@@ -109,6 +118,7 @@ export default function CartPage() {
                             />
                           </div>
 
+                          {/* Product details and actions */}
                           <div className="ml-4 flex-1 flex flex-col">
                             <div>
                               <div className="flex justify-between text-base font-medium text-gray-900">
@@ -127,6 +137,7 @@ export default function CartPage() {
                                 >
                                   Quantity
                                 </label>
+                                {/* Quantity controls */}
                                 <div className="flex items-center border border-gray-300 rounded">
                                   <button
                                     className="px-3 py-2 text-gray-600 hover:bg-gray-100 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -158,6 +169,7 @@ export default function CartPage() {
                                     +
                                   </button>
                                 </div>
+                                {/* Item total price */}
                                 <p className="ml-4 text-gray-500">
                                   $
                                   {(item.price * item.selectedQuantity).toFixed(
@@ -166,6 +178,7 @@ export default function CartPage() {
                                 </p>
                               </div>
 
+                              {/* Remove item button */}
                               <div className="flex">
                                 <button
                                   type="button"
@@ -183,6 +196,7 @@ export default function CartPage() {
                   </div>
                 </div>
 
+                {/* Cart actions: clear cart, continue shopping */}
                 <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                   <div className="flex justify-between">
                     <button
@@ -202,7 +216,7 @@ export default function CartPage() {
               </div>
             </section>
 
-            {/* Order Summary */}
+            {/* Order Summary Section */}
             <section className="mt-16 bg-gray-50 rounded-lg px-4 py-6 sm:p-6 lg:p-8 lg:mt-0 lg:col-span-5">
               <h2 className="text-lg font-medium text-gray-900">
                 Cart Summary
@@ -229,6 +243,7 @@ export default function CartPage() {
                 </div>
               </div>
 
+              {/* Checkout button */}
               <div className="mt-6">
                 <Link href="/cart/checkout">
                   <button className="w-full bg-red-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-red-500 transition-colors">
@@ -250,6 +265,7 @@ export default function CartPage() {
         <div className="fixed bottom-4 right-4 z-50">
           <Link href="/cart/inventory">
             <button className="inline-flex items-center px-4 py-3 border border-transparent shadow-lg text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 transform hover:scale-105">
+              {/* Inventory icon */}
               <svg
                 className="w-5 h-5 mr-2"
                 fill="none"

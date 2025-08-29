@@ -6,12 +6,15 @@ import Layout from "../../components/Layout";
 import Image from "next/image";
 import useSWR from "swr/immutable";
 
+// CartInventoryPage component: Manages cart inventory and product list
 export default function CartInventoryPage() {
+  // Get cart state and actions from context
   const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
+  // State for search term and filter type
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("all"); // all, inCart, notInCart
 
-  // Fetch products from API
+  // Fetch products from API using SWR
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const {
     data: products = [],
@@ -19,11 +22,13 @@ export default function CartInventoryPage() {
     isLoading,
   } = useSWR("/api/products", fetcher);
 
+  // Show loading or error states
   if (isLoading) return <div>Loading products...</div>;
   if (error) return <div>Error loading products.</div>;
 
   // Filter products based on search and filter type
   const filteredProducts = products.filter((product) => {
+    // Search filter: matches name, vendor, or tags
     const matchesSearch =
       product.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.vendor.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -31,10 +36,12 @@ export default function CartInventoryPage() {
         tag.toLowerCase().includes(searchTerm.toLowerCase())
       );
 
+    // Check if product is in cart
     const isInCart = cartItems.some(
       (item) => item.productId === product.productId
     );
 
+    // Filter by cart status
     let matchesFilter = true;
     if (filterType === "inCart") {
       matchesFilter = isInCart;
@@ -42,18 +49,22 @@ export default function CartInventoryPage() {
       matchesFilter = !isInCart;
     }
 
+    // Return true if matches search and filter
     return matchesSearch && matchesFilter;
   });
 
+  // Get quantity of a product in the cart
   const getCartQuantity = (productId) => {
     const cartItem = cartItems.find((item) => item.productId === productId);
     return cartItem ? cartItem.selectedQuantity : 0;
   };
 
+  // Add product to cart with quantity 1
   const handleAddToCart = (product) => {
     addToCart(product, 1);
   };
 
+  // Update quantity of a product in the cart
   const handleUpdateQuantity = (productId, newQuantity) => {
     if (newQuantity <= 0) {
       removeFromCart(productId);
@@ -62,6 +73,7 @@ export default function CartInventoryPage() {
     }
   };
 
+  // Render inventory management UI
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50 py-8">
@@ -75,7 +87,7 @@ export default function CartInventoryPage() {
             </p>
           </div>
 
-          {/* Controls */}
+          {/* Controls for search and filter */}
           <div className="bg-white rounded-lg shadow p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Search */}
