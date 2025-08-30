@@ -1,17 +1,12 @@
 "use server"
 import Layout from "../../components/Layout";
-//import { products } from "../mockData";
 import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
-//import { useSearchParams, useRouter } from "next/navigation";
 import { queryMongoDatabase } from "../../mongoDBConnection/queryMongoDB";
-//import { getServerSideProps } from "next/dist/build/templates/pages";
 
 import { Suspense } from "react";
 
 async function DescriptionContent({productIdParam}) {
-  console.log("printing product id: ");
-  console.log(productIdParam);
   let product = await queryMongoDatabase({productId: productIdParam});
   if (product.length == 1) {
     product = product[0]
@@ -26,7 +21,6 @@ async function DescriptionContent({productIdParam}) {
       </Layout>
     )
   }
-  console.log(product);
   product._id = product._id.toString();
 
   let starRatingCount = 1;

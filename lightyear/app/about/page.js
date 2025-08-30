@@ -14,7 +14,6 @@ export default function LightyearBackground() {
                 </video>
                 <h1 className="text-4xl md:text-9xl font-bold mb-6 absolute text-white">About Lightyear</h1>
             </div>
-                            {/* <h1 className="text-4xl md:text-9xl font-bold mb-6">About Lightyear</h1> */}
             <section className="space-y-15 mx-8 md:grid md:grid-rows-5 md:space-y-0 md:col-span-full mt-16">
                 <div className="flex flex-col md:grid md:grid-cols-5 justify-around mb-15 md:my-10">
                     <div className="md:col-span-2 flex md:items-center 3xl:pl-10">
