@@ -35,7 +35,7 @@ export default async function LandingBody() {
           {/* Clickable product image and title that navigate to product details */}
           <Link
             href={`/product/description?id=${product.productId}`}
-            className="block hover:scale-105 transition-transform duration-200"
+            className="block hover:scale-105 transition-transform duration-200 flex flex-col"
           >
             <Image
               src={
@@ -44,10 +44,9 @@ export default async function LandingBody() {
                   : "/images/products/lightsaber-blue.png"
               }
               alt={product.productName}
-              width={400}
-              height={192}
-              className="w-full object-contain mb-4 rounded"
-              style={{ height: "auto" }}
+              width={348}
+              height={348}
+              className="w-full object-contain mb-4 rounded md:size-auto aspect-square items-center"
             />
             <h3 className="text-xl font-bold mb-2 hover:text-blue-600">
               {product.productName}

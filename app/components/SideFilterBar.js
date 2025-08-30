@@ -27,7 +27,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-//import { useProductFilteringContext } from "../contexts/filteringContext";
+import { useSearchParams } from "next/navigation";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar({
@@ -41,6 +41,11 @@ export default function SideFilterBar({
   showMobileButton = true,
   onFilterToggle,
 }) {
+  const searchParams = useSearchParams();
+  console.log("search params sidebar");
+  console.log(searchParams);
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
+  console.log(searchTerm);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -50,21 +55,6 @@ export default function SideFilterBar({
   const [rating, setRating] = useState(initialRating);
   const [inStock, setInStock] = useState(initialInStock);
   const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
-
-  // const updateCategory = useProductFilteringContext().updateCategory();
-  // const category = useProductFilteringContext().getCategory();
-
-  // const updatePrice = useProductFilteringContext().updatePrice();
-  // const price = useProductFilteringContext().getPrice();
-
-  // const updateRating = useProductFilteringContext().updateRating();
-  // const rating = useProductFilteringContext().getRating();
-
-  // const updateInStock = useProductFilteringContext().updateInStock();
-  // const inStock = useProductFilteringContext().getInStock();
-
-  // const updateOutOfStock = useProductFilteringContext().updateOutOfStock();
-  // const outOfStock = useProductFilteringContext().getOutOfStock();
 
   //Apply syncs with refreshes/back button
   useEffect(() => {
@@ -176,7 +166,6 @@ export default function SideFilterBar({
         <button
           className="w-full bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-colors"
           onClick={() => {
-            // TODO: Implement filter application logic
             console.log("Applying filters...");
             const params = new URLSearchParams();
             console.log(category);
@@ -187,9 +176,11 @@ export default function SideFilterBar({
 
             if (rating !== "0") params.append("rating", rating);
 
-            if (inStock) params.append("inStock", "true");
+            if (inStock) params.append("inStock", true);
 
-            if (outOfStock) params.append("outOfStock", "true");
+            if (outOfStock) params.append("outOfStock", true);
+
+            if (searchTerm) params.append("search", searchTerm);
 
             router.push(`/product?${params.toString()}`);
             setOpen(false); // Close the drawer after applying filters
