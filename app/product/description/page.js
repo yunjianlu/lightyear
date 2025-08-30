@@ -1,9 +1,7 @@
 "use server"
 import Layout from "../../components/Layout";
-//import { products } from "../mockData";
 import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
-//import { useSearchParams, useRouter } from "next/navigation";
 import { queryMongoDatabase } from "../../mongoDBConnection/queryMongoDB";
 //import { getServerSideProps } from "next/dist/build/templates/pages";
 import useSWR from "swr/immutable";
@@ -11,19 +9,17 @@ import useSWR from "swr/immutable";
 import { Suspense } from "react";
 
 async function DescriptionContent({productIdParam}) {
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const {
-    data: products = [],
-    error,
-    isLoading,
-  } = useSWR("/api/products", fetcher);
 
-  if (isLoading) return <div>Loading product...</div>;
-  if (error) return <div>Error loading product.</div>;
+  // const fetcher = (url) => fetch(url).then((res) => res.json());
+  // const {
+  //   data: products = [],
+  //   error,
+  //   isLoading,
+  // } = useSWR("/api/products", fetcher);
 
+  // if (isLoading) return <div>Loading product...</div>;
+  // if (error) return <div>Error loading product.</div>;
 
-  console.log("printing product id: ");
-  console.log(productIdParam);
   let product = await queryMongoDatabase({productId: productIdParam});
   if (product.length == 1) {
     product = product[0]
@@ -38,7 +34,6 @@ async function DescriptionContent({productIdParam}) {
       </Layout>
     )
   }
-  console.log(product);
   product._id = product._id.toString();
 
   let starRatingCount = 1;

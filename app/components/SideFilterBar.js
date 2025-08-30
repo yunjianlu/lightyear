@@ -189,8 +189,6 @@ export default function SideFilterBar({
           Apply Filters
         </button>
       </div>
-
-      {/* Add more filters as needed */}
     </div>
   );
 

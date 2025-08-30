@@ -43,7 +43,3 @@ export async function queryMongoDatabase(queryInstructions) {
 
     return queryResult
 }
-
-export function composeQuery() {
-    console.log("hello");
-}
