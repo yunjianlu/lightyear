@@ -9,9 +9,8 @@ export default function LightyearBackground() {
     <main className="mx-auto bg-[url(/images/about/largerNightSky_pic.png)]">
         <div className="flex flex-col md:grid md:grid-cols-1 md:grid-rows-[h-min_h-min]">
             <div className="flex h-screen justify-center text-center items-center md:col-span-full">
-                <video autoPlay preload="metadata" muted loop disablePictureInPicture disableRemotePlayback playsInline className="object-cover absolute min-h-full min-w-full w-auto h-auto">
+                <video autoPlay preload="metadata" poster="/images/about/swimmingAstronautPlaceholder.png" muted loop disablePictureInPicture disableRemotePlayback playsInline className="object-cover absolute min-h-full min-w-full w-auto h-auto">
                     <source src="/images/about/astronautInSpaceWaterLoopSmaller.mp4" type="video/mp4" />
-                    
                 </video>
                 <h1 className="text-4xl md:text-9xl font-bold mb-6 absolute text-white">About Lightyear</h1>
             </div>
@@ -150,20 +149,19 @@ export default function LightyearBackground() {
                     </div>
                     
                 </div>
-
-                <div className="grid grid-cols-1 md:justify-around mb-15 md:mb-0 h-[50vh]">
-                    <div className="flex md:pl-10 justify-center items-center md:content-around md:justify-center flex-col md:col-span-full">
+            </section>
+            <div className="grid grid-cols-1 md:justify-around mb-0 h-[50vh] bg-[url(/images/lightYearTravel.jpg)] bg-no-repeat bg-center" style={{backgroundSize: "100% 100%", textShadow: "3px 3px 3px black", backgroundBlendMode: "lighten", maskImage: "linear-gradient(to top, rgba(0,0,0,1.0), 85%, transparent 100%"}}>
+                    <div className="flex md:pl-0 justify-center items-center md:content-around md:justify-center flex-col md:col-span-full">
                         <div>
-                            <h2 className="md:text-7xl font-semibold text-center text-4xl mb-10 3xl:text-9xl text-white">Join the Lightyear Journey</h2>
+                            <h2 className="md:text-7xl text-center text-4xl mb-10 3xl:text-9xl text-white text-yellow-500 text-shadow-blue-500 font-extrabold">Join the Lightyear Journey</h2>
                         </div>
                         <div>
-                            <p className="md:text-2xl text-center text-md 3xl:text-5xl text-white">
-                                Embark on an adventure beyond imagination. Shop with Lightyear and discover a universe of possibilities.
+                            <p className="md:text-2xl text-center text-md 3xl:text-5xl text-white text-yellow-500 font-extrabold" style={{textShadow: "2px 2px 2px black"}}>
+                                Embark on an adventure beyond imagination! Shop with Lightyear and discover a universe of possibilities!
                             </p>
                         </div>
                     </div>
                 </div>
-            </section>
         </div>
     </main>
     </Layout>

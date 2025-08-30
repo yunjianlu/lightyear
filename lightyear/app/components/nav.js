@@ -48,7 +48,7 @@ export default function Nav() {
             className="rounded"
             unoptimized
           />
-          <span className="text-white text-lg font-bold whitespace-nowrap hidden md:inline">
+          <span className="text-white text-lg font-bold whitespace-nowrap md:inline">
             Lightyear
           </span>
         </div>
