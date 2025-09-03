@@ -28,6 +28,9 @@ export default async function LandingBody() {
       {products.map((product) => {
         product._id = product._id.toString();
         return (
+      {products.map((product) => {
+        product._id = product._id.toString();
+        return (
         <div
           key={product.productId}
           className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
