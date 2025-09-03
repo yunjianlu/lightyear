@@ -67,41 +67,41 @@ export async function ProductList({productSearchParams}) {
   // if (error) return <div>Error loading products.</div>;
 
   // Filter products based on search, category, price, rating, and stock
-  const filteredProducts = products.filter((product) => {
-    // Search filter: matches name, description, or tags
-    const matchesSearch =
-      !searchTerm ||
-      product.productName?.toLowerCase().includes(searchTerm) ||
-      product.productDescription?.toLowerCase().includes(searchTerm) ||
-      (product.tags &&
-        product.tags.some((tag) => tag.toLowerCase().includes(searchTerm)));
+  // const filteredProducts = products.filter((product) => {
+  //   // Search filter: matches name, description, or tags
+  //   const matchesSearch =
+  //     !searchTerm ||
+  //     product.productName?.toLowerCase().includes(searchTerm) ||
+  //     product.productDescription?.toLowerCase().includes(searchTerm) ||
+  //     (product.tags &&
+  //       product.tags.some((tag) => tag.toLowerCase().includes(searchTerm)));
 
-    // Category filter
-    const matchesCategory =
-      !category || category === "All" || product.category === category;
+  //   // Category filter
+  //   const matchesCategory =
+  //     !category || category === "All" || product.category === category;
 
-    // Price filter
-    const matchesPrice = price === "0" || product.price <= parseInt(price);
+  //   // Price filter
+  //   const matchesPrice = price === "0" || product.price <= parseInt(price);
 
-    // Rating filter
-    const matchesRating =
-      rating === "0" || product.starRating >= parseInt(rating);
+  //   // Rating filter
+  //   const matchesRating =
+  //     rating === "0" || product.starRating >= parseInt(rating);
 
-    // Stock filter
-    const matchesStock =
-      (inStock && product.quantityInStock > 0) ||
-      (outOfStock && product.quantityInStock === 0) ||
-      (!inStock && !outOfStock);
+  //   // Stock filter
+  //   const matchesStock =
+  //     (inStock && product.quantityInStock > 0) ||
+  //     (outOfStock && product.quantityInStock === 0) ||
+  //     (!inStock && !outOfStock);
 
-    // Return true if all filters match
-    return (
-      matchesSearch &&
-      matchesCategory &&
-      matchesPrice &&
-      matchesRating &&
-      matchesStock
-    );
-  });
+  //   // Return true if all filters match
+  //   return (
+  //     matchesSearch &&
+  //     matchesCategory &&
+  //     matchesPrice &&
+  //     matchesRating &&
+  //     matchesStock
+  //   );
+  // });
 
   return (
     <div className="pt-12 md:p-0 flex flex-row">

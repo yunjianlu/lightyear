@@ -19,7 +19,7 @@ import AddToCartButton from "./addToCartButton";
 //import { products } from "../product/mockData";
 import Link from "next/link";
 import Image from "next/image";
-import { queryMongoDatabase } from "../mongoDBConnection/queryMongoDB";
+import { queryMongoDatabase } from "../../../app/mongoDBConnection/queryMongoDB";
 
 export default async function LandingBody() {
   let products = await queryMongoDatabase({}); 
