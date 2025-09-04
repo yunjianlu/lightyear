@@ -65,9 +65,6 @@ export default function LightyearBackground() {
                             </p>
                         </div>
                     </div>
-
-                    
-                    
                 </div>
 
                 <div className="flex flex-col md:grid md:grid-cols-5 justify-around mb-15">

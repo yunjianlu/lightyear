@@ -92,7 +92,7 @@ export default function Page() {
       {!sidebar ? (
         <>
           <button
-            className="md:hidden border rounded bg-gray-800 fixed bottom-10 left-5 z-50 text-white p-2"
+            className="md:hidden border rounded bg-gray-800 fixed bottom-10 left-5 bottom-20 z-50 text-white p-2"
             onClick={() => setSidebar(true)}
           >
             View Profile
@@ -101,13 +101,13 @@ export default function Page() {
       ) : (
         <>
           <button
-            className="md:hidden border rounded bg-gray-800 fixed bottom-10 left-5 z-50 text-white p-2"
+            className="md:hidden border rounded bg-gray-800 fixed bottom-10 left-5 bottom-20 z-50 text-white p-2"
             onClick={() => setSidebar(false)}
           >
             Close Profile
           </button>
 
-          <aside className="md:hidden w-full bg-gray-800 text-white p-6 space-y-6">
+          <aside className="md:hidden w-full bg-gray-800 text-white p-6 space-y-6 mt-16">
             <div className="flex flex-col items-center space-y-3">
               <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
                 <Image
@@ -381,7 +381,7 @@ export default function Page() {
           )}
         </aside>
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 mt-10 md:mt-0">
           <header className="bg-gray-100 p-4 mb-4 rounded-md shadow">
             <h1 className="text-xl font-semibold text-black">My Account</h1>
           </header>

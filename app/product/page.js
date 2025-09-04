@@ -1,50 +1,107 @@
+"use client"
 import Link from "next/link";
 import AddToCartButton from "../components/addToCartButton";
 import Layout from "../components/Layout";
-// import { products } from "./mockData";
 import Image from "next/image";
 import SideFilterBar from "../components/SideFilterBar";
-import { queryMongoDatabase } from "../mongoDBConnection/queryMongoDB";
-import useSWR from "swr/immutable";
+import { useState, useEffect } from "react";
+import { useSearchParams} from "next/navigation";
+import useSWR from "swr";
+import { useProducts } from "../contexts/ProductContext";
 
 import { Suspense } from "react";
 
-export async function ProductList({productSearchParams}) {
-  let productSearchQuery = {};
+export function ProductList({productSearchParams}) {
+  //const { checkPrevProductQueries, updateProductQueryHistory } = useProducts()
+  // const [userName, setUserName] = useState("");
+  // useEffect(() => {
+  //   fetch("/api/session")
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setUserName(data.name || data.firstName || "");
+  //     });
+  // }, []);
+  const urlSearchParams = useSearchParams();
+  let productAPIURL = `/api/products${(urlSearchParams) ? `?${urlSearchParams.toString()}` : ''}`
 
-  if (productSearchParams.category != undefined) {
-    productSearchQuery.category = productSearchParams.category
-  }
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  console.log("loading product api")
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR(productAPIURL, fetcher);
 
-  if (productSearchParams.price != undefined) {
-    productSearchQuery.price = {$lte: parseInt(productSearchParams.price)}
-  }
+  //const pastQueryExists = checkPrevProductQueries(`{${(urlSearchParams) ? urlSearchParams.toString() : undefined}}`);
 
-  if (productSearchParams.rating != undefined) {
-    productSearchQuery.starRating = {$gte: parseFloat(productSearchParams.rating)}
-  }
+    // console.log("diving into if statements")
+    // if (pastQueryExists) {
+    //   console.log("if statement true")
+    //   products = pastQueryExists;
+    // }
+    // else {
+    //   console.log("if statement false")
+    //   isLoading = true;
+    //   fetch(`${process.env.URL}/api/products/`, {method: 'GET'})
+    //     .then(res => {
+    //       if (!res.ok) throw new Error('Network response was not ok');
+    //       console.log("current response: ", res);
+    //       return res.json()
+    //     })
+    //     .then(data => products = data)
+    //     .catch(err => {
+    //       throw new Error(err);
+    //     });
+    //     console.log("products is conditionally: ", products);
+      
+    //   updateProductQueryHistory('{}', products);
+    //   isLoading = false;
+    // }
 
-  if (productSearchParams.inStock != undefined && productSearchParams.outOfStock == undefined) {
-    productSearchQuery.quantityInStock = {$gt: 0}
-  }
-  if (productSearchParams.outOfStock != undefined && productSearchParams.inStock == undefined) {
-    productSearchQuery.quantityInStock = 0
-  }
+  if (isLoading) return <div className="text-white text-center mt-15 md:mt-10">Loading products...</div>;
+  if (error) return <div className="text-white text-center mt-15 md:mt-10">Error loading products.</div>;
+
+  // let productSearchQuery = {};
+
+  // if (productSearchParams.category != undefined) {
+  //   productSearchQuery.category = productSearchParams.category
+  // }
+
+  // if (productSearchParams.price != undefined) {
+  //   productSearchQuery.price = {$lte: parseInt(productSearchParams.price)}
+  // }
+
+  // if (productSearchParams.rating != undefined) {
+  //   productSearchQuery.starRating = {$gte: parseFloat(productSearchParams.rating)}
+  // }
+
+  // if (productSearchParams.inStock != undefined && productSearchParams.outOfStock == undefined) {
+  //   productSearchQuery.quantityInStock = {$gt: 0}
+  // }
+  // if (productSearchParams.outOfStock != undefined && productSearchParams.inStock == undefined) {
+  //   productSearchQuery.quantityInStock = 0
+  // }
   
-  if (productSearchParams.search != undefined) {
-    productSearchQuery.$or = [
-      {productName: {$regex: productSearchParams.search, $options: "i"}},
-      {vendor: {$regex: productSearchParams.search, $options: "i"}},
-      {productDescription: {$regex: productSearchParams.search, $options: "i"}},
-      {category: {$regex: productSearchParams.search, $options: "i"}},
-      {"productDetails.color": {$regex: productSearchParams.search, $options: "i"}},
-      {"productDetails.material": {$regex: productSearchParams.search, $options: "i"}},
-      {topReview: {$regex: productSearchParams.search, $options: "i"}},
-      {tags: {$regex: productSearchParams.search, $options: "i"}}
-    ]
-  }
+  // if (productSearchParams.search != undefined) {
+  //   productSearchQuery.$or = [
+  //     {productName: {$regex: productSearchParams.search, $options: "i"}},
+  //     {vendor: {$regex: productSearchParams.search, $options: "i"}},
+  //     {productDescription: {$regex: productSearchParams.search, $options: "i"}},
+  //     {category: {$regex: productSearchParams.search, $options: "i"}},
+  //     {"productDetails.color": {$regex: productSearchParams.search, $options: "i"}},
+  //     {"productDetails.material": {$regex: productSearchParams.search, $options: "i"}},
+  //     {topReview: {$regex: productSearchParams.search, $options: "i"}},
+  //     {tags: {$regex: productSearchParams.search, $options: "i"}}
+  //   ]
+  // }
 
-  let products = await queryMongoDatabase(productSearchQuery);
+  //let { checkPrevProductQueries, updateProductQueryHistory} = useContext(ProductContext)
+  //const savedProducts = localStorage.getItem("products");
+  // let wumbo = checkQueryHistory(productSearchQuery);
+  // console.log("Printing resutls");
+  // console.log(wumbo);
+
+  // let products = await queryMongoDatabase(productSearchQuery);
 
 
   // const searchTerm = searchParams.get("search")?.toLowerCase() || "";
@@ -104,23 +161,28 @@ export async function ProductList({productSearchParams}) {
   // });
 
   return (
-    <div className="pt-12 md:p-0 flex flex-row">
+    <div className="pt-12 md:p-0 flex flex-row min-h-screen">
       <div className="md:w-1/4 lg:w-1/5 bg-white">
       <SideFilterBar 
-        initialCategory={productSearchParams.category}
-        initialPrice={productSearchParams.price}
-        initialRating={productSearchParams.rating}
-        initialInStock={productSearchParams.inStock}
-        initialOutOfStock={productSearchParams.outOfStock}
+        initialCategory={(urlSearchParams.get("category")) ? urlSearchParams.get("category") : "All"}
+        initialPrice={(urlSearchParams.get("price")) ? urlSearchParams.get("price") : 0}
+        initialRating={(urlSearchParams.get("rating")) ? urlSearchParams.get("rating") : "0"}
+        initialInStock={(urlSearchParams.get("inStock")) ? urlSearchParams.get("inStock") : false}
+        initialOutOfStock={(urlSearchParams.get("outOfStock")) ? urlSearchParams.get("outOfStock") : false}
         />
       </div>
-      <div className="p-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:w-3/4 lg:w-4/5">
+      <div className="p-8 grid grid-cols-1 w-full md:grid-cols-2 lg:grid-cols-3 gap-8 md:w-3/4 lg:w-4/5">
       {products.map((product) => {
         product._id = product._id.toString();
+        console.log("product is: ", product);
+        if (!product) {
+          return <h1 key="NothingFound" className="text-white">No Product Found</h1>
+        }
+        else {
         return (
         <div
           key={product.productId}
-          className="bg-white rounded-lg shadow p-6 flex flex-col h-full hover:shadow-lg"
+          className="bg-white rounded-lg shadow p-6 flex flex-col h-min md:h-full hover:shadow-lg"
         >
           {/* Clickable product image and title that navigate to product details */}
           <Link
@@ -224,15 +286,15 @@ export async function ProductList({productSearchParams}) {
             </div>
           </div>
         </div>
-      )})}
+      )}})}
+      {products.length === 0 && <p className="text-white text-center md:col-span-3">No products found</p>}
     </div>
-      {products.length === 0 && <p>No products found.</p>}
     </div>
   );
 }
 
-export default async function ProductPage({ searchParams }) {
-  let fetchedSearchParams = await searchParams;
+export default function ProductPage({ searchParams }) {
+  let fetchedSearchParams = searchParams;
   return (
     <Layout>
       <Suspense>

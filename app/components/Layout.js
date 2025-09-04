@@ -13,7 +13,7 @@ export default function Layout({ children }) {
         <Nav />
 
         {/*  Your content body area or children */}
-        <main className="flex-1 pt-20 md:pt-15 bg-[url(/images/about/largerNightSky_pic.png)]">
+        <main className="flex-1 pt-20 md:pt-15 bg-[url(/images/about/largerNightSky_pic.png)] min-h-screen">
           {children} {/* This is where each page's content will be displayed */}
         </main>
 

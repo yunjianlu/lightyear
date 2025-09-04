@@ -1,35 +1,50 @@
-"use server"
+"use client"
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
-import { queryMongoDatabase } from "../../mongoDBConnection/queryMongoDB";
+// import { queryMongoDatabase } from "../../mongoDBConnection/queryMongoDB";
 //import { getServerSideProps } from "next/dist/build/templates/pages";
 import useSWR from "swr/immutable";
 
 import { Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
-async function DescriptionContent({productIdParam}) {
+function DescriptionContent({productIdParam}) {
 
-  // const fetcher = (url) => fetch(url).then((res) => res.json());
-  // const {
-  //   data: products = [],
-  //   error,
-  //   isLoading,
-  // } = useSWR("/api/products", fetcher);
+  const urlSearchParams = useSearchParams();
+  let productAPIURL = `/api/products${(urlSearchParams) ? `?${urlSearchParams.toString()}` : ''}`
+  console.log(productAPIURL);
 
-  // if (isLoading) return <div>Loading product...</div>;
-  // if (error) return <div>Error loading product.</div>;
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  console.log("loading product api")
+  const {
+    data: products = [],
+    error,
+    isLoading,
+  } = useSWR(productAPIURL, fetcher);
 
-  let product = await queryMongoDatabase({productId: productIdParam});
-  if (product.length == 1) {
-    product = product[0]
+  if (isLoading) return (
+    <div>
+      <Layout>
+        <div className="p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-white mt-15 md:mt-0">Loading...</h2>
+        </div>
+      </Layout>
+      Loading product...
+    </div>
+    )
+  if (error) return <div>Error loading product.</div>;
+
+  let product;
+  if (products.length == 1) {
+    product = products[0]
   }
   else {
     return (
       <Layout>
         <div className="p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">Product not found</h2>
-          <p>The product you are looking for does not exist.</p>
+          <h2 className="text-2xl font-bold mb-4 text-white">Product not found</h2>
+          <p className="text-white">The product you are looking for does not exist.</p>
         </div>
       </Layout>
     )
@@ -195,9 +210,9 @@ async function DescriptionContent({productIdParam}) {
   );
 }
 
-export default async function DetailedProductPage({ searchParams }) {
-  let fetchedSearchParams = await searchParams;
-  let productIdFromURL = fetchedSearchParams.id;
+export default function DetailedProductPage({ searchParams }) {
+  let fetchedSearchParams = useSearchParams();
+  let productIdFromURL = fetchedSearchParams.get("id");
   return (
     <Suspense>
       <DescriptionContent 

@@ -21,15 +21,19 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "../contexts/CartContext";
 
 export default function Nav() {
   const router = useRouter();
-  const [search, setSearch] = useState("");
+  let [search, setSearch] = useState("");
   const { getCartItemCount } = useCart();
   const [userName, setUserName] = useState("");
+  const urlSearchParams = useSearchParams().get("search");
+  if (urlSearchParams) {
+    search = urlSearchParams
+  }
 
   useEffect(() => {
     fetch("/api/session")
@@ -153,6 +157,7 @@ export default function Nav() {
             {/* Product search input - allows users to search for specific products */}
             <input
               type="text"
+              value={search}
               placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"

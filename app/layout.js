@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./contexts/CartContext";
 import ChatWidget from "./components/ChatWidget";
+import { ProductProvider } from "./contexts/ProductContext";
 
 // Root layout.js: Next.js App Router root layout
 // - Applies to ALL pages automatically
@@ -41,8 +42,10 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning={true}
       >
         <CartProvider>
-          {children} {/* This is where root page.js content goes */}
-          <ChatWidget />
+          <ProductProvider>
+            {children} {/* This is where root page.js content goes */}
+            <ChatWidget />
+          </ProductProvider>
         </CartProvider>
       </body>
     </html>

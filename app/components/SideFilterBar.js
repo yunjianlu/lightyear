@@ -42,10 +42,7 @@ export default function SideFilterBar({
   onFilterToggle,
 }) {
   const searchParams = useSearchParams();
-  console.log("search params sidebar");
-  console.log(searchParams);
   const searchTerm = searchParams.get("search")?.toLowerCase() || "";
-  console.log(searchTerm);
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -166,9 +163,7 @@ export default function SideFilterBar({
         <button
           className="w-full bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-colors"
           onClick={() => {
-            console.log("Applying filters...");
             const params = new URLSearchParams();
-            console.log(category);
             
             if (category !== "All") params.append("category", category);
 
