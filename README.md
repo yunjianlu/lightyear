@@ -8,12 +8,12 @@ A modern, responsive e-commerce web application built with Next.js through colla
 
 ## 👥 Our Collaborative Team
 
-| Team Member    | Role                      | Specializations                                                |
-| -------------- | ------------------------- | -------------------------------------------------------------- |
-| **Yunjian L.** | Lead Full-Stack Developer | Next.js, UI/UX design, deployment pipeline                     |
-| **Zachary S.** | Full-stack Developer      | Next.js, React, UI/UX design, TailwindCSS, MongoDB, Kubernetes |
-| **Cheryl W.**  | Backend Developer         | Next.js, React, state management, e-commerce logic, UI/UX      |
-| **Julius D.**  | Full-stack Developer      | Next.js, React, SQLIte, UI/UX, Security, AuthN/AuthZ           |
+| Team Member    | Role                      | Specializations                                                   |
+| -------------- | ------------------------- | --------------------------------------------------------------    |
+| **Yunjian L.** | Lead Full-Stack Developer | Next.js, React, UI/UX design, CI/CD pipeline, AI ChatBot, MongoDB |
+| **Zachary S.** | Full-stack Developer      | Next.js, React, UI/UX design, TailwindCSS, MongoDB, Kubernetes    |
+| **Cheryl W.**  | Backend Developer         | Next.js, React, state management, e-commerce logic, UI/UX         |
+| **Julius D.**  | Full-stack Developer      | Next.js, React, SQLIte, UI/UX, Security, AuthN/AuthZ              |
 
 **Team Philosophy:** 🤝 Collaborative Development • 🔄 Agile Methodology • 📝 Code Reviews
 
