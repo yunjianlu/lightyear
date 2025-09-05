@@ -3,7 +3,7 @@ import "./globals.css";
 import { CartProvider } from "./contexts/CartContext";
 import ChatWidget from "./components/ChatWidget";
 import { ProductProvider } from "./contexts/ProductContext";
-
+import { Suspense } from "react";
 // Root layout.js: Next.js App Router root layout
 // - Applies to ALL pages automatically
 // - Defines HTML structure (<html>, <head>, <body>)
@@ -43,8 +43,10 @@ export default function RootLayout({ children }) {
       >
         <CartProvider>
           <ProductProvider>
-            {children} {/* This is where root page.js content goes */}
-            <ChatWidget />
+            <Suspense>
+              {children} {/* This is where root page.js content goes */}
+              <ChatWidget />
+            </Suspense>
           </ProductProvider>
         </CartProvider>
       </body>
