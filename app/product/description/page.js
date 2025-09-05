@@ -139,7 +139,7 @@ function DescriptionContent({productIdParam}) {
           id="rightScrollExpand"
           className="row-span-2 md:grid-cols-2 md:col-span-2 grid md:gap-2"
         >
-          <div className="flex bg-gray-300 min-h-40 flex-col md:col-span-2 mb-2 md:mb-0 items-center rounded-3xl">
+          <div className="flex bg-white min-h-40 flex-col md:col-span-2 mb-2 md:mb-0 items-center rounded-3xl">
             <h1 className="text-2xl col-span-2 text-gray-900 md:text-4xl md:mt-2">
               Description
             </h1>
