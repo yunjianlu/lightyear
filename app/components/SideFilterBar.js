@@ -21,12 +21,12 @@
  * - Positioned below fixed navigation with calculated viewport height
  *
  * Used in: Home page layout alongside LandingBody component
- * TODO: Connect filter controls to actual product filtering logic
  */
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 // SideFilterBar component for filtering products
 export default function SideFilterBar({
@@ -40,6 +40,8 @@ export default function SideFilterBar({
   showMobileButton = true,
   onFilterToggle,
 }) {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("search")?.toLowerCase() || "";
   const [open, setOpen] = useState(false);
 
   const router = useRouter();
@@ -50,7 +52,7 @@ export default function SideFilterBar({
   const [inStock, setInStock] = useState(initialInStock);
   const [outOfStock, setOutOfStock] = useState(initialOutOfStock);
 
-  // Apply syncs with refreshes/back button
+  //Apply syncs with refreshes/back button
   useEffect(() => {
     setCategory(initialCategory);
     setPrice(initialPrice);
@@ -88,7 +90,7 @@ export default function SideFilterBar({
           onChange={(e) => setCategory(e.target.value)}
         >
           <option value="All">All</option>
-          <option value="weapons">Weapons</option>
+          <option value="weapon">Weapons</option>
           <option value="armor">Armor</option>
           <option value="other">Other</option>
         </select>
@@ -160,14 +162,19 @@ export default function SideFilterBar({
         <button
           className="w-full bg-red-700 text-white py-2 px-4 rounded hover:bg-red-800 transition-colors"
           onClick={() => {
-            // TODO: Implement filter application logic
-            console.log("Applying filters...");
             const params = new URLSearchParams();
+            
             if (category !== "All") params.append("category", category);
+
             if (price > 0) params.append("price", price);
+
             if (rating !== "0") params.append("rating", rating);
-            if (inStock) params.append("inStock", "true");
-            if (outOfStock) params.append("outOfStock", "true");
+
+            if (inStock) params.append("inStock", true);
+
+            if (outOfStock) params.append("outOfStock", true);
+
+            if (searchTerm) params.append("search", searchTerm);
 
             router.push(`/product?${params.toString()}`);
             setOpen(false); // Close the drawer after applying filters
@@ -176,8 +183,6 @@ export default function SideFilterBar({
           Apply Filters
         </button>
       </div>
-
-      {/* Add more filters as needed */}
     </div>
   );
 

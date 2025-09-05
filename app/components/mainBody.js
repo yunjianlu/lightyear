@@ -15,6 +15,7 @@ import useSWR from "swr/immutable";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function LandingBody() {
   const [userName, setUserName] = useState("");
@@ -25,16 +26,18 @@ export default function LandingBody() {
         setUserName(data.name || data.firstName || "");
       });
   }, []);
+  const urlSearchParams = useSearchParams();
+  let productAPIURL = `/api/products${(urlSearchParams) ? `?${urlSearchParams.toString()}` : ''}`
 
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const {
     data: products = [],
     error,
     isLoading,
-  } = useSWR("/api/products", fetcher);
+  } = useSWR(productAPIURL, fetcher);
 
-  if (isLoading) return <div>Loading products...</div>;
-  if (error) return <div>Error loading products.</div>;
+  if (isLoading) return <div className="text-white text-center mt-10">Loading products...</div>;
+  if (error) return <div className="text-white text-center mt-10 bg-black">Error loading products.</div>;
 
   return (
     <div className="p-8">

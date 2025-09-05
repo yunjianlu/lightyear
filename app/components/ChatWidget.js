@@ -1,9 +1,12 @@
 "use client";
 import { useState } from "react";
-import { products } from "../product/mockData";
 import { Rnd } from "react-rnd";
+import { useProducts } from "../contexts/ProductContext";
+let products;
 
 export default function ChatWidget() {
+  const { checkPrevProductQueries, updateProductQueryHistory } = useProducts()
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -118,6 +121,24 @@ export default function ChatWidget() {
 
   const generateBotResponse = async (userMessage) => {
     setIsLoading(true);
+    const pastQueryExists = await checkPrevProductQueries('{}');
+
+    if (pastQueryExists) {
+      products = pastQueryExists;
+    }
+    else {
+      await fetch(`/api/products/`, {method: 'GET'})
+        .then(res => {
+          if (!res.ok) throw new Error('Network response was not ok');
+          return res.json()
+        })
+        .then(data => products = data)
+        .catch(err => {
+          throw new Error(err);
+        });
+      
+      updateProductQueryHistory('{}', products);
+    }
 
     try {
       // Smart product filtering to reduce token usage

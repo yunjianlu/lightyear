@@ -21,13 +21,15 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "../contexts/CartContext";
 
 export default function Nav() {
   const router = useRouter();
-  const [search, setSearch] = useState("");
+  let prevFilterTerms = useSearchParams();
+  const urlSearchParams = useSearchParams().get("search") || "";
+  let [search, setSearch] = useState(urlSearchParams);
   const { getCartItemCount } = useCart();
   const [userName, setUserName] = useState("");
 
@@ -39,16 +41,33 @@ export default function Nav() {
       });
   }, []);
 
+  function removeSearchTerm(searchString) {
+    let startLocationOfSearchTerm = searchString.search(/search/);
+    console.log(searchString.slice(0,startLocationOfSearchTerm));
+    if (startLocationOfSearchTerm != 0) {
+      return searchString.slice(0,startLocationOfSearchTerm)
+    }
+    else {
+      return ""
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search.trim()) {
-      router.push(`/product?search=${encodeURIComponent(search.trim())}`);
+    let localPrevFilterTerms = prevFilterTerms;
+
+    if (search.trim() && localPrevFilterTerms.get("search") != undefined) {
+      const searchParamsWithoutPrevSearch = removeSearchTerm(prevFilterTerms.toString())
+      router.push(`/product?${searchParamsWithoutPrevSearch}search=${encodeURIComponent(search.trim())}`);
+    }
+    else if (search.trim()) {
+      router.push(`/product?${prevFilterTerms}&search=${encodeURIComponent(search.trim())}`);
     }
   };
   return (
     <nav className="bg-gray-800 fixed left-0 w-full z-50 shadow block">
-      <div className="flex flex-wrap justify-stretch md:items-center px-4 py-4 gap-y-2">
-        <div className="flex items-center space-x-2 flex-shrink-0">
+      <div className="flex flex-wrap justify-center md:justify-stretch md:items-center px-4 py-4 gap-y-2">
+        <div className="flex items-center justify-center space-x-2 flex-shrink-0 mx-2">
           <Image
             src="/images/light-year-logo.png"
             alt="Lightyear Logo"
@@ -57,11 +76,11 @@ export default function Nav() {
             className="rounded"
             unoptimized
           />
-          <span className="text-white text-lg font-bold whitespace-nowrap hidden md:inline">
+          <span className="text-white text-lg font-bold whitespace-nowrap md:inline">
             Lightyear
           </span>
         </div>
-        <div className="flex flex-wrap items-center items-end gap-x-4 gap-y-2 ml-auto">
+        <div className="flex flex-wrap items-center md:items-end gap-x-4 gap-y-2 md:ml-auto md:mr-2">
           <ul className="flex flex-wrap gap-x-4 gap-y-2 justify-end">
             {/* Home navigation link - returns to main landing page */}
             <li>
@@ -134,7 +153,7 @@ export default function Nav() {
           </ul>
         </div>
         {/* Second row for mobile with filter button on left and search on right */}
-        <div className="flex items-center justify-between w-full md:w-fit">
+        <div className="flex items-center justify-left w-full md:w-fit md:ml-2">
           {/* Filter button for mobile - positioned under logo */}
           <button
             type="button"
@@ -147,16 +166,17 @@ export default function Nav() {
             Filters
           </button>
           <form
-            className="flex items-center gap-x-2 ml-auto md:ml-4"
+            className="flex items-center gap-x-2 md:ml-auto w-full ml-2"
             onSubmit={(e) => e.preventDefault()}
           >
             {/* Product search input - allows users to search for specific products */}
             <input
               type="text"
+              value={search}
               placeholder="Search..."
               onChange={(e) => setSearch(e.target.value)}
               className="flex-1 px-2 py-1 rounded bg-gray-700 text-white focus:outline-none focus:ring focus:ring-red-400 placeholder-gray-300"
-              style={{ minWidth: 60 }}
+              style={{ minWidth: 20 }}
             />
             {/* Search submit button - executes product search */}
             <button
@@ -169,11 +189,6 @@ export default function Nav() {
           </form>
         </div>
       </div>
-      {/* {userName && (
-        <div className="absolute right-4 top-2 text-white font-semibold">
-          Welcome, {userName}!
-        </div>
-      )} */}
     </nav>
   );
 }
