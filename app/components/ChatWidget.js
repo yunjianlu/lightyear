@@ -1,10 +1,7 @@
 "use client";
 import { useState } from "react";
-//import { products } from "../product/mockData";
 import { Rnd } from "react-rnd";
-import { useContext } from "react";
 import { useProducts } from "../contexts/ProductContext";
-import useSWR from "swr";
 let products;
 
 export default function ChatWidget() {

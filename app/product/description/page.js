@@ -2,8 +2,6 @@
 import Layout from "../../components/Layout";
 import Image from "next/image";
 import AddToCartButton from "../../components/addToCartButton";
-// import { queryMongoDatabase } from "../../mongoDBConnection/queryMongoDB";
-//import { getServerSideProps } from "next/dist/build/templates/pages";
 import useSWR from "swr/immutable";
 
 import { Suspense } from "react";

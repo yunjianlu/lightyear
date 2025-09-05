@@ -27,13 +27,11 @@ import { useCart } from "../contexts/CartContext";
 
 export default function Nav() {
   const router = useRouter();
-  let [search, setSearch] = useState("");
+  let prevFilterTerms = useSearchParams();
+  const urlSearchParams = useSearchParams().get("search") || "";
+  let [search, setSearch] = useState(urlSearchParams);
   const { getCartItemCount } = useCart();
   const [userName, setUserName] = useState("");
-  const urlSearchParams = useSearchParams().get("search");
-  if (urlSearchParams) {
-    search = urlSearchParams
-  }
 
   useEffect(() => {
     fetch("/api/session")
@@ -43,10 +41,27 @@ export default function Nav() {
       });
   }, []);
 
+  function removeSearchTerm(searchString) {
+    let startLocationOfSearchTerm = searchString.search(/search/);
+    console.log(searchString.slice(0,startLocationOfSearchTerm));
+    if (startLocationOfSearchTerm != 0) {
+      return searchString.slice(0,startLocationOfSearchTerm)
+    }
+    else {
+      return ""
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
-    if (search.trim()) {
-      router.push(`/product?search=${encodeURIComponent(search.trim())}`);
+    let localPrevFilterTerms = prevFilterTerms;
+
+    if (search.trim() && localPrevFilterTerms.get("search") != undefined) {
+      const searchParamsWithoutPrevSearch = removeSearchTerm(prevFilterTerms.toString())
+      router.push(`/product?${searchParamsWithoutPrevSearch}search=${encodeURIComponent(search.trim())}`);
+    }
+    else if (search.trim()) {
+      router.push(`/product?${prevFilterTerms}&search=${encodeURIComponent(search.trim())}`);
     }
   };
   return (
@@ -174,11 +189,6 @@ export default function Nav() {
           </form>
         </div>
       </div>
-      {/* {userName && (
-        <div className="absolute right-4 top-2 text-white font-semibold">
-          Welcome, {userName}!
-        </div>
-      )} */}
     </nav>
   );
 }

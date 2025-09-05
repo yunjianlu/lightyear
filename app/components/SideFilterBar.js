@@ -21,7 +21,6 @@
  * - Positioned below fixed navigation with calculated viewport height
  *
  * Used in: Home page layout alongside LandingBody component
- * TODO: Connect filter controls to actual product filtering logic
  */
 "use client";
 

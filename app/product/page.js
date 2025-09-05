@@ -12,15 +12,6 @@ import { useProducts } from "../contexts/ProductContext";
 import { Suspense } from "react";
 
 export function ProductList({productSearchParams}) {
-  //const { checkPrevProductQueries, updateProductQueryHistory } = useProducts()
-  // const [userName, setUserName] = useState("");
-  // useEffect(() => {
-  //   fetch("/api/session")
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setUserName(data.name || data.firstName || "");
-  //     });
-  // }, []);
   const urlSearchParams = useSearchParams();
   let productAPIURL = `/api/products${(urlSearchParams) ? `?${urlSearchParams.toString()}` : ''}`
 
@@ -32,133 +23,8 @@ export function ProductList({productSearchParams}) {
     isLoading,
   } = useSWR(productAPIURL, fetcher);
 
-  //const pastQueryExists = checkPrevProductQueries(`{${(urlSearchParams) ? urlSearchParams.toString() : undefined}}`);
-
-    // console.log("diving into if statements")
-    // if (pastQueryExists) {
-    //   console.log("if statement true")
-    //   products = pastQueryExists;
-    // }
-    // else {
-    //   console.log("if statement false")
-    //   isLoading = true;
-    //   fetch(`${process.env.URL}/api/products/`, {method: 'GET'})
-    //     .then(res => {
-    //       if (!res.ok) throw new Error('Network response was not ok');
-    //       console.log("current response: ", res);
-    //       return res.json()
-    //     })
-    //     .then(data => products = data)
-    //     .catch(err => {
-    //       throw new Error(err);
-    //     });
-    //     console.log("products is conditionally: ", products);
-      
-    //   updateProductQueryHistory('{}', products);
-    //   isLoading = false;
-    // }
-
   if (isLoading) return <div className="text-white text-center mt-15 md:mt-10">Loading products...</div>;
   if (error) return <div className="text-white text-center mt-15 md:mt-10">Error loading products.</div>;
-
-  // let productSearchQuery = {};
-
-  // if (productSearchParams.category != undefined) {
-  //   productSearchQuery.category = productSearchParams.category
-  // }
-
-  // if (productSearchParams.price != undefined) {
-  //   productSearchQuery.price = {$lte: parseInt(productSearchParams.price)}
-  // }
-
-  // if (productSearchParams.rating != undefined) {
-  //   productSearchQuery.starRating = {$gte: parseFloat(productSearchParams.rating)}
-  // }
-
-  // if (productSearchParams.inStock != undefined && productSearchParams.outOfStock == undefined) {
-  //   productSearchQuery.quantityInStock = {$gt: 0}
-  // }
-  // if (productSearchParams.outOfStock != undefined && productSearchParams.inStock == undefined) {
-  //   productSearchQuery.quantityInStock = 0
-  // }
-  
-  // if (productSearchParams.search != undefined) {
-  //   productSearchQuery.$or = [
-  //     {productName: {$regex: productSearchParams.search, $options: "i"}},
-  //     {vendor: {$regex: productSearchParams.search, $options: "i"}},
-  //     {productDescription: {$regex: productSearchParams.search, $options: "i"}},
-  //     {category: {$regex: productSearchParams.search, $options: "i"}},
-  //     {"productDetails.color": {$regex: productSearchParams.search, $options: "i"}},
-  //     {"productDetails.material": {$regex: productSearchParams.search, $options: "i"}},
-  //     {topReview: {$regex: productSearchParams.search, $options: "i"}},
-  //     {tags: {$regex: productSearchParams.search, $options: "i"}}
-  //   ]
-  // }
-
-  //let { checkPrevProductQueries, updateProductQueryHistory} = useContext(ProductContext)
-  //const savedProducts = localStorage.getItem("products");
-  // let wumbo = checkQueryHistory(productSearchQuery);
-  // console.log("Printing resutls");
-  // console.log(wumbo);
-
-  // let products = await queryMongoDatabase(productSearchQuery);
-
-
-  // const searchTerm = searchParams.get("search")?.toLowerCase() || "";
-  // const category = searchParams.get("category") || "";
-  // const price = searchParams.get("price") || "0";
-  // const rating = searchParams.get("rating") || "0";
-  // const inStock = searchParams.get("inStock") === "true";
-  // const outOfStock = searchParams.get("outOfStock") === "true";
-
-  // SWR data fetching for products
-  // const fetcher = (url) => fetch(url).then((res) => res.json());
-  // const {
-  //   data: products = [],
-  //   error,
-  //   isLoading,
-  // } = useSWR("/api/products", fetcher);
-
-  // // Show loading or error states
-  // if (isLoading) return <div>Loading products...</div>;
-  // if (error) return <div>Error loading products.</div>;
-
-  // Filter products based on search, category, price, rating, and stock
-  // const filteredProducts = products.filter((product) => {
-  //   // Search filter: matches name, description, or tags
-  //   const matchesSearch =
-  //     !searchTerm ||
-  //     product.productName?.toLowerCase().includes(searchTerm) ||
-  //     product.productDescription?.toLowerCase().includes(searchTerm) ||
-  //     (product.tags &&
-  //       product.tags.some((tag) => tag.toLowerCase().includes(searchTerm)));
-
-  //   // Category filter
-  //   const matchesCategory =
-  //     !category || category === "All" || product.category === category;
-
-  //   // Price filter
-  //   const matchesPrice = price === "0" || product.price <= parseInt(price);
-
-  //   // Rating filter
-  //   const matchesRating =
-  //     rating === "0" || product.starRating >= parseInt(rating);
-
-  //   // Stock filter
-  //   const matchesStock =
-  //     (inStock && product.quantityInStock > 0) ||
-  //     (outOfStock && product.quantityInStock === 0) ||
-  //     (!inStock && !outOfStock);
-
-  //   // Return true if all filters match
-  //   return (
-  //     matchesSearch &&
-  //     matchesCategory &&
-  //     matchesPrice &&
-  //     matchesRating &&
-  //     matchesStock
-  //   );
-  // });
 
   return (
     <div className="pt-12 md:p-0 flex flex-row min-h-screen">

@@ -21,7 +21,6 @@ export default function Page() {
   const [sidebar, setSidebar] = useState(false);
 
   // add logic here to hide sidebar on mobile
-  //const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // breaks name into first and last name when editing
   useEffect(() => {
@@ -315,62 +314,6 @@ export default function Page() {
                 ))}
               </div>
 
-              {/* <div className="w-full mb-2">
-          <label className="w-28 text-sm font-bold mr-2" htmlFor="FName">First Name:</label>
-          <input className="w-full p-2 border"
-          value={fName}
-          onChange={(e) => setFName(e.target.value)}
-          placeholder="First Name" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="lName">Last Name:</label>
-          <input className="w-full p-2 border"
-          value={lName}
-          onChange={(e) => setLName(e.target.value)}
-          placeholder="Last Name" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="email">Email:</label>
-          <input className="w-full p-2 border"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="address1">Address 1:</label>
-          <input className="w-full p-2 border"
-          value={address1}
-          onChange={(e) => setAddress1(e.target.value)}
-          placeholder="Address 1" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="address2">Address 2:</label>
-          <input className="w-full p-2 border"
-          value={address2}
-          onChange={(e) => setAddress2(e.target.value)}
-          placeholder="Address 2" 
-        />
-        </div>
-        <div className="w-full mb-2">
-           <label className="w-28 text-sm font-bold mr-2" htmlFor="city">City:</label>
-          <input className="w-full p-2 border"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="City"
-        />
-        </div>
-        <div className="w-full mb-2">
-            <label className="w-28 text-sm font-bold mr-2" htmlFor="state">State:</label>
-          <input className="w-full p-2 border"
-          value={state}
-          onChange={(e) => setState(e.target.value)}
-          placeholder="State"
-        />
-        </div>   */}
               <button
                 onClick={handleSave}
                 className="bg-gray-100 hover:bg-gray-200 text-black font-bold py-2 px-4 rounded"
