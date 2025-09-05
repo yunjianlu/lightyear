@@ -143,6 +143,14 @@ export default function LightyearBackground() {
                             <p className="md:text-2xl text-md mb-10 md:mb-0 3xl:text-4xl text-white">
                                 Lightyear was founded by a group of industry professionals from some of the best tech and commerce companies in the galaxy. Taking the best practices from both industries, Lightyear`&apos`s team is building an efficient, customer-centric Ecommerce company dedicated to helping people from all walks of life get the products and goods they need in a timely manner.
                             </p>
+                            <h3 className="md:text-3xl text-lg mb-2 md:mt-8 3xl:text-5xl text-white">Team Profiles</h3>
+                            <ul className="list-disc list-inside pl-4 space-y-1 md:text-2xl text-md mb-10 md:mb-0 3xl:text-4xl text-white">
+                                <li className="underline"><a href="https://www.linkedin.com/in/yunjian-lu/">Yunjian Lu</a></li>
+                                <li className="underline"><a href="https://www.linkedin.com/in/julius-duic/">Julius Duic</a></li>
+                                <li className="underline"><a href="https://www.linkedin.com/in/cherylwang2/">Cheryl Wang</a></li>
+                                <li className="underline"><a href="https://www.linkedin.com/in/zachary-sterling/">Zachary Sterling</a></li>
+                            </ul>
+
                         </div>
                     </div>
                     
