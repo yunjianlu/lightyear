@@ -16,15 +16,12 @@
     "mongodb": "^6.19.0",
     "next": "15.4.1",
     "openai": "^5.16.0",
-    "next": "15.4.1",
-    "openai": "^5.13.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-rnd": "^10.5.2",
     "swr": "^2.3.6"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
